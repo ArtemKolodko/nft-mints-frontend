@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Outlet } from "react-router-dom";
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/imgs/logo.svg";
 import Grid from "@mui/material/Grid";
 
 import "./navigation.styles.scss";
