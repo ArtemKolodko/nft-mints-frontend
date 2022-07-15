@@ -1,0 +1,57 @@
+.basic-input-container {
+  float: left;
+  margin-bottom: 5%;
+  font-weight: 100;
+  
+  .basic-input {
+    border-radius: 15px;
+    border-width: 0.5px;
+    padding: 0.4em 1.5em 0.4em;
+  
+  }
+
+  .area-input {
+    border-radius: 15px;
+    border-width: 0.5px;
+    padding: 0.4em 1.5em 0.4em;
+  }
+}
+
+
+input, textarea, label {
+  display: block;
+  width: 300px;
+}
+
+.mint-button {
+  cursor: pointer;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  background-color: transparent;
+  border-radius: 15px;
+  font-size: 3rem;
+  padding: 0.4em 1.5em 0.4em;
+  font-weight: 100;
+  text-align: center;
+  color: black;
+}
+
+.special-input-container {
+
+  font-size: 2rem;
+  float:center;
+  margin-bottom: 10% !important;
+  font-weight: 100;
+  width: 100px !important;
+
+  .special-input {
+    text-align: center;
+    border-radius: 15px;
+    border-width: 0.5px;
+    font-size: 4rem;
+    padding: 0.5em 0.1em 0.5em;
+    width: 100px !important;
+  }
+
+}
