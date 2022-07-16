@@ -87,10 +87,7 @@ const Mint = () => {
         </Stack>
 
         <Divider orientation="vertical" flexItem variant="middle">
-          <br />
-          <h1>and</h1>
-          <br />
-          <br />
+          <h1 className='column-divider'>and</h1>
         </Divider>
 
         <Stack

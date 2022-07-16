@@ -4,16 +4,21 @@
   font-weight: 100;
   
   .basic-input {
-    border-radius: 15px;
+    border-radius: 8px;
     border-width: 0.5px;
     padding: 0.4em 1.5em 0.4em;
   
   }
 
   .area-input {
-    border-radius: 15px;
+    border-radius: 8px;
     border-width: 0.5px;
     padding: 0.4em 1.5em 0.4em;
+  }
+
+  ::placeholder {
+    font-size: 0.8rem;
+    opacity: 60%;
   }
 }
 

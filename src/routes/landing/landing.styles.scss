@@ -1,0 +1,36 @@
+.landing-container {
+  height: 100vh;
+  text-align: center;
+  
+  h1, h2 {
+    font-weight: 100;
+  }
+  
+  .landing-logo {
+    padding-top: 10vh;
+  }
+
+  .brand-name {
+    font-weight: bold;
+    text-shadow: 2px 2px 3px grey;
+  }
+
+  .create-button {
+    cursor: pointer;
+    background-color: #00AEE9;
+    border: 0;
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 20px;
+    padding: 0.4em 1.5em 0.4em;
+    margin-top: 5vh;
+  }
+
+  .login-button {
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    color:  #00AEE9;
+    font-size: 1.5rem;
+  }
+}

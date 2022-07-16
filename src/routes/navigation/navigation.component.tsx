@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Outlet } from "react-router-dom";
-import logo from "../../assets/imgs/logo.svg";
+import logo from "../../assets/imgs/dj3n_logo.svg";
 import Grid from "@mui/material/Grid";
 
 import "./navigation.styles.scss";
@@ -18,7 +18,7 @@ const Navigation = () => {
           marginRight={'15px'}
         >
           <div className="logo">
-            <img src={logo}  alt="logo" />
+            <img src={logo} alt="logo" />
           </div>
           <div className="nav-item">
             Mint
