@@ -1,18 +1,20 @@
+import AuthInput from '../../components/auth-input/auth-input.component';
+
 import './authentication.styles.scss';
 
 const Authentication = () => {
   return (
     <div className='authentication-container'>
-      <div className='home-image'>qr image</div>
-      <div className="phone-validation-container">
-        <div>
-          <input className='form-input'>
-          </input>
-        </div>
-        <div>
-          <button>Enter Phone #</button>
-        </div>
+      <div className='auth-form-container'>
+        <AuthInput 
+          name='auth-email' 
+          label='Enter Email address' 
+          type='text' 
+          required={true} 
+          placeholder='example@omw.com'/>
+        <button className='create-button'>Send Code</button>
       </div>
+     
     </div>
   )  
 }

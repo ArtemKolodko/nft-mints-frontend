@@ -7,7 +7,7 @@ const Landing = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    navigate('home/mint');
+    navigate('login');
   }
 
   return (

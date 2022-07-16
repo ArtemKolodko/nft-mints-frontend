@@ -6,7 +6,7 @@ import Mint from './routes/mint/mint.component';
 import Landing from './routes/landing/landing.component';
 import Gallery from './routes/gallery/gallery.component';
 // import Home from './routes/home/home.component';
-import './App.css';
+import './App.scss';
 
 // todo Protected/public routes
 const App = () => {
@@ -14,6 +14,7 @@ const App = () => {
     <Routes>
       <Route path='/' element={<Landing />} />
         <Route path='login' element={<Authentication />} />
+        {/* <Route path='create-account' element={<CreateAccount />} /> */}
       <Route path='home' element={<Navigation />}>
         <Route index element={<Gallery />} />
         <Route path='gallery' element={<Gallery />} />

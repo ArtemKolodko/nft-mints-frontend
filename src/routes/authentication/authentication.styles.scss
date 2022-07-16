@@ -1,0 +1,22 @@
+.authentication-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .auth-form-container {
+    text-align: center;
+
+    .create-button {
+      cursor: pointer;
+      background-color: #00AEE9;
+      border: 0;
+      color: white;
+      font-size: 0.9rem;
+      border-radius: 20px;
+      padding: 0.4em 1.5em 0.4em;
+      margin-top: 5vh;
+    }
+  }
+
+}
