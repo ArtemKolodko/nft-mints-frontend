@@ -9,7 +9,7 @@ Website for content creators
 ### Commands 
 * Fetch repo
 ```
-git clone https://github.com/fegloff/exercise.git
+git clone https://github.com/GoCyberEd/nft-mints-frontend.git
 ```
 * Install dependencies
 ```
