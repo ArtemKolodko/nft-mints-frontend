@@ -13,8 +13,7 @@ const App = () => {
   return (
     <Routes>
       <Route path='/' element={<Landing />} />
-        <Route path='login' element={<Authentication />} />
-        {/* <Route path='create-account' element={<CreateAccount />} /> */}
+        <Route path='auth/:type' element={<Authentication />} />
       <Route path='home' element={<Navigation />}>
         <Route index element={<Gallery />} />
         <Route path='gallery' element={<Gallery />} />

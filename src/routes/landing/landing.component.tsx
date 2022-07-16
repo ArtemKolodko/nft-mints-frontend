@@ -7,14 +7,18 @@ const Landing = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    navigate('login');
+    navigate('auth/login');
+  }
+
+  const handleCreate = () => {
+    navigate('auth/create');
   }
 
   return (
     <div className='landing-container'>
       <img src={Logo} alt='dj3n logo' className='landing-logo'/>
       <h1>Welcome to <br /><span className='brand-name'>dj3n</span></h1>
-      <button className='create-button'>Create Account</button>
+      <button className='create-button' onClick={handleCreate}>Create Account</button>
       <h2>or</h2>
       <button className='login-button' onClick={handleLogin}>Login</button>
     </div>

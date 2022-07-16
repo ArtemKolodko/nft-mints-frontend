@@ -7519,6 +7519,13 @@ react-is@^18.0.0, react-is@^18.2.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
+react-pin-field@^3.0.16:
+  version "3.0.16"
+  resolved "https://registry.yarnpkg.com/react-pin-field/-/react-pin-field-3.0.16.tgz#4beea4c7cfccadc83679fd06f1d2e01bcb046273"
+  integrity sha512-B16ULYwlaWaVIhbqmp/apNci71kc3lm+J6gqYGxV7mpfmydgwDrlA+J1uofXAMsFw9tNvJA0vIBMPAndKCt5xA==
+  dependencies:
+    react-use-bireducer "^1.1.1"
+
 react-refresh@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.11.0.tgz#77198b944733f0f1f1a90e791de4541f9f074046"
@@ -7603,6 +7610,11 @@ react-transition-group@^4.4.2:
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
+
+react-use-bireducer@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-use-bireducer/-/react-use-bireducer-1.1.1.tgz#9d79bf09a1c85a6c1687bc48c717aa05685d52ed"
+  integrity sha512-FysDYTxA9TQnzt4HURQBvB2FdFqyNytjIGzvzj3qv7YlOkcDnkJQPNlzcC7RbfDiepxdtbxCgovvLGm/DHjzUA==
 
 react@^18.2.0:
   version "18.2.0"
