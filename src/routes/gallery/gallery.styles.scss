@@ -1,0 +1,22 @@
+.gallery-container {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  align-content: stretch;
+
+  .gallery-menu {
+    width: 20vw;
+  }
+
+  .gallery {
+    width: 80vw;
+    justify-items: center; 
+    align-content: center;
+    display: grid; 
+    grid-template-columns: 1.5fr 1.5fr 1.5fr; 
+    gap: 15px 15px; 
+  }
+}

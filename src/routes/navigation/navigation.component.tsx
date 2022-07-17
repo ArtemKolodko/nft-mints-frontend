@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import logo from "../../assets/imgs/dj3n_logo.svg";
 import Grid from "@mui/material/Grid";
@@ -6,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import "./navigation.styles.scss";
 
 const Navigation = () => {
+
   return (
     <Fragment>
       <div className="navigation-container">
@@ -20,16 +22,16 @@ const Navigation = () => {
           <div className="logo">
             <img src={logo} alt="logo" />
           </div>
-          <div className="nav-item">
+          <Link className='nav-link' to='mint'>
             Mint
-          </div>
-          <div className="nav-item">
+          </Link>
+          <Link className='nav-link' to='gallery'>
             Gallery
-          </div>
-          <div className="nav-item">
+          </Link>
+          <Link className='nav-link' to='gallery'>
             Explore
-          </div>
-          <div className="wallet-address nav-item">
+          </Link>
+          <div className="wallet-address nav-wallet">
             0x3123....23232
           </div>
         </Grid>
