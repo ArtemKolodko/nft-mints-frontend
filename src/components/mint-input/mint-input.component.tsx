@@ -22,7 +22,8 @@ type AreaInputProps = {
 
 type MintButtonType = {
   label: string;
-  onClick?: MouseEventHandler<HTMLButtonElement>
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
 }
 
 export const BasicInput = (props : BasicInputProps) => {
@@ -59,12 +60,14 @@ export const SpecialInput = (props : BasicInputProps) => {
 export const MintButton = (props : MintButtonType) => {
   const { label, ...otherProps } = props;
   return (
-    <button 
-      className='mint-button' 
-      type='submit' 
-      {...otherProps}>
-        {label}
-    </button>
+    <div className='mint-button'>
+      <button  
+        type='submit'
+        {...otherProps}>
+          {label}
+      </button>
+    </div>
+   
   )
 }
 

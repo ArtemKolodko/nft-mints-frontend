@@ -1,3 +1,5 @@
+import axios, { AxiosResponse } from "axios";
+
 export interface PaymentCheckout {
   tokenId: string
   tokenAddress: string
@@ -18,4 +20,9 @@ export interface PaymentCheckoutv2 {
   successUrl: string
   cancelUrl: string
   userId: string
+}
+
+export interface ApiResponse {
+  data : any,
+  status : number
 }

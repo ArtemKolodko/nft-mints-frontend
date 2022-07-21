@@ -1,4 +1,4 @@
-import { CollectionType } from "../../types/index";
+import { CollectionType, ApiResponse } from "../../types/index";
 
 import axios, { AxiosResponse } from "axios";
 
@@ -96,6 +96,30 @@ export const getCollection = async (
   return collection;
 };
 
+
+export const createCollection = async (collectionImage: string, title: string, 
+  description: string, link: string, rate: number, 
+  supply: number, userId: string) : Promise<ApiResponse | null>=> {
+  const URL = `${GATEWAY}/v0/collections/create`;
+  const body = JSON.stringify({
+    collectionImage: collectionImage,
+    title,
+    description,
+    link,
+    rate,
+    maxMint: supply,
+    userId,
+  });
+  const response = await axios.post(URL,body,{
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return {
+    data : response.data,
+    status : response.status
+  };
+}
 /**
  * Returns all the collections
  * @returns Promise with an array of collections

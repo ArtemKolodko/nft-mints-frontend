@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { initializeApp } from 'firebase/app';
 import { FileValidated } from "@dropzone-ui/react";
 //import { getFirestore, collection, addDoc, getDoc, getDocs, doc, setDoc, query, where, updateDoc } from 'firebase/firestore';
@@ -19,14 +19,21 @@ initializeApp(config);
 export const storage = getStorage();
 
 
-
-export const addFilesToStorage = async (files: FileValidated[], setProgress: Dispatch<React.SetStateAction<number>>, 
-  setFilesUrl : Dispatch<React.SetStateAction<string[]>>) => {
+/**
+ * Stores a media file in firebase's storage
+ * @param files {Array<FileValidated} A array of files to be uploaded
+ * @param setProgress {Dispatch<SetStateAction<number>>} Hook that updates progress bar 
+ * @param setFilesUrl {Dispatch<SetStateAction<string[]>>} Hook that updates that saves 
+ *                    each file Firabase Storage's url.
+ */
+export const addFilesToStorage = async (files: Array<FileValidated>, setProgress: Dispatch<SetStateAction<number>>, 
+  setFilesUrl : Dispatch<SetStateAction<string[]>>) => {
   let promises: Array<any> = []; //Promise<any[]> = [];
+  const STORAGE_FOLDER = process.env.REACT_APP_FIREBASE_STORAGE_FOLDER
   const fileUrl : Array<string> = [];
   files.map((file) => {
     console.log("file to upload: ", file.file.name)
-    const storageRef = ref(storage,`/mint-files-mtq9vdv/${Date.now()}${file.file.name}`);
+    const storageRef = ref(storage,`/${STORAGE_FOLDER}/${Date.now()}${file.file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file.file);
     promises.push(uploadTask);
     uploadTask.on(
