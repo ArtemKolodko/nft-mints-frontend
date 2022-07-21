@@ -1,6 +1,5 @@
 import { useState, ChangeEvent } from "react";
 import { Dropzone, FileItem, FileValidated } from "@dropzone-ui/react";
-import axios, { AxiosResponse, AxiosResponseHeaders } from "axios";
 import Stack from "@mui/material/Stack";
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -13,7 +12,7 @@ import {
 } from "../../components/mint-input/mint-input.component";
 import { createCollection } from "../../utils/mint-interface/mint-inteface.utils";
 import { addFilesToStorage } from "../../utils/firebase/firebase.utils";
-import { ApiResponse } from "../../types";
+import { ApiResponseType } from "../../types";
 import Logo from '../../assets/imgs/dj3n_logo.svg'
 
 import "./mint.styles.scss";
@@ -26,7 +25,7 @@ const defaultFormFields = {
   price: 0,
 };
 
-const defaultMintResponse : ApiResponse = {
+const defaultMintResponse : ApiResponseType = {
   data: undefined,
   status: 0,
 }
@@ -57,6 +56,8 @@ const Mint = () => {
     );
     setMintResponse(response!);
     console.log("handleSubmit", response);
+    setFormFields(defaultFormFields);
+    setFiles([]);
   };
 
   const updateFiles = (incommingFiles: FileValidated[]) => {

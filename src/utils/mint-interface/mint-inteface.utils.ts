@@ -1,4 +1,5 @@
-import { CollectionType, ApiResponse } from "../../types/index";
+import { CollectionType } from "../../types/index";
+import { ApiResponseType } from "../../types/index";
 
 import axios, { AxiosResponse } from "axios";
 
@@ -99,7 +100,7 @@ export const getCollection = async (
 
 export const createCollection = async (collectionImage: string, title: string, 
   description: string, link: string, rate: number, 
-  supply: number, userId: string) : Promise<ApiResponse | null>=> {
+  supply: number, userId: string) : Promise<ApiResponseType | null>=> {
   const URL = `${GATEWAY}/v0/collections/create`;
   const body = JSON.stringify({
     collectionImage: collectionImage,
