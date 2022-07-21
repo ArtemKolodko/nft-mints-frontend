@@ -7,6 +7,9 @@ import Landing from './routes/landing/landing.component';
 import Gallery from './routes/gallery/gallery.component';
 // import Home from './routes/home/home.component';
 import './App.scss';
+import Checkout from './routes/checkout/checkout.component';
+import CheckoutSuccess from './routes/checkout/checkout-success.component';
+import CheckoutFailure from './routes/checkout/checkout-failure.component';
 
 // todo Protected/public routes
 const App = () => {
@@ -19,6 +22,9 @@ const App = () => {
         <Route path='gallery' element={<Gallery />} />
         <Route path='mint' element={<Mint />} />
       </Route>
+      <Route path='checkout/:collectionUuid' element={<Checkout />} />
+      <Route path='success/:collectionUuid' element={<CheckoutSuccess />} />
+      <Route path='cancel/:collectionUuid' element={<CheckoutFailure />} />
     </Routes>
   );
 }

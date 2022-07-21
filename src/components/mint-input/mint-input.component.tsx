@@ -1,4 +1,4 @@
-import { ChangeEventHandler, MouseEventHandler } from 'react';
+import { ChangeEvent, MouseEventHandler } from 'react';
 
 import './mint-input.styles.scss';
 
@@ -8,7 +8,7 @@ type BasicInputProps = {
   type: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: ChangeEventHandler<HTMLInputElement>
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 type AreaInputProps = {
@@ -17,7 +17,7 @@ type AreaInputProps = {
   type: string;
   placeholder?: string;
   required?: boolean;
-  onChange?: ChangeEventHandler<HTMLTextAreaElement>
+  onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void
 }
 
 type MintButtonType = {
@@ -31,7 +31,7 @@ export const BasicInput = (props : BasicInputProps) => {
   return (
     <div className='basic-input-container'>
       <label htmlFor={name}>{label}</label>
-      <input id={name} {...otherProps} className='basic-input'></input>
+      <input id={name} name={name} {...otherProps} className='basic-input'></input>
     </div>
   )
 }
@@ -41,7 +41,7 @@ export const AreaInput = (props : AreaInputProps) => {
   return (
     <div className='basic-input-container'>
       <label htmlFor={name}>{label}</label>
-      <textarea id={name} {...otherProps} rows={4} className='area-input'/>
+      <textarea id={name} name={name} {...otherProps} rows={4} className='area-input'/>
     </div>
   )
 }

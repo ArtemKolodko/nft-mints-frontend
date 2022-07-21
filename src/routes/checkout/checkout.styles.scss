@@ -1,0 +1,43 @@
+.checkout-container {
+  height: 100%;
+  box-sizing: border-box;
+
+  .checkout-image-container {
+    height: 50vh;
+    display: flex;
+    align-items: center;
+
+    img {
+      height: 300px;
+    }
+  }
+  .checkout-form-container {
+    margin-left: 10px;
+    margin-right: 20px;
+    float: center !important;
+    align-items: center;
+  }
+
+  .checkout-button-container {
+    
+    button {
+      cursor: pointer;
+      border-style: solid;
+      border-color: black;
+      border-width: 0.5px;
+      background-color: transparent;
+      border-radius: 15px;
+      font-size: 1.5rem;
+      padding: 0.4em 3em 0.4em;
+      font-weight: 100;
+      text-align: center;
+      color: black;
+    }
+    button:disabled,
+    button[disabled] {
+      border: 1px solid #999999;
+      background-color: #cccccc;
+      color: #666666;
+    }
+  }
+}
