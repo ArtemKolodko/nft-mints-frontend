@@ -22,7 +22,7 @@ const Navigation = () => {
           <div className="logo">
             <img src={logo} alt="logo" />
           </div>
-          <Link className='nav-link' to='mint'>
+          {/* <Link className='nav-link' to='mint'>
             Mint
           </Link>
           <Link className='nav-link' to='gallery'>
@@ -30,7 +30,7 @@ const Navigation = () => {
           </Link>
           <Link className='nav-link' to='gallery'>
             Explore
-          </Link>
+          </Link> */}
           <div className="wallet-address nav-wallet">
             0x3123....23232
           </div>

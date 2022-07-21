@@ -20,7 +20,7 @@ const defaultFormFields = {
 
 const Checkout = () => {
   const [nft, setNft] = useState<CollectionType>({} as CollectionType);
-  const [formFields, setFormFields] = useState(defaultFormFields);
+  const [ formFields, setFormFields ] = useState(defaultFormFields);
   const { phoneNumber, verifyPhoneNumber } = formFields;
   const { collectionUuid } = useParams();
 

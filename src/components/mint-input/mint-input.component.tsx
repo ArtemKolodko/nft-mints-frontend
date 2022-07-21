@@ -47,11 +47,10 @@ export const AreaInput = (props : AreaInputProps) => {
 }
 
 export const SpecialInput = (props : BasicInputProps) => {
-  //const { name, type, placeholder, required } = props;
   const { name, label, ...otherProps } = props;
   return (
     <div className='special-input-container'>
-      <input id={name} {...otherProps} className='special-input'/>
+      <input id={name} name={name} {...otherProps} className='special-input'/>
       <label htmlFor={name}>{label}</label>
     </div>
   )
