@@ -18,8 +18,7 @@ type NftDetailProps = {
 const NftDetail = (props: NftDetailProps) => {
   const { title, description, collectionImage, link } = props;
   const hrefLink = checkHref(link);
-  console.log(props);
-  console.log(link);
+
   return (
     <div className='nft-detail-container'>
       <div className='nft-detail-image' style={{ 

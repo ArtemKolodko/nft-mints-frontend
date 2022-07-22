@@ -47,7 +47,7 @@ export const checkoutCollectionV2 = async (
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const REDIRECT_URL_SUCCESS = `${BASE_URL}/success/${collectionUuid}`;
   const REDIRECT_URL_FAILURE = `${BASE_URL}/cancel/${collectionUuid}`;
-
+  console.log('checkout collectionv2');
   try {
     const body = {
       nfts: collections.map((collection) => {
@@ -60,13 +60,19 @@ export const checkoutCollectionV2 = async (
     };
     console.log(body);
     console.log(JSON.stringify(body));
-    const res = await fetch(`${GATEWAY}/v0/payment/checkoutv2`, {
+    const res = fetch(`${GATEWAY}/v0/payment/checkoutv2`, {
       method: "POST",
       redirect: "follow",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
+    }).then((response) => {
+      console.log('then',response);
+      return response;
+    }).catch((e) => {
+      console.log('CATCH, ',e);
+      return null;
     });
     return res;
   } catch (e) {
