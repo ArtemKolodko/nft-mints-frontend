@@ -128,6 +128,8 @@ export const createCollection = async (
     maxMint: supply,
     userId,
   });
+  console.log(collectionImage, title, description, userId);
+  console.log('Create Collection', {body});
   const response = await axios.post(URL, body, {
     headers: {
       "Content-Type": "application/json",
