@@ -128,6 +128,7 @@ const Mint = () => {
               minHeight={"195px"}
               maxHeight={"500px"}
               disableScroll
+              footer={false}
               style={{ marginBottom: "5%" }}
             >
               {files.map((file) => (

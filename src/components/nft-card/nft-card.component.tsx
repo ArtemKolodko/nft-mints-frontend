@@ -1,22 +1,21 @@
+import { CollectionType, TokenType } from '../../types';
 import './nft-card.styles.scss';
 
 type NftCardProps = {
-  name: string,
-  imgUrl : string,
-  description: string,
-  tokenId: string
+  collection: CollectionType,
+  token: TokenType
 }
 
 const NftCard = (props: NftCardProps) => {
-  const { name, imgUrl, description } = props;
+  const { collection } = props;
   return (
     <div className='nft-card-container' 
       style={{ 
-        backgroundImage: `url(${imgUrl})` }}
+        backgroundImage: `url(${collection.collectionImage})` }}
     >
       <div className="nft-info">
-        <p>{name}</p>
-        <p style={{fontSize: '0.8rem'}}>{description}</p>
+        <p>{collection.title}</p>
+        <p style={{fontSize: '0.8rem'}}>{collection.description}</p>
       </div>
     </div>
   );

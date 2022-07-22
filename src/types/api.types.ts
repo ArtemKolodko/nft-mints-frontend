@@ -1,25 +1,11 @@
-// export interface PaymentCheckout {
-//   tokenId: string
-//   tokenAddress: string
-//   mobileNumber: string
-//   successUrl: string
-//   cancelUrl: string
-// }
+import { CollectionType, TokenType } from "./collection.types";
 
-// export interface NFTInterface {
-//   collectionUuid: string
-//   quantity: number
-// }
-
-// export interface PaymentCheckoutv2 {
-//   nfts: Array<NFTInterface>
-//   mobileNumber: string
-//   smsCode: number
-//   successUrl: string
-//   cancelUrl: string
-//   userId: string
-// }
-export interface ApiResponseType {
+export type ApiResponseType = {
   data : any;
   status : number;
+}
+
+export type ApiOwnerTokenResponseType = {
+  token : TokenType;
+  collection : CollectionType
 }

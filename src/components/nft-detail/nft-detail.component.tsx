@@ -1,3 +1,4 @@
+import { checkHref } from '../../utils/utils';
 import './nft-detail.styles.scss';
 
 type NftDetailProps = {
@@ -12,17 +13,13 @@ type NftDetailProps = {
   userUuid: any;
   productId: string;
   collectionImage: string; 
-
-
-
-  // name: string,
-  // imgUrl : string,
-
-  // tokenId: string
 }
 
 const NftDetail = (props: NftDetailProps) => {
   const { title, description, collectionImage, link } = props;
+  const hrefLink = checkHref(link);
+  console.log(props);
+  console.log(link);
   return (
     <div className='nft-detail-container'>
       <div className='nft-detail-image' style={{ 
@@ -34,7 +31,8 @@ const NftDetail = (props: NftDetailProps) => {
       <div className='nft-detail-info'>
         <h5>{description}</h5>
         <p>Unlockable Content attached to</p>
-        <p><a href={link} target='_blank' rel="noreferrer">LINK</a></p>
+        <p>
+          <a href={hrefLink} target='_blank' rel="noreferrer">LINK</a></p>
       </div>
       
     </div>

@@ -18,9 +18,8 @@ const App = () => {
       {/* <Route path='/' element={<Landing />} />
         <Route path='auth/:type' element={<Authentication />} /> */}
       <Route path='/' element={<Navigation />}>
-        <Route index element={<Gallery />} />
-        <Route path='gallery' element={<Gallery />} />
-        <Route path='mint' element={<Mint />} />
+        <Route index element={<Mint />} />
+        <Route path='gallery/:ownerUuid' element={<Gallery />} />
       </Route>
       <Route path='checkout/:collectionUuid' element={<Checkout />} />
       <Route path='success/:collectionUuid' element={<CheckoutSuccess />} />

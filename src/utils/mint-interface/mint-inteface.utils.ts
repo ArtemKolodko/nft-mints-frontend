@@ -1,5 +1,6 @@
 import { CollectionType } from "../../types/index";
 import { ApiResponseType } from "../../types/index";
+import { ApiOwnerTokenResponseType } from "../../types/index";
 
 import axios, { AxiosResponse } from "axios";
 
@@ -76,7 +77,7 @@ export const checkoutCollectionV2 = async (
 
 /**
  * Retrieves the Collection of a given Collection uid
- * @param collectionUuid {string} Collection uid 
+ * @param collectionUuid {string} Collection uid
  * @returns Collection {CollectionType}
  */
 export const getCollection = async (
@@ -97,10 +98,26 @@ export const getCollection = async (
   return collection;
 };
 
-
-export const createCollection = async (collectionImage: string, title: string, 
-  description: string, link: string, rate: number, 
-  supply: number, userId: string) : Promise<ApiResponseType | null>=> {
+/**
+ * Creates a new Collection
+ * @param collectionImage {string} Collection's Image
+ * @param title {String} Collection's title
+ * @param description {String} Collection's description
+ * @param link {String} Collection's external link
+ * @param rate {number} Collection's price
+ * @param supply {number} Collection's allowed quantity
+ * @param userId {string} Onwer ID
+ * @returns {ApiResponseType} The new Collection + response code status
+ */
+export const createCollection = async (
+  collectionImage: string,
+  title: string,
+  description: string,
+  link: string,
+  rate: number,
+  supply: number,
+  userId: string
+): Promise<ApiResponseType | null> => {
   const URL = `${GATEWAY}/v0/collections/create`;
   const body = JSON.stringify({
     collectionImage: collectionImage,
@@ -111,16 +128,36 @@ export const createCollection = async (collectionImage: string, title: string,
     maxMint: supply,
     userId,
   });
-  const response = await axios.post(URL,body,{
+  const response = await axios.post(URL, body, {
     headers: {
       "Content-Type": "application/json",
     },
   });
   return {
-    data : response.data,
-    status : response.status
+    data: response.data,
+    status: response.status,
   };
-}
+};
+
+/**
+ * Returns an array of tokens owned by the given Owner ID
+ * @param ownerUuid {string} Onwer ID
+ * @returns 
+ */
+export const getTokensByOwner = async (ownerUuid: string) : Promise<Array<ApiOwnerTokenResponseType> | null>=> {
+  const URL = `${GATEWAY}/v0/tokens/${ownerUuid}`;
+  const response = await axios
+    .get(URL)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((e) => {
+      console.error(e);
+      return null;
+    });
+  return response;
+};
+
 /**
  * Returns all the collections
  * @returns Promise with an array of collections
@@ -138,29 +175,3 @@ export const createCollection = async (collectionImage: string, title: string,
 //     });
 //   return collections;
 // }
-
-
-
-
-/**
- * Retrieves the NFTs of a given Wallet Address.
- * @param ownerAddress {string} Wallet address
- * @param setApiCallResult {Dispatch<SetStateAction<number>} Call back that saves API response code
- * @returns {Promise<NftItemType[]>} Array of NFT items
- */
-//  export const getNftItems = async (ownerAddress: string, setApiCallResult: Dispatch<SetStateAction<number>>) : Promise<NftItemType[]> => {
-//   const url = `${process.env.REACT_APP_OPENSEA_API}&owner=${ownerAddress}`;
-//   const items = await axios.get(url!)
-//     .then((res) => {
-//       console.log({res});
-//       setApiCallResult(res.status);
-//       return res.data.assets;
-//     })
-//     .catch((e) => {
-//       setApiCallResult(500);
-//       console.error(e);
-//       console.error("Could not talk to OpenSea");
-//       return null;
-//     });
-//   return items;
-// };
