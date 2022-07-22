@@ -1,12 +1,11 @@
 .basic-input-container {
-  margin-bottom: 5%;
+  //margin-bottom: 5%;
   font-weight: 100;
   
   .basic-input {
     border-radius: 8px;
     border-width: 0.5px;
     padding: 0.4em 1.5em 0.4em;
-  
   }
 
   .area-input {
@@ -19,15 +18,18 @@
     font-size: 0.8rem;
     opacity: 60%;
   }
+
+  input, textarea {
+    display: block;
+    width: 22em;
+  }
+
 }
 
 
-input, textarea, label {
-  display: block;
-  width: 300px;
-}
 
-.mint-button {
+
+.mint-button-container {
 
   button {
     cursor: pointer;
@@ -41,6 +43,8 @@ input, textarea, label {
     font-weight: 100;
     text-align: center;
     color: black;
+    margin-top: 1em;
+    margin-bottom: 2em;
   }
   button:disabled {
     cursor: default;
@@ -50,9 +54,8 @@ input, textarea, label {
 }
 
 .special-input-container {
-
-  font-size: 1.5rem;
-  //float:center;
+  font-size: 1.2rem;
+  text-align: center;
   margin-bottom: 10% !important;
   font-weight: 100;
   width: 100px !important;

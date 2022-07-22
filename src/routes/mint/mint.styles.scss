@@ -1,19 +1,25 @@
 .mint-container {
   height: 93vh !important;
   display: grid; 
+  //text-align: center;
   grid-template-columns: 12fr; 
-  //gap: 15px 5px; 
-  //height: 60%;//93vh;
   justify-content: center; 
   align-content: start; 
   justify-items: center; 
   align-items: start; 
   white-space: pre-line;
 
+  img {
+    height: 4em;
+    padding-top: 5%;
+  }
   h2 {
     font-weight: 100;
   }
-  
+
+  .mint-processing-container {
+    text-align: center;
+  }
   .quantity-price-container {
     display: grid; 
     grid-auto-rows: 1fr; 

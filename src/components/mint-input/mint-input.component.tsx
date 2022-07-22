@@ -60,7 +60,7 @@ export const SpecialInput = (props : BasicInputProps) => {
 export const MintButton = (props : MintButtonType) => {
   const { label, ...otherProps } = props;
   return (
-    <div className='mint-button'>
+    <div className='mint-button-container'>
       <button  
         type='submit'
         {...otherProps}>

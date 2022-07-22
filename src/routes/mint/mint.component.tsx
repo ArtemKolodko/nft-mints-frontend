@@ -1,7 +1,7 @@
 import { useState, ChangeEvent } from "react";
 import { Dropzone, FileItem, FileValidated } from "@dropzone-ui/react";
 import Stack from "@mui/material/Stack";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 
 import CircularProgressWithLabel from "../../components/progress-with-label/progress-with-label.component";
 import {
@@ -13,7 +13,7 @@ import {
 import { createCollection } from "../../utils/mint-interface/mint-inteface.utils";
 import { addFilesToStorage } from "../../utils/firebase/firebase.utils";
 import { ApiResponseType } from "../../types";
-import Logo from '../../assets/imgs/dj3n_logo.svg'
+import Logo from "../../assets/imgs/dj3n_logo.svg";
 
 import "./mint.styles.scss";
 
@@ -25,19 +25,19 @@ const defaultFormFields = {
   price: 0,
 };
 
-const defaultMintResponse : ApiResponseType = {
+const defaultMintResponse: ApiResponseType = {
   data: undefined,
   status: 0,
-}
+};
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const Mint = () => {
-  const [ uploadProgress, setUploadProgress ] = useState(0);
-  const [ files, setFiles ] = useState<FileValidated[]>([]);
-  const [ filesUrl, setFilesUrl ] = useState<string[]>([]);
-  const [ formFields, setFormFields ] = useState(defaultFormFields);
-  const [ mintResponse, setMintResponse ] = useState(defaultMintResponse);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [files, setFiles] = useState<FileValidated[]>([]);
+  const [filesUrl, setFilesUrl] = useState<string[]>([]);
+  const [formFields, setFormFields] = useState(defaultFormFields);
+  const [mintResponse, setMintResponse] = useState(defaultMintResponse);
 
   const { name, description, link, amount, price } = formFields;
 
@@ -45,6 +45,7 @@ const Mint = () => {
     event.preventDefault();
     console.log(name, description, link, amount, price);
     await addFilesToStorage(files, setUploadProgress, setFilesUrl);
+    const userId = "";
     const response = await createCollection(
       filesUrl[0],
       name,
@@ -52,10 +53,10 @@ const Mint = () => {
       link,
       price,
       amount,
-      ""
+      userId
     );
     setMintResponse(response!);
-    console.log("handleSubmit", response);
+
     setFormFields(defaultFormFields);
     setFiles([]);
   };
@@ -81,24 +82,33 @@ const Mint = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="mint-container">
+        <img src={Logo} alt="dj3n logo" />
         {uploadProgress > 0 ? (
-          <div className='landing-container'>
-            <img src={Logo} alt='dj3n logo' className='landing-logo'/>
+          <div className='mint-processing-container'>
             <h2>Uploading media...</h2>
             <CircularProgressWithLabel value={uploadProgress} />
-            { uploadProgress === 100 && (
+            {uploadProgress === 100 && (
               <>
                 <h2>Creating Collection...</h2>
-                {mintResponse.status === 0 ? <CircularProgress  /> : (<>
-                  <CircularProgressWithLabel  value={100} />
-                  <h1>Congratulations!</h1>
-                  <h2>You succesfully create your Collection</h2>
-                  <p>Use the following link to share your collection</p>
-                  <p><a href={`${BASE_URL}/checkout/${mintResponse.data.uuid}`} 
-                    target='_blank'
-                    rel="noreferrer">LINK</a></p>
-                </>)
-                }
+                {mintResponse.status === 0 ? (
+                  <CircularProgress />
+                ) : (
+                  <>
+                    <CircularProgressWithLabel value={100} />
+                    <h1>Congratulations!</h1>
+                    <h2>You succesfully create your Collection</h2>
+                    <p>Use the following link to share your collection</p>
+                    <p>
+                      <a
+                        href={`${BASE_URL}/checkout/${mintResponse.data.uuid}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        LINK
+                      </a>
+                    </p>
+                  </>
+                )}
               </>
             )}
           </div>
@@ -107,13 +117,11 @@ const Mint = () => {
             direction="column"
             justifyContent="space-between"
             alignItems="center"
-            //spacing={2}
           >
             <h2>Drag and Drop your NFT file</h2>
             <Dropzone
               onChange={updateFiles}
               value={files}
-              //onClean
               accept={"audio/*, video/*, image/*"}
               maxFileSize={104857600}
               label={"Drop Files here\nor click to browse"}
