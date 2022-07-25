@@ -45,8 +45,8 @@ export const checkoutCollectionV2 = async (
   collectionUuid: string | undefined
 ): Promise<Response | null> => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-  const REDIRECT_URL_SUCCESS = `${BASE_URL}/success/${collectionUuid}`;
-  const REDIRECT_URL_FAILURE = `${BASE_URL}/cancel/${collectionUuid}`;
+  const REDIRECT_URL_SUCCESS = `${BASE_URL}/success/:userUuid`; //${collectionUuid}`;
+  const REDIRECT_URL_FAILURE = `${BASE_URL}/cancel/:userUuid`; //${collectionUuid}`;
   console.log('checkout collectionv2');
   try {
     const body = {
@@ -68,7 +68,7 @@ export const checkoutCollectionV2 = async (
       },
       body: JSON.stringify(body),
     }).then((response) => {
-      console.log('then',response);
+      console.log('then RESPONSE',response);
       return response;
     }).catch((e) => {
       console.log('CATCH, ',e);

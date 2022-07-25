@@ -2,6 +2,7 @@
   "name": "nft-mints-frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://nft-mints.netlify.app",
   "dependencies": {
     "@dropzone-ui/react": "^6.7.4",
     "@emotion/react": "^11.9.3",
@@ -49,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "netlify-cli": "^10.11.0"
   }
 }

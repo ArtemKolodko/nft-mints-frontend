@@ -24,8 +24,8 @@ const App = () => {
         <Route path='gallery/:ownerUuid' element={<Gallery />} />
       </Route>
       <Route path='checkout/:collectionUuid' element={<Checkout />} />
-      <Route path='success/:collectionUuid' element={<CheckoutSuccess />} />
-      <Route path='cancel/:collectionUuid' element={<CheckoutFailure />} />
+      <Route path='success/:userUuid' element={<CheckoutSuccess />} />
+      <Route path='cancel/:userUuid' element={<CheckoutFailure />} />
     </Routes>
   );
 }

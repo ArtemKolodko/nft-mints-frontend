@@ -5,20 +5,21 @@ import "./checkout.styles.scss";
 
 //add purchased nft image
 const CheckoutSuccess = () => {
-  const { collectionUuid } = useParams();
+  const { userUuid } = useParams();
+  console.log("user", userUuid);
 
-  console.log(collectionUuid);
-  
   return (
     <div className="checkout-response-container">
       <div className="checkout-response-logo">
         <img src={Logo} alt="dj3n logo" />
       </div>
       <h1>Congratulations!</h1>
-      <h2>You succesfully purchase the NFT</h2>
-      <p>
-        To see your purchases, please click <Link to='/gallery/6aa6ff52-6676-4dc0-aa4f-db8bae367c65'>here</Link>
-      </p>
+      <h2>You have successfully purchased <br />this collectible</h2>
+      {userUuid && (
+        <p>
+          View <Link to={`/gallery/${userUuid}`}>collection</Link>
+        </p>
+      )}
     </div>
   );
 };

@@ -80,8 +80,8 @@ const Checkout = () => {
       <div className="checkout-form-container">
         { !errorMessage ? (
           <h4 style={{ marginLeft: "1.5em", marginRight: "1.5em" }}>
-            If you would like to purchase this NFT, please enter your mobile phone
-            number and press the BUY button.
+            If you would like to purchase this collectible, 
+            please enter your mobile phone number
           </h4>
           ) : (
           <h4 style={{ marginLeft: "1.5em", marginRight: "1.5em", color: 'red', fontWeight: '600' }}>

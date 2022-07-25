@@ -26,7 +26,7 @@ const Gallery = () => {
   
   return (
     <div className="gallery-container">
-      <h1>My Tokens</h1>
+      <h1>My Collectibles</h1>
       {/* <div className="gallery-menu"></div> */}
       {tokens && (
       <div className="gallery">

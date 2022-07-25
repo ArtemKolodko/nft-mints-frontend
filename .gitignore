@@ -664,3 +664,6 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/vim,visualstudio,webstorm+all,react,node
 
+
+# Local Netlify folder
+.netlify
