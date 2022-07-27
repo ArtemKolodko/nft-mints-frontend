@@ -170,10 +170,10 @@ const Mint = () => {
               onChange={handleAreaChange}
             />
             <BasicInput
-              label="Attach exclusive unlockable content *"
+              label="Attach exclusive unlockable content"
               name="link"
               placeholder="Link to unlisted youtube, exclusive Discord chat or file to download"
-              required={true}
+              required={false}
               type="text"
               onChange={handleChange}
             />
@@ -192,7 +192,7 @@ const Mint = () => {
                 />
 
                 <SpecialInput
-                  label="Price *"
+                  label="Price (USD)*"
                   name="price"
                   placeholder="0"
                   required={true}
