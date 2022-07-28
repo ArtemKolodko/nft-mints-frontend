@@ -20,17 +20,21 @@ const defaultFormFields = {
 };
 
 const Checkout = () => {
-  const [ nft, setNft ] = useState<CollectionType>({} as CollectionType);
-  const [ errorMessage, setErrorMessage ] = useState('');
-  const [ formFields, setFormFields ] = useState(defaultFormFields);
+  const [nft, setNft] = useState<CollectionType>({} as CollectionType);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [formFields, setFormFields] = useState(defaultFormFields);
+  const [ checkingOut, setCheckingOut ] = useState(false);
   const { phoneNumber, verifyPhoneNumber } = formFields;
   const { collectionUuid } = useParams();
 
   useEffect(() => {
     const getNft = async () => {
       const collection = await getCollection(collectionUuid!);
-      setNft(collection);
-      getCollection(collectionUuid!);
+      if (collection) {
+        setNft(collection);
+      } else {
+        setErrorMessage('Error trying to retrieve the Collection')
+      }
     };
 
     collectionUuid && getNft();
@@ -38,19 +42,21 @@ const Checkout = () => {
 
   const handleButton = async () => {
     const OTP = "05270";
+    setCheckingOut(true);
     const response = await checkoutCollectionV2(
       OTP,
       phoneNumber,
-      Array(nft),
-      collectionUuid
+      Array(nft)
     );
 
     console.log("handleButton", { response });
-    if (response && response.status < 300 ) {
-      window.location.href = (await response.json()).url;
+
+    if (response && response.status < 300) {
+      window.location.href = response.data.url;
     } else {
-      setErrorMessage('Error. User does not exist');
-      console.log('User does not exist');
+      setCheckingOut(false);
+      setErrorMessage("Error. User does not exist");
+      console.log("User does not exist");
     }
   };
 
@@ -78,15 +84,23 @@ const Checkout = () => {
       )}
 
       <div className="checkout-form-container">
-        { !errorMessage ? (
+        {!errorMessage ? (
           <h4 style={{ marginLeft: "1.5em", marginRight: "1.5em" }}>
-            If you would like to purchase this collectible, 
-            please enter your mobile phone number
+            If you would like to purchase this collectible, please enter your
+            mobile phone number
           </h4>
-          ) : (
-          <h4 style={{ marginLeft: "1.5em", marginRight: "1.5em", color: 'red', fontWeight: '600' }}>
+        ) : (
+          <h4
+            style={{
+              marginLeft: "1.5em",
+              marginRight: "1.5em",
+              color: "red",
+              fontWeight: "600",
+            }}
+          >
             {errorMessage}
-          </h4>) }
+          </h4>
+        )}
         <BasicInput
           label="Phone number *"
           name="phoneNumber"
@@ -105,13 +119,17 @@ const Checkout = () => {
         />
       </div>
       <div className="checkout-button-container">
-        <button
-          onClick={handleButton}
-          className="checkout-button"
-          disabled={verifyPhone()}
-        >
-          Buy
-        </button>
+        { checkingOut ? (
+          <CircularProgress />
+        ) : (
+          <button
+            onClick={handleButton}
+            className="checkout-button"
+            disabled={verifyPhone()}
+          >
+            Buy
+          </button>
+        )}
       </div>
     </div>
   );

@@ -1,17 +1,19 @@
+import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import Navigation from './routes/navigation/navigation.component';
-import Mint from './routes/mint/mint.component';
-import Gallery from './routes/gallery/gallery.component';
+import './App.scss';
+
+const Mint = lazy(() => import('./routes/mint/mint.component'));
+const Gallery = lazy(() => import('./routes/gallery/gallery.component'));
+const Navigation = lazy(() => import('./routes/navigation/navigation.component'));
 // import Landing from './routes/landing/landing.component';
 // import Home from './routes/home/home.component';
 // import Authentication from './routes/authentication/authentication.component';
 
-import Checkout from './routes/checkout/checkout.component';
-import CheckoutSuccess from './routes/checkout/checkout-success.component';
-import CheckoutFailure from './routes/checkout/checkout-failure.component';
+const Checkout = lazy(() => import('./routes/checkout/checkout.component'));
+const CheckoutSuccess = lazy(() => import('./routes/checkout/checkout-success.component'));
+const CheckoutFailure = lazy(() => import('./routes/checkout/checkout-failure.component'));
 
-import './App.scss';
 
 // todo Protected/public routes
 const App = () => {

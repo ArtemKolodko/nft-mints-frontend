@@ -26,7 +26,7 @@ const defaultFormFields = {
   price: 0,
 };
 
-const defaultMintResponse: ApiResponseType = {
+const defaultMintResponse: ApiResponseType | null = {
   data: undefined,
   status: 0,
 };
@@ -38,7 +38,7 @@ const Mint = () => {
   const [files, setFiles] = useState<FileValidated[]>([]);
   const [filesUrl, setFilesUrl] = useState<string[]>([]);
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const [mintResponse, setMintResponse] = useState(defaultMintResponse);
+  const [mintResponse, setMintResponse] = useState<ApiResponseType | null>(defaultMintResponse);
 
   const { title, description, link, quantity, price } = formFields;
 
@@ -59,8 +59,8 @@ const Mint = () => {
         quantity,
         userId
       ).then((response) => {
-        console.log('then create collection');
-        setMintResponse(response!);
+        console.log('then create collection',response);
+        setMintResponse(response);
         setFormFields(defaultFormFields);
         setFiles([]);
       });
@@ -102,22 +102,24 @@ const Mint = () => {
             {uploadProgress === 100 && (
               <>
                 <h2>Creating Collection...</h2>
-                {mintResponse.status === 0 ? (
-                  <CircularProgress />
-                ) : (
-                  <>
-                    <CircularProgressWithLabel value={100} />
-                    <h1>Congratulations!</h1>
-                    <h2>You have successfully created your Collection</h2>
-                    <p>Use the following link to share your collection</p>
-                    <p>
-                      <Link to={`checkout/${mintResponse.data.uuid}`}>
-                        SHARE
-                      </Link>
-                    </p>
-                  </>
-                )}
-              </>
+                { mintResponse ? 
+                  ( mintResponse.status === 0 ? 
+                    ( <CircularProgress />) : (
+                      <>
+                        <CircularProgressWithLabel value={100} />
+                        <h1>Congratulations!</h1>
+                        <h2>You have successfully created your Collection</h2>
+                        <p>Use the following link to share your collection</p>
+                        <p>
+                          <Link to={`checkout/${mintResponse.data.uuid}`}>
+                            SHARE
+                          </Link>
+                        </p>
+                      </>
+                    )) : 
+                  (<div>Error</div>) 
+                  }
+                </>
             )}
           </div>
         ) : (
@@ -192,10 +194,10 @@ const Mint = () => {
                 />
 
                 <SpecialInput
-                  label="Price (USD)*"
+                  label="Price (USD)"
                   name="price"
                   placeholder="0"
-                  required={true}
+                  required={false}
                   type="number"
                   onChange={handleChange}
                 />

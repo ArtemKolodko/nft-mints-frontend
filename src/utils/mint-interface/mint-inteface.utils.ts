@@ -1,9 +1,9 @@
+import axios, { AxiosResponse } from "axios";
+
 import { CollectionType } from "../../types/index";
 import { ApiResponseType } from "../../types/index";
 import { ApiOwnerTokenResponseType } from "../../types/index";
-
-import axios, { AxiosResponse } from "axios";
-
+ 
 const GATEWAY = process.env.REACT_APP_GATEWAY;
 
 export const getNfts = (tokenId: string) => {};
@@ -42,14 +42,14 @@ export const checkoutCollectionV2 = async (
   otp: string,
   phoneNumber: string,
   collections: CollectionType[],
-  collectionUuid: string | undefined
-): Promise<Response | null> => {
+
+): Promise<AxiosResponse | null> => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-  const REDIRECT_URL_SUCCESS = `${BASE_URL}/success/:userUuid`; //${collectionUuid}`;
-  const REDIRECT_URL_FAILURE = `${BASE_URL}/cancel/:userUuid`; //${collectionUuid}`;
-  console.log('checkout collectionv2');
+  const REDIRECT_URL_SUCCESS = `${BASE_URL}/success/:userUuid`;
+  const REDIRECT_URL_FAILURE = `${BASE_URL}/cancel/:userUuid`;
+  console.log("checkout collectionv2");
   try {
-    const body = {
+    const body = JSON.stringify({
       nfts: collections.map((collection) => {
         return { collectionUuid: collection.uuid, quantity: 1 };
       }),
@@ -57,24 +57,16 @@ export const checkoutCollectionV2 = async (
       smsCode: otp,
       successUrl: REDIRECT_URL_SUCCESS,
       cancelUrl: REDIRECT_URL_FAILURE,
-    };
+    });
     console.log(body);
     console.log(JSON.stringify(body));
-    const res = fetch(`${GATEWAY}/v0/payment/checkoutv2`, {
-      method: "POST",
-      redirect: "follow",
+    const response = await axios.post(`${GATEWAY}/v0/payment/checkoutv2`,body,  {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
-    }).then((response) => {
-      console.log('then RESPONSE',response);
-      return response;
-    }).catch((e) => {
-      console.log('CATCH, ',e);
-      return null;
     });
-    return res;
+    console.log("RESPONSE", response);
+    return response;
   } catch (e) {
     console.log(e);
     return null;
@@ -88,20 +80,15 @@ export const checkoutCollectionV2 = async (
  */
 export const getCollection = async (
   collectionUuid: string
-): Promise<CollectionType> => {
-  const url = `${GATEWAY}/v0/collections/${collectionUuid}`;
-
-  const collection = await axios
-    .get(url)
-    .then((response) => {
-      //    console.log(response);//
-      return response.data;
-    })
-    .catch((e) => {
-      console.error(e);
-      return null;
-    });
-  return collection;
+): Promise<CollectionType | null> => {
+  try {
+    const url = `${GATEWAY}/v0/collections/${collectionUuid}`;
+    const response = await axios.get(url);
+    return response.data;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 };
 
 /**
@@ -124,46 +111,56 @@ export const createCollection = async (
   supply: number,
   userId: string
 ): Promise<ApiResponseType | null> => {
-  const URL = `${GATEWAY}/v0/collections/create`;
-  const body = JSON.stringify({
-    collectionImage: collectionImage,
-    title,
-    description,
-    link,
-    rate,
-    maxMint: supply,
-    userId,
-  });
-  console.log(collectionImage, title, description, userId);
-  console.log('Create Collection', {body});
-  const response = await axios.post(URL, body, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return {
-    data: response.data,
-    status: response.status,
-  };
+  try {
+    const URL = `${GATEWAY}/v0/collections/create`;
+    const body = JSON.stringify({
+      collectionImage: collectionImage,
+      title,
+      description,
+      link,
+      rate,
+      maxMint: supply,
+      userId,
+    });
+
+    const response = await axios.post(URL, body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return {
+      data: response.data,
+      status: response.status,
+    };
+  } catch (e) {
+    if (axios.isAxiosError(e)) {
+      console.log("AxiosError", e);
+      return null;
+    } else {
+      console.log(e);
+      return null;
+    }
+  }
 };
 
 /**
  * Returns an array of tokens owned by the given Owner ID
  * @param ownerUuid {string} Onwer ID
- * @returns 
+ * @returns
  */
-export const getTokensByOwner = async (ownerUuid: string) : Promise<Array<ApiOwnerTokenResponseType> | null>=> {
+export const getTokensByOwner = async (
+  ownerUuid: string
+): Promise<Array<ApiOwnerTokenResponseType> | null> => {
+ try {
   const URL = `${GATEWAY}/v0/tokens/${ownerUuid}`;
-  const response = await axios
-    .get(URL)
-    .then((res) => {
-      return res.data;
-    })
-    .catch((e) => {
-      console.error(e);
-      return null;
-    });
-  return response;
+  const response = await axios.get(URL)
+  return response.data;
+ } catch (e) {
+  console.error(e);
+  return null;
+ }
+   
 };
 
 /**
@@ -183,3 +180,4 @@ export const getTokensByOwner = async (ownerUuid: string) : Promise<Array<ApiOwn
 //     });
 //   return collections;
 // }
+
