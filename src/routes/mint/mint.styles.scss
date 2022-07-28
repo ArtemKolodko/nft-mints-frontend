@@ -29,9 +29,10 @@
       "quantity-price-title quantity-price-title quantity-price-title"
       "quantity-price-input quantity-price-input quantity-price-input"; 
   }
-  .quantity-price-input {
+
+  .quantity-input {
     display: grid; 
-    grid-template-columns: 1fr 1fr; 
+    grid-template-columns: 1fr; 
     grid-template-rows: 1fr; 
     gap: 0px 0px; 
     justify-content: center; 
@@ -40,6 +41,17 @@
     align-items: center; 
     grid-area: quantity-price-input; 
   }
+  // .quantity-price-input {
+  //   display: grid; 
+  //   grid-template-columns: 1fr 1fr; 
+  //   grid-template-rows: 1fr; 
+  //   gap: 0px 0px; 
+  //   justify-content: center; 
+  //   align-content: center; 
+  //   justify-items: center; 
+  //   align-items: center; 
+  //   grid-area: quantity-price-input; 
+  // }
   .quantity-price-title {
     display: grid; 
     grid-template-columns: 1fr; 

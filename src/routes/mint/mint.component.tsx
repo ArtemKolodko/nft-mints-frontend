@@ -132,13 +132,14 @@ const Mint = () => {
             <Dropzone
               onChange={updateFiles}
               value={files}
-              accept={"audio/*, video/*, image/*"}
+              accept={"image/*"} //
               maxFileSize={104857600}
               label={"Drop Files here\nor click to browse"}
               minHeight={"195px"}
               maxHeight={"500px"}
               disableScroll
-              footer={false}
+              footer={true}
+              maxFiles={1}
               style={{ marginBottom: "5%" }}
             >
               {files.map((file) => (
@@ -181,9 +182,10 @@ const Mint = () => {
             />
             <div className="quantity-price-container">
               <div className="quantity-price-title">
-                <h2>Choose Quantity and Price</h2>
+                {/* <h2>Choose Quantity and Price</h2> */}
+                <h2>Choose Quantity</h2>
               </div>
-              <div className="quantity-price-input">
+              <div className="quantity-input">
                 <SpecialInput
                   label="Quantity *"
                   name="quantity"
@@ -193,14 +195,14 @@ const Mint = () => {
                   onChange={handleChange}
                 />
 
-                <SpecialInput
+                {/* <SpecialInput
                   label="Price (USD)"
                   name="price"
                   placeholder="0"
                   required={false}
                   type="number"
                   onChange={handleChange}
-                />
+                /> */}
               </div>
             </div>
             <MintButton label={"Create"} disabled={files.length === 0} />
