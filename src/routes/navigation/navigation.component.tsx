@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 //import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import logo from "../../assets/imgs/dj3n_logo.svg";
+import Logo from "../../assets/imgs/DJ3N Logo.png"
 import Grid from "@mui/material/Grid";
 
 import "./navigation.styles.scss";
@@ -20,7 +20,7 @@ const Navigation = () => {
           marginRight={'15px'}
         >
           <div className="logo">
-            <img src={logo} alt="logo" />
+            <img src={Logo} alt="logo" />
           </div>
           {/* <Link className='nav-link' to='mint'>
             Mint

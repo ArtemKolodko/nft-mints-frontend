@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import "./checkout.styles.scss";
 
-import Logo from "../../assets/imgs/dj3n_logo.svg";
+import Logo from "../../assets/imgs/DJ3N Logo.png"
 
 const CheckoutFailure = () => {
   const { userUuid } = useParams();

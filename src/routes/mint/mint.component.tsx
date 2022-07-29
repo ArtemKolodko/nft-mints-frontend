@@ -14,7 +14,8 @@ import {
 import { createCollection } from "../../utils/mint-interface/mint-inteface.utils";
 import { addFilesToStorage } from "../../utils/firebase/firebase.utils";
 import { ApiResponseType } from "../../types";
-import Logo from "../../assets/imgs/dj3n_logo.svg";
+
+import Logo from "../../assets/imgs/DJ3N Logo.png"
 
 import "./mint.styles.scss";
 
@@ -92,9 +93,11 @@ const Mint = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    
       <div className="mint-container">
         <img src={Logo} alt="dj3n logo" />
+        <form onSubmit={handleSubmit}>
+       
         {uploadProgress > 0 ? (
           <div className="mint-processing-container">
             <h2>Uploading media...</h2>
@@ -205,11 +208,12 @@ const Mint = () => {
                 /> */}
               </div>
             </div>
-            <MintButton label={"Create"} disabled={files.length === 0} />
+            <MintButton label={"Create"} disabled={(files.length === 0 || title === '' || quantity === 0)} />
           </Stack>
         )}
+            </form>
       </div>
-    </form>
+
   );
 };
 

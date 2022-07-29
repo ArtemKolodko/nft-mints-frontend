@@ -63,6 +63,7 @@ export const MintButton = (props : MintButtonType) => {
   return (
     <div className='mint-button-container'>
       <button  
+        className='button'
         type='submit'
         {...otherProps}>
           {label}

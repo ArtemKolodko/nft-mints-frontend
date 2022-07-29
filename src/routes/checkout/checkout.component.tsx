@@ -10,7 +10,7 @@ import {
 } from "../../utils/mint-interface/mint-inteface.utils";
 import { BasicInput } from "../../components/mint-input/mint-input.component";
 import NftDetail from "../../components/nft-detail/nft-detail.component";
-import Logo from "../../assets/imgs/dj3n_logo.svg";
+import Logo from "../../assets/imgs/DJ3N Logo.png"
 
 import "./checkout.styles.scss";
 
@@ -124,7 +124,7 @@ const Checkout = () => {
         ) : (
           <button
             onClick={handleButton}
-            className="checkout-button"
+            className="button checkout-button"
             disabled={verifyPhone()}
           >
             Buy

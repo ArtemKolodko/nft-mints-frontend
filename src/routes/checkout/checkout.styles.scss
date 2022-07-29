@@ -34,25 +34,25 @@
 
   .checkout-button-container {
     margin-bottom: 2em;
-    button {
-      cursor: pointer;
-      border-style: solid;
-      border-color: black;
-      border-width: 0.5px;
-      background-color: transparent;
-      border-radius: 15px;
-      font-size: 1.5rem;
-      padding: 0.4em 3em 0.4em;
-      font-weight: 100;
-      text-align: center;
-      color: black;
-    }
-    button:disabled,
-    button[disabled] {
-      border: 1px solid #999999;
-      background-color: #cccccc;
-      color: #666666;
-    }
+    // button {
+    //   cursor: pointer;
+    //   border-style: solid;
+    //   border-color: black;
+    //   border-width: 0.5px;
+    //   background-color: transparent;
+    //   border-radius: 15px;
+    //   font-size: 1.5rem;
+    //   padding: 0.4em 3em 0.4em;
+    //   font-weight: 100;
+    //   text-align: center;
+    //   color: black;
+    // }
+    // button:disabled,
+    // button[disabled] {
+    //   border: 1px solid #999999;
+    //   background-color: #cccccc;
+    //   color: #666666;
+    // }
   }
 }
 
@@ -69,7 +69,7 @@
     height: 10em;
 
     img {
-      height: 6em;
+      height: 4em;
     }
   }
 

@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import Logo from "../../assets/imgs/dj3n_logo.svg";
+import Logo from "../../assets/imgs/DJ3N Logo.png"
 import { MintButton } from "../../components/mint-input/mint-input.component";
 
 import "./checkout.styles.scss";
@@ -23,7 +23,7 @@ const CheckoutSuccess = () => {
       <h1>Congratulations!</h1>
       <h2>You have successfully purchased <br />this collectible</h2>
       {tokenUuid && (
-         <MintButton label="View Collectible" onClick={handleButton} className='checkout-button'/>
+         <MintButton label="View Collectible" onClick={handleButton} className='button checkout-button'/>
       )}
     </div>
   );
