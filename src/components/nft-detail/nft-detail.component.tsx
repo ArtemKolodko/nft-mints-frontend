@@ -1,24 +1,19 @@
-//import { checkHref } from '../../utils/utils';
+import { checkHref } from '../../utils/utils';
+import { TokenType, CollectionType } from '../../types';
+import QR from "../../assets/imgs/qrSample.svg";
 import './nft-detail.styles.scss';
 
 type NftDetailProps = {
-  title : string;
-  description : string;
-  link: string;
-  collectionAddress: "",
-  rate: 10,
-  maxMint: 100,
-  uuid: string;
-  priceId: string;
-  userUuid: any;
-  productId: string;
-  collectionImage: string; 
+  token? : TokenType;
+  collection : CollectionType;
 }
 
 const NftDetail = (props: NftDetailProps) => {
-  const { title, description, collectionImage } = props; //link
-  //const hrefLink = checkHref(link);
-  //console.log('all props',props);
+  const { token, collection } = props;
+  const { title, description, collectionImage, link } = collection;
+
+  const hrefLink = checkHref(link);
+
   return (
     <div className='nft-detail-container'>
       <div className='nft-detail-image' style={{ 
@@ -29,9 +24,12 @@ const NftDetail = (props: NftDetailProps) => {
       </div>
       <div className='nft-detail-info'>
         <h5>{description}</h5>
-        {/* <p>Unlockable Content attached to</p>
-        <p>
-          <a href={hrefLink} target='_blank' rel="noreferrer">LINK</a></p> */}
+        { (token && collection.link) && (
+          <div className='unlockable-content'>
+            <h4>Unlockable Content attached to</h4>
+            <a href={hrefLink} target='_blank' rel="noreferrer"><img src={QR} alt="QR Sample" /></a>
+          </div>          
+        )}
       </div>
       
     </div>

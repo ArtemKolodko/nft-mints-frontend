@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import NftCard from "../../components/nft-card/nft-card.component";
-import { ApiOwnerTokenResponseType } from "../../types";
+import { ApiTokenResponseType } from "../../types";
 import { getTokensByOwner } from "../../utils/mint-interface/mint-inteface.utils";
 
 import "./gallery.styles.scss";
 
 
 const Gallery = () => {
-  const [ tokens, setTokens ] = useState<Array<ApiOwnerTokenResponseType> | null>([]);
+  const [ tokens, setTokens ] = useState<Array<ApiTokenResponseType> | null>([]);
 
   const { ownerUuid } = useParams();
 

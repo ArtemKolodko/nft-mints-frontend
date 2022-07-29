@@ -1,0 +1,18 @@
+.claim-container {
+  margin-top: 2em;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 5em auto;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+
+  .claim-logo {
+    height: 5em;
+
+    img {
+      height: 4em;
+    }
+  }
+}

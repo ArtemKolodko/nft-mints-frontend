@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 
 import { CollectionType } from "../../types/index";
 import { ApiResponseType } from "../../types/index";
-import { ApiOwnerTokenResponseType } from "../../types/index";
+import { ApiTokenResponseType } from "../../types/index";
  
 const GATEWAY = process.env.REACT_APP_GATEWAY;
 
@@ -45,7 +45,7 @@ export const checkoutCollectionV2 = async (
 
 ): Promise<AxiosResponse | null> => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-  const REDIRECT_URL_SUCCESS = `${BASE_URL}/success/:userUuid`;
+  const REDIRECT_URL_SUCCESS = `${BASE_URL}/success/:userUuid/:tokenUuid`;
   const REDIRECT_URL_FAILURE = `${BASE_URL}/cancel/:userUuid`;
   console.log("checkout collectionv2");
   try {
@@ -151,7 +151,7 @@ export const createCollection = async (
  */
 export const getTokensByOwner = async (
   ownerUuid: string
-): Promise<Array<ApiOwnerTokenResponseType> | null> => {
+): Promise<Array<ApiTokenResponseType> | null> => {
  try {
   const URL = `${GATEWAY}/v0/tokens/${ownerUuid}`;
   const response = await axios.get(URL)
@@ -162,6 +162,25 @@ export const getTokensByOwner = async (
  }
    
 };
+
+/**
+ * Retrieve token/collectionable detail
+ * @param tokenUuid {string} Token ID 
+ * @returns {ApiTokenResponseType} The token information 
+ */
+export const getTokenDetail = async (
+  tokenUuid: string
+): Promise<ApiTokenResponseType | null> => {
+ try {
+  const URL = `${GATEWAY}/v0/tokens/token/${tokenUuid}`;
+  const response = await axios.get(URL)
+  return response.data;
+ } catch (e) {
+  console.error(e);
+  return null;
+ } 
+};
+
 
 /**
  * Returns all the collections

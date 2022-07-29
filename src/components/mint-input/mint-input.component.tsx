@@ -24,6 +24,7 @@ type MintButtonType = {
   label: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
+  className?: string;
 }
 
 export const BasicInput = (props : BasicInputProps) => {

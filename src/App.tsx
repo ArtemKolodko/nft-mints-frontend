@@ -9,6 +9,7 @@ const Navigation = lazy(() => import("./routes/navigation/navigation.component")
 const Checkout = lazy(() => import("./routes/checkout/checkout.component"));
 const CheckoutSuccess = lazy(() => import("./routes/checkout/checkout-success.component"));
 const CheckoutFailure = lazy(() => import("./routes/checkout/checkout-failure.component"));
+const ClaimNft = lazy(() => import("./routes/claim-nft/claim-nft.component"));
 
 // todo Protected/public routes
 const App = () => {
@@ -23,8 +24,9 @@ const App = () => {
             <Route path="gallery/:ownerUuid" element={<Gallery />} />
           </Route>
           <Route path="checkout/:collectionUuid" element={<Checkout />} />
-          <Route path="success/:userUuid" element={<CheckoutSuccess />} />
+          <Route path="success/:userUuid/:tokenUuid" element={<CheckoutSuccess />} />
           <Route path="cancel/:userUuid" element={<CheckoutFailure />} />
+          <Route path="collectionable/:tokenUuid" element={<ClaimNft />} />
         </Routes>
       </Suspense>
     </>

@@ -1,12 +1,19 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Logo from "../../assets/imgs/dj3n_logo.svg";
+import { MintButton } from "../../components/mint-input/mint-input.component";
 
 import "./checkout.styles.scss";
 
 //add purchased nft image
 const CheckoutSuccess = () => {
-  const { userUuid } = useParams();
-  console.log("user", userUuid);
+  const { userUuid, tokenUuid } = useParams();
+  const navigate = useNavigate();
+  console.log('checkout :userUuid/:tokenUuid');
+  console.log("user", userUuid, "token", tokenUuid);
+
+  const handleButton = () => {
+    navigate(`/collectionable/${tokenUuid}`);
+  }
 
   return (
     <div className="checkout-response-container">
@@ -15,10 +22,8 @@ const CheckoutSuccess = () => {
       </div>
       <h1>Congratulations!</h1>
       <h2>You have successfully purchased <br />this collectible</h2>
-      {userUuid && (
-        <p>
-          View <Link to={`/gallery/${userUuid}`}>collection</Link>
-        </p>
+      {tokenUuid && (
+         <MintButton label="View Collectible" onClick={handleButton} className='checkout-button'/>
       )}
     </div>
   );

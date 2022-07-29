@@ -20,9 +20,9 @@ const defaultFormFields = {
 };
 
 const Checkout = () => {
-  const [nft, setNft] = useState<CollectionType>({} as CollectionType);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [formFields, setFormFields] = useState(defaultFormFields);
+  const [ nft, setNft ] = useState<CollectionType>({} as CollectionType);
+  const [ errorMessage, setErrorMessage ] = useState("");
+  const [ formFields, setFormFields ] = useState(defaultFormFields);
   const [ checkingOut, setCheckingOut ] = useState(false);
   const { phoneNumber, verifyPhoneNumber } = formFields;
   const { collectionUuid } = useParams();
@@ -76,7 +76,7 @@ const Checkout = () => {
         <img src={Logo} alt="dj3n logo" />
       </div>
       {Object.entries(nft).length !== 0 ? (
-        <NftDetail {...nft} />
+        <NftDetail collection={nft} />
       ) : (
         <div style={{ verticalAlign: "middle" }}>
           <CircularProgress />

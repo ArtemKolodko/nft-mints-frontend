@@ -5,7 +5,7 @@ export type ApiResponseType = {
   status : number;
 }
 
-export type ApiOwnerTokenResponseType = {
+export type ApiTokenResponseType = {
   token : TokenType;
   collection : CollectionType
 }
