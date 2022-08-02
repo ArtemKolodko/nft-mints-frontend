@@ -78,4 +78,39 @@
     font-size: 1.5rem !important;
 
   }
+
+  .PhoneInputInput {
+    border-radius: 8px !important;
+      border-width: 0.5px !important;
+      padding: 0.4em 1.5em 0.4em !important;
+  }
+
+  .basic-input-container {
+    //margin-bottom: 5%;
+    font-weight: 100;
+    
+    .PhoneInput {
+      border-radius: 8px;
+      border-width: 0.5px;
+      padding: 0.4em 1.5em 0.4em;
+    }
+  
+    .area-input {
+      border-radius: 8px;
+      border-width: 0.5px;
+      padding: 0.4em 1.5em 0.4em;
+    }
+  
+    ::placeholder {
+      font-size: 0.8rem;
+      opacity: 60%;
+    }
+  
+    input, textarea {
+      display: block;
+      width: 22em;
+    }
+  
+  }
 }
+

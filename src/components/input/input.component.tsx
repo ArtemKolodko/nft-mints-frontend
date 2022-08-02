@@ -1,6 +1,8 @@
+import PhoneInput from 'react-phone-number-input';
 import { ChangeEvent, MouseEventHandler } from 'react';
 
-import './mint-input.styles.scss';
+import 'react-phone-number-input/style.css'
+import './input.styles.scss';
 
 type BasicInputProps = {
   label: string;
@@ -20,7 +22,7 @@ type AreaInputProps = {
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void
 }
 
-type MintButtonType = {
+type ButtonType = {
   label: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
@@ -58,7 +60,7 @@ export const SpecialInput = (props : BasicInputProps) => {
   )
 }
 
-export const MintButton = (props : MintButtonType) => {
+export const Button = (props : ButtonType) => {
   const { label, ...otherProps } = props;
   return (
     <div className='mint-button-container'>
@@ -73,5 +75,23 @@ export const MintButton = (props : MintButtonType) => {
   )
 }
 
+type PhoneNumberProps = {
+  label: string;
+  name: string;
+  placeholder?: string;
+  required?: boolean;
+  value: any
+  onChange: (event: any) => void;
+  defaultCountry: any 
+  //value={verifyPhoneNumber}
+}
 
-
+export const PhoneNumberInput = (props: PhoneNumberProps) => {
+  const { name, label, defaultCountry, value, ...otherProps } = props;
+  return (
+    <div className='basic-input-container'>
+      <label htmlFor={name}>{label}</label>
+      <PhoneInput name={name} id={name} defaultCountry={defaultCountry} value={value} {...otherProps} />
+    </div>
+  )
+}

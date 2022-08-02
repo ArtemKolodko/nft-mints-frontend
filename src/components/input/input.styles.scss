@@ -1,0 +1,54 @@
+.basic-input-container {
+  margin-bottom: 5%;
+  font-weight: 100;
+  
+  .basic-input {
+    border-radius: 8px;
+    border-width: 0.5px;
+    padding: 0.4em 1.5em 0.4em;
+  }
+
+  .area-input {
+    border-radius: 8px;
+    border-width: 0.5px;
+    padding: 0.4em 1.5em 0.4em;
+  }
+
+  ::placeholder {
+    font-size: 0.8rem;
+    opacity: 60%;
+  }
+
+  input, textarea {
+    display: block;
+    width: 22em;
+  }
+
+  .PhoneInputInput {
+    border-radius: 8px !important;
+    border-width: 0.5px !important;
+    padding: 0.8em 1.5em 0.8em !important;
+    width: 10em;
+    font-size: medium;
+  }
+
+}
+
+
+
+.special-input-container {
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 10% !important;
+  font-weight: 100;
+  width: 100px !important;
+
+  .special-input {
+    text-align: center;
+    border-radius: 15px;
+    border-width: 0.5px;
+    font-size: 1.5rem;
+    padding: 0.5em 0.1em 0.5em;
+    width: 100px !important;
+  }
+}

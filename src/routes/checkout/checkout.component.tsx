@@ -1,4 +1,3 @@
-import { ChangeEvent } from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
@@ -8,9 +7,11 @@ import {
   getCollection,
   checkoutCollectionV2,
 } from "../../utils/mint-interface/mint-inteface.utils";
-import { BasicInput } from "../../components/mint-input/mint-input.component";
+import {
+  PhoneNumberInput,
+} from "../../components/input/input.component";
 import NftDetail from "../../components/nft-detail/nft-detail.component";
-import Logo from "../../assets/imgs/DJ3N Logo.png"
+import Logo from "../../assets/imgs/DJ3N Logo.png";
 
 import "./checkout.styles.scss";
 
@@ -20,10 +21,10 @@ const defaultFormFields = {
 };
 
 const Checkout = () => {
-  const [ nft, setNft ] = useState<CollectionType>({} as CollectionType);
-  const [ errorMessage, setErrorMessage ] = useState("");
-  const [ formFields, setFormFields ] = useState(defaultFormFields);
-  const [ checkingOut, setCheckingOut ] = useState(false);
+  const [nft, setNft] = useState<CollectionType>({} as CollectionType);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [formFields, setFormFields] = useState(defaultFormFields);
+  const [checkingOut, setCheckingOut] = useState(false);
   const { phoneNumber, verifyPhoneNumber } = formFields;
   const { collectionUuid } = useParams();
 
@@ -33,21 +34,18 @@ const Checkout = () => {
       if (collection) {
         setNft(collection);
       } else {
-        setErrorMessage('Error trying to retrieve the Collection')
+        setErrorMessage("Error trying to retrieve the Collection");
       }
     };
 
     collectionUuid && getNft();
   }, [collectionUuid]);
 
+  console.log(phoneNumber, verifyPhoneNumber);
   const handleButton = async () => {
     const OTP = "05270";
     setCheckingOut(true);
-    const response = await checkoutCollectionV2(
-      OTP,
-      phoneNumber,
-      Array(nft)
-    );
+    const response = await checkoutCollectionV2(OTP, phoneNumber, Array(nft));
 
     console.log("handleButton", { response });
 
@@ -60,14 +58,15 @@ const Checkout = () => {
     }
   };
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const changeHandler = (event: any) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
   };
 
-  //include regex and flag input
   const verifyPhone = (): boolean | undefined => {
-    return phoneNumber.length < 10 || phoneNumber !== verifyPhoneNumber; //
+    if (phoneNumber && verifyPhoneNumber)
+      return phoneNumber!.length < 10 || phoneNumber !== verifyPhoneNumber;
+    return true;
   };
 
   return (
@@ -101,25 +100,42 @@ const Checkout = () => {
             {errorMessage}
           </h4>
         )}
-        <BasicInput
-          label="Phone number *"
+
+        <PhoneNumberInput
+          placeholder="Enter phone number"
           name="phoneNumber"
-          placeholder="+1 (###) ### ####"
+          label="Phone number *"
           required={true}
-          type="text"
-          onChange={handleChange}
+          defaultCountry="US"
+          value={phoneNumber}
+          onChange={(value) =>
+            changeHandler({
+              target: {
+                name: "phoneNumber",
+                value,
+              },
+            })
+          }
         />
-        <BasicInput
-          label="Verify Phone number *"
+        <PhoneNumberInput
+          placeholder="Enter phone number"
           name="verifyPhoneNumber"
-          placeholder="+1 (###) ### ####"
+          label="Verify Phone number *"
           required={true}
-          type="text"
-          onChange={handleChange}
+          defaultCountry="US"
+          value={verifyPhoneNumber}
+          onChange={(value) =>
+            changeHandler({
+              target: {
+                name: "verifyPhoneNumber",
+                value,
+              },
+            })
+          }
         />
       </div>
       <div className="checkout-button-container">
-        { checkingOut ? (
+        {checkingOut ? (
           <CircularProgress />
         ) : (
           <button
@@ -127,7 +143,7 @@ const Checkout = () => {
             className="button checkout-button"
             disabled={verifyPhone()}
           >
-            Buy
+            Claim
           </button>
         )}
       </div>

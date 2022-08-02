@@ -9,8 +9,8 @@ import {
   AreaInput,
   BasicInput,
   SpecialInput,
-  MintButton,
-} from "../../components/mint-input/mint-input.component";
+  Button,
+} from "../../components/input/input.component";
 import { createCollection } from "../../utils/mint-interface/mint-inteface.utils";
 import { addFilesToStorage } from "../../utils/firebase/firebase.utils";
 import { ApiResponseType } from "../../types";
@@ -114,7 +114,7 @@ const Mint = () => {
                         <h2>You have successfully created your Collection</h2>
                         <p>Use the following link to share your collection</p>
                         <p>
-                          <Link to={`checkout/${mintResponse.data.uuid}`}>
+                          <Link to={`checkout/${mintResponse.data.uuid}`} target="_blank">
                             SHARE
                           </Link>
                         </p>
@@ -208,7 +208,7 @@ const Mint = () => {
                 /> */}
               </div>
             </div>
-            <MintButton label={"Create"} disabled={(files.length === 0 || title === '' || quantity === 0)} />
+            <Button label={"Create"} disabled={(files.length === 0 || title === '' || quantity === 0)} />
           </Stack>
         )}
             </form>
