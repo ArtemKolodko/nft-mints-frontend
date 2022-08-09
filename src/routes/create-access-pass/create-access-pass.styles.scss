@@ -1,1 +1,49 @@
+.create-access-pass-container {
+  .upload-logo-wrapper {
+    cursor: pointer;
+    box-sizing: border-box;
 
+    position: absolute;
+    width: 192px;
+    height: 192px;
+    left: calc(50% - 192px/2);
+    top: calc(50% - 192px/2);
+    
+    /* Neutrals/500 Grey */
+    
+    border: 1px dashed #808080;
+    border-radius: 24px;
+
+
+    .upload-icon {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      left: calc(50% - 40px/2);
+      top: calc(50% - 40px/2 - 46px);
+    }
+
+    .upload-text {
+      position: absolute;
+      width: 128px;
+      height: 80px;
+      left: calc(50% - 128px/2);
+      top: calc(50% - 80px/2 + 14px);
+
+      /* Paragraph 1/P1 Regular */
+
+      font-family: 'Montserrat';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.2rem;
+      display: flex;
+      align-items: center;
+      text-align: center;
+
+      /* Shades/White */
+
+      color: #FFFFFF;
+    }
+  }
+}

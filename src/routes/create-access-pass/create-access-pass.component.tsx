@@ -15,13 +15,14 @@ import AccessPass, {
 import { BasicInput } from "../../components/input/input.component";
 import { addFilesToStorage } from "../../utils/firebase/firebase.utils";
 import { createCollection } from "../../utils/mint-interface/mint-inteface.utils";
+import uploadArrow from "../../assets/imgs/upload_arrow.svg";
 
 import "./create-access-pass.styles.scss";
 
 const defaultAccessPassData = {
   backgroundColor: "white",
   price: 0,
-  logo: ''
+  logo: "",
 };
 
 const CreateAccessPass = () => {
@@ -35,7 +36,7 @@ const CreateAccessPass = () => {
 
   const ref = useRef<HTMLDivElement>(null);
 
-  console.log('logo',{logo});
+  console.log("logo", { logo });
   useEffect(() => {
     const addCollection = async () => {
       const userId = "";
@@ -98,19 +99,18 @@ const CreateAccessPass = () => {
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
-    // data for submit
     console.log(imageList, addUpdateIndex);
     setLogo(imageList as never[]);
     if (imageList.length > 0) {
-      console.log('jajaj;',imageList[0].dataURL);
+      console.log("jajaj;", imageList[0].dataURL);
       setAccessPassData({ ...accessPassData, logo: imageList[0].dataURL! });
+    } else {
+      setAccessPassData({ ...accessPassData, logo: '' });
     }
-    
   };
 
   return (
     <div className="create-access-pass-container">
-      {/* <img src={TicketFront} id='img-ticket' alt='ticket'/> */}
       <div
         ref={ref}
         style={{
@@ -142,22 +142,33 @@ const CreateAccessPass = () => {
           imageList,
           onImageUpload,
           onImageRemoveAll,
-          onImageUpdate,
-          onImageRemove,
+          // onImageUpdate,
+          // onImageRemove,
           isDragging,
           dragProps,
         }) => (
           // write your building UI
-          <div className="upload__image-wrapper">
-            <button
-              style={isDragging ? { color: "red" } : undefined}
-              onClick={onImageUpload}
-              {...dragProps}
-            >
-              Click or Drop here
-            </button>
-            &nbsp;
-            <button onClick={onImageRemoveAll}>Remove all images</button>
+          <div
+            className="upload-logo-wrapper"
+            onClick={imageList.length > 0 ? onImageRemoveAll : onImageUpload}
+            {...dragProps}
+          >
+            {imageList.length > 0 ? (
+              <div><img src={imageList[0].dataURL} alt="" width="100" /></div>
+            ) : (
+              <>
+                <div className="upload-icon">
+                  <img src={uploadArrow} alt="upload" />
+                </div>
+                <div className="upload-text">
+                  Upload Logo or Artwork
+                  <br />
+                  Max 276px wide
+                  <br />
+                  Max 80px high
+                </div>
+              </>
+            )}
           </div>
         )}
       </ImageUploading>
