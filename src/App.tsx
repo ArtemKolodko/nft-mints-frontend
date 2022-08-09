@@ -2,6 +2,8 @@ import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import "./App.scss";
+import CreateAccessPass from "./routes/create-access-pass/create-access-pass.component";
+import Landing from "./routes/landing/landing.component";
 
 const Mint = lazy(() => import("./routes/mint/mint.component"));
 const Gallery = lazy(() => import("./routes/gallery/gallery.component"));
@@ -17,10 +19,11 @@ const App = () => {
     <>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          {/* <Route path='/' element={<Landing />} />
-          <Route path='auth/:type' element={<Authentication />} /> */}
+          <Route path='landing/' element={<Landing />} />
+          {/* <Route path='auth/:type' element={<Authentication />} /> */}
           <Route path="/" element={<Navigation />}>
             <Route index element={<Mint />} />
+            <Route path='create-access-pass/' element={<CreateAccessPass />}/>
             <Route path="gallery/:ownerUuid" element={<Gallery />} />
           </Route>
           <Route path="checkout/:collectionUuid" element={<Checkout />} />
