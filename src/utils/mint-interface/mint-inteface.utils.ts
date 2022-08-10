@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import { CollectionType } from "../../types/index";
 import { ApiResponseType } from "../../types/index";
 import { ApiTokenResponseType } from "../../types/index";
- 
+
 const GATEWAY = process.env.REACT_APP_GATEWAY;
 
 export const getNfts = (tokenId: string) => {};
@@ -124,6 +124,7 @@ export const createCollection = async (
     });
 
     const response = await axios.post(URL, body, {
+      withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },
@@ -160,13 +161,13 @@ export const getTokensByOwner = async (
   console.error(e);
   return null;
  }
-   
+
 };
 
 /**
  * Retrieve token/collectionable detail
- * @param tokenUuid {string} Token ID 
- * @returns {ApiTokenResponseType} The token information 
+ * @param tokenUuid {string} Token ID
+ * @returns {ApiTokenResponseType} The token information
  */
 export const getTokenDetail = async (
   tokenUuid: string
@@ -178,7 +179,7 @@ export const getTokenDetail = async (
  } catch (e) {
   console.error(e);
   return null;
- } 
+ }
 };
 
 
@@ -200,3 +201,59 @@ export const getTokenDetail = async (
 //   return collections;
 // }
 
+export interface IUser {
+  codeHash: string
+  id: string
+  lastSentCode: number
+  pendingCode: string
+  phone: string
+  stripeConnected: boolean
+  userType: number
+  uuid: string
+}
+
+/**
+ * Sends an OTP code to the given mobileNumber
+ * @param mobileNumber {string}
+ * @returns Promise with the status code
+ */
+export const checkLogin = async (): Promise<IUser> => {
+  const { data } = await axios.get(`${GATEWAY}/v0/users/whoami`, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return data
+};
+
+/**
+ * Sends an OTP code to the given mobileNumber
+ * @param mobileNumber {string}
+ * @returns Promise with the status code
+ */
+export const getUserByPhoneNumber = async (
+    mobileNumber: string
+): Promise<AxiosResponse<any, any> | null> => {
+  const { data } = await axios.get(`${GATEWAY}/v0/users/phone/${mobileNumber}`, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return data
+};
+
+/**
+ * Sends an OTP code to the given mobileNumber
+ * @returns Promise with the status code
+ */
+export const getStripeAuthLink = async (): Promise<string> => {
+  const { data } = await axios.get(`${GATEWAY}/v0/stripe/get-oauth-link`, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return data.url
+};

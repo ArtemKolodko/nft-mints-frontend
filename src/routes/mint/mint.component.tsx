@@ -11,7 +11,12 @@ import {
   SpecialInput,
   Button,
 } from "../../components/input/input.component";
-import { createCollection } from "../../utils/mint-interface/mint-inteface.utils";
+import {
+  checkLogin,
+  createCollection, getStripeAuthLink,
+  getUserByPhoneNumber,
+  IUser
+} from "../../utils/mint-interface/mint-inteface.utils";
 import { addFilesToStorage } from "../../utils/firebase/firebase.utils";
 import { ApiResponseType } from "../../types";
 
@@ -40,6 +45,7 @@ const Mint = () => {
   const [filesUrl, setFilesUrl] = useState<string[]>([]);
   const [formFields, setFormFields] = useState(defaultFormFields);
   const [mintResponse, setMintResponse] = useState<ApiResponseType | null>(defaultMintResponse);
+  const [userData, setUserData] = useState<IUser>();
 
   const { title, description, link, quantity, price } = formFields;
 
@@ -48,10 +54,39 @@ const Mint = () => {
     await addFilesToStorage(files, setUploadProgress, setFilesUrl);
   }
 
+  // TODO: remove hardcoded number after SMS login refactoring (login first, then create collection)
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const data = await getUserByPhoneNumber('+6584901105')
+        console.log('user:', data)
+      } catch(e) {
+        console.log('Cannot get user by phone number', e)
+      }
+    }
+
+    getUser()
+  }, [])
+
+  const connectStripe = async () => {
+    try {
+      const stripeLink = await getStripeAuthLink()
+      console.log('Stripe auth link:', stripeLink)
+      window.open(stripeLink)
+    } catch (e) {
+      console.log('Cannot get Stripe link', e)
+    }
+  }
+
   useEffect(() => {
     const addCollection = async () => {
       const userId = "";
-      createCollection(
+
+      const loginData = await checkLogin()
+      setUserData(loginData)
+      console.log('loginData', loginData)
+
+      const mintData = await createCollection(
         filesUrl[0],
         title,
         description,
@@ -59,14 +94,15 @@ const Mint = () => {
         price,
         quantity,
         userId
-      ).then((response) => {
-        console.log('then create collection',response);
-        setMintResponse(response);
-        setFormFields(defaultFormFields);
-        setFiles([]);
-      });
+      )
+
+      console.log('createCollection response:', mintData);
+
+      setMintResponse(mintData);
+      setFormFields(defaultFormFields);
+      setFiles([]);
     }
-    
+
     if (filesUrl.length > 0) {
       console.log('mint hhook IF');
       addCollection();
@@ -93,20 +129,22 @@ const Mint = () => {
   };
 
   return (
-    
       <div className="mint-container">
         <img src={Logo} alt="dj3n logo" />
         <form onSubmit={handleSubmit}>
-       
         {uploadProgress > 0 ? (
           <div className="mint-processing-container">
-            <h2>Uploading media...</h2>
-            <CircularProgressWithLabel value={uploadProgress} />
+            {uploadProgress < 100 && mintResponse && mintResponse.status === 0 &&
+              <>
+                <h2>Uploading media...</h2>
+                <CircularProgressWithLabel value={uploadProgress} />
+              </>
+            }
             {uploadProgress === 100 && (
               <>
                 <h2>Creating Collection...</h2>
-                { mintResponse ? 
-                  ( mintResponse.status === 0 ? 
+                { mintResponse ?
+                  ( mintResponse.status === 0 ?
                     ( <CircularProgress />) : (
                       <>
                         <CircularProgressWithLabel value={100} />
@@ -118,9 +156,17 @@ const Mint = () => {
                             SHARE
                           </Link>
                         </p>
+                        {userData && !userData.stripeConnected &&
+                          <>
+                            <h2>
+                              <a onClick={connectStripe}>Connect</a> your Stripe account
+                            </h2>
+                            <p>If you are not connected you won't be able to receive payments and create d3jn NFTs with price</p>
+                          </>
+                        }
                       </>
-                    )) : 
-                  (<div>Error</div>) 
+                    )) :
+                  (<div>Error</div>)
                   }
                 </>
             )}
