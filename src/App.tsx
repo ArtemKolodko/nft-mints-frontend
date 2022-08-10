@@ -2,10 +2,11 @@ import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import "./App.scss";
-import CreateAccessPass from "./routes/create-access-pass/create-access-pass.component";
 import Landing from "./routes/landing/landing.component";
 
-const Mint = lazy(() => import("./routes/mint/mint.component"));
+const CreateHome = lazy(() => import("./routes/create-home/create-home.component"));
+const CreateCollectible = lazy(() => import("./routes/create-collectible/create-collectible.component"));
+const CreateAccessPass = lazy(() => import("./routes/create-access-pass/create-access-pass.component"));
 const Gallery = lazy(() => import("./routes/gallery/gallery.component"));
 const Navigation = lazy(() => import("./routes/navigation/navigation.component"));
 const Checkout = lazy(() => import("./routes/checkout/checkout.component"));
@@ -22,7 +23,8 @@ const App = () => {
           <Route path='landing/' element={<Landing />} />
           {/* <Route path='auth/:type' element={<Authentication />} /> */}
           <Route path="/" element={<Navigation />}>
-            <Route index element={<Mint />} />
+            <Route index element={<CreateHome />} />
+            <Route path='create-collectible/' element={<CreateCollectible />} />
             <Route path='create-access-pass/' element={<CreateAccessPass />}/>
             <Route path="gallery/:ownerUuid" element={<Gallery />} />
           </Route>

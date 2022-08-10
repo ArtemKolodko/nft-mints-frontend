@@ -17,7 +17,7 @@ import { ApiResponseType } from "../../types";
 
 import Logo from "../../assets/imgs/DJ3N Logo.png"
 
-import "./mint.styles.scss";
+import "./create-collectible.styles.scss";
 
 const defaultFormFields = {
   title: "",
@@ -34,7 +34,7 @@ const defaultMintResponse: ApiResponseType | null = {
 
 //const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const Mint = () => {
+const CreateCollectible = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [files, setFiles] = useState<FileValidated[]>([]);
   const [filesUrl, setFilesUrl] = useState<string[]>([]);
@@ -217,5 +217,5 @@ const Mint = () => {
   );
 };
 
-export default Mint;
+export default CreateCollectible;
 
