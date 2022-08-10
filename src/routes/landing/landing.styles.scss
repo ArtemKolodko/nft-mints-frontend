@@ -1,3 +1,5 @@
+@import "../../assets/scss/styles.scss";
+
 .landing-container {
   height: 100vh;
   text-align: center;
@@ -8,6 +10,7 @@
   
   .landing-logo {
     padding-top: 10vh;
+    height: 8em;
   }
 
   .brand-name {
@@ -17,7 +20,8 @@
 
   .create-button {
     cursor: pointer;
-    background-color: #00AEE9;
+    background-color: $fco;
+    //background-color: #00AEE9;
     border: 0;
     color: white;
     font-size: 1.5rem;

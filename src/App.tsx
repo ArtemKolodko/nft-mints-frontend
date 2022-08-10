@@ -20,14 +20,18 @@ const App = () => {
     <>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path='landing/' element={<Landing />} />
+          <Route path='/' element={<Landing />} />
           {/* <Route path='auth/:type' element={<Authentication />} /> */}
-          <Route path="/" element={<Navigation />}>
+          
+          {/* Private routes */}
+          <Route path="hmy/" element={<Navigation />}>
             <Route index element={<CreateHome />} />
             <Route path='create-collectible/' element={<CreateCollectible />} />
             <Route path='create-access-pass/' element={<CreateAccessPass />}/>
             <Route path="gallery/:ownerUuid" element={<Gallery />} />
           </Route>
+          
+          {/* Public routes */}
           <Route path="checkout/:collectionUuid" element={<Checkout />} />
           <Route path="success/:userUuid/:tokenUuid" element={<CheckoutSuccess />} />
           <Route path="cancel/:userUuid" element={<CheckoutFailure />} />

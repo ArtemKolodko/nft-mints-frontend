@@ -2,26 +2,16 @@ import { Fragment } from "react";
 import { useSelector } from "react-redux";
 
 import { selectCurrentUser } from "../../store/user/user.selector";
-
-import { Link, Navigate } from "react-router-dom";
-import { Outlet } from "react-router-dom";
 import Logo from "../../assets/imgs/DJ3N Logo.png"
 import Grid from "@mui/material/Grid";
 
-import "./navigation.styles.scss";
-import Header from "../../components/header/header.component";
+import "./header.styles.scss";
 
-const Navigation = () => {
+const Header = () => {
   const currentUser = useSelector(selectCurrentUser);
-
-  if (!currentUser) {
-    return <Navigate to='/' />
-  }
-  
+  console.log('header',currentUser)
   return (
     <Fragment>
-      <Header />
-      <Outlet />
       <div className="navigation-container">
         <Grid
           container
@@ -31,11 +21,11 @@ const Navigation = () => {
           marginLeft={'10px'}
           marginRight={'15px'}
         >
-          {/* <div className="logo">
+          <div className="logo">
             <img src={Logo} alt="logo" />
           </div>
-          { currentUser ? (<div>{currentUser.phone}</div>) : null} */}
-          <Link className='nav-link' to='mint'>
+         
+          {/* <Link className='nav-link' to='mint'>
             Mint
           </Link>
           <Link className='nav-link' to='gallery'>
@@ -43,11 +33,14 @@ const Navigation = () => {
           </Link>
           <Link className='nav-link' to='gallery'>
             Explore
-          </Link>
+          </Link> */}
+          <div className="wallet-address nav-wallet">
+          { currentUser ? (<h3>{currentUser.phone}</h3>) : null}
+          </div>
         </Grid>
       </div>
     </Fragment>
   );
 };
 
-export default Navigation;
+export default Header;
