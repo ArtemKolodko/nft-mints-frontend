@@ -2,7 +2,7 @@ import { useState, ChangeEvent, useEffect } from "react";
 import { Dropzone, FileItem, FileValidated } from "@dropzone-ui/react";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 import CircularProgressWithLabel from "../../components/progress-with-label/progress-with-label.component";
 import {
@@ -23,6 +23,7 @@ import { ApiResponseType } from "../../types";
 import Logo from "../../assets/imgs/DJ3N Logo.png"
 
 import "./mint.styles.scss";
+import {Box} from "@mui/material";
 
 const defaultFormFields = {
   title: "",
@@ -46,6 +47,8 @@ const Mint = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const [mintResponse, setMintResponse] = useState<ApiResponseType | null>(defaultMintResponse);
   const [userData, setUserData] = useState<IUser>();
+
+  const navigate = useNavigate();
 
   const { title, description, link, quantity, price } = formFields;
 
@@ -142,15 +145,15 @@ const Mint = () => {
             }
             {uploadProgress === 100 && (
               <>
-                <h2>Creating Collection...</h2>
                 { mintResponse ?
                   ( mintResponse.status === 0 ?
-                    ( <CircularProgress />) : (
+                    ( <>
+                          <h2>Creating Collection...</h2>
+                          <CircularProgress />
+                    </>) : (
                       <>
-                        <CircularProgressWithLabel value={100} />
-                        <h1>Congratulations!</h1>
-                        <h2>You have successfully created your Collection</h2>
-                        <p>Use the following link to share your collection</p>
+                        <h1 style={{ color: '#2AB500' }}>Success!</h1>
+                        <h2>Collectible listed</h2>
                         <p>
                           <Link to={`checkout/${mintResponse.data.uuid}`} target="_blank">
                             SHARE
@@ -158,10 +161,27 @@ const Mint = () => {
                         </p>
                         {userData  && // TODO: add condition && !userData.stripeConnected
                           <>
-                            <h2>
-                              <Link to={''} onClick={connectStripe}>Connect</Link> your Stripe account
-                            </h2>
-                            <p>If you are not connected you won't be able to receive payments and create d3jn NFTs with price</p>
+                            <h2 style={{ color: '#EA3339' }}>Important:</h2>
+                            <Box width={'350px'}>
+                              <h2>In order to sell your
+                                collectible or access
+                                pass, you must first
+                              </h2>
+                            </Box>
+                            <h1 onClick={connectStripe} style={{ color: '#FEF200', textDecoration: 'underline' }}>
+                              Setup Stripe
+                            </h1>
+                            <Box>
+                              <h2>
+                                Skip to
+                              </h2>
+                              <h2
+                                  onClick={() => navigate(`/gallery/${userData.uuid}`)}
+                                  style={{ textDecoration: 'underline' }}
+                              >
+                                View Gallery
+                              </h2>
+                            </Box>
                           </>
                         }
                       </>
