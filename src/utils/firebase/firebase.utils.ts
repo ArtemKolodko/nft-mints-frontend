@@ -24,13 +24,13 @@ export const storage = getStorage();
 
 /**
  * Stores a media file in firebase's storage
- * @param files {Array<FileValidated} A array of files to be uploaded
+ * @param files {Array<FileValidated> A array of files to be uploaded
  * @param setProgress {Dispatch<SetStateAction<number>>} Hook that updates progress bar
  * @param setFilesUrl {Dispatch<SetStateAction<string[]>>} Hook that updates that saves
  *                    each file Firabase Storage's url.
  */
 export const addFilesToStorage = async (
-  files: Array<FileValidated>,
+  files: Array<FileValidated> | Array<Blob>,
   setProgress: Dispatch<SetStateAction<number>>,
   setFilesUrl: Dispatch<SetStateAction<string[]>>
 ): Promise<Array<string>> => {
@@ -38,13 +38,15 @@ export const addFilesToStorage = async (
   let promises: Array<any> = []; 
   const STORAGE_FOLDER = process.env.REACT_APP_FIREBASE_STORAGE_FOLDER;
   const fileUrl: Array<string> = [];
-  files.forEach((file) => {
-    console.log("file to upload: ", file.file.name);
+  files.forEach((f) => {
+    const file = f instanceof Blob ? f : f.file;
+    const name = f instanceof Blob ? 'blob' : f.file.name
+    console.log("file to upload: ", name);
     const storageRef = ref(
       storage,
-      `/${STORAGE_FOLDER}/${Date.now()}${file.file.name}`
+      `/${STORAGE_FOLDER}/${Date.now()}${name}`
     );
-    const uploadTask = uploadBytesResumable(storageRef, file.file);
+    const uploadTask = uploadBytesResumable(storageRef, file);
     promises.push(uploadTask);
     uploadTask.on(
       "state_changed",

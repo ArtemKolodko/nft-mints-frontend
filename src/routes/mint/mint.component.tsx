@@ -118,7 +118,7 @@ const Mint = () => {
     setFiles(files.filter((x) => x.id !== id));
   };
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
   };
@@ -211,7 +211,7 @@ const Mint = () => {
               placeholder="Item name"
               required={true}
               type="text"
-              onChange={handleChange}
+              onChange={onChangeHandler}
             />
             <AreaInput
               label="Description"
@@ -227,7 +227,7 @@ const Mint = () => {
               placeholder="Link to unlisted youtube, exclusive Discord chat or file to download"
               required={false}
               type="text"
-              onChange={handleChange}
+              onChange={onChangeHandler}
             />
             <div className="quantity-price-container">
               <div className="quantity-price-title">
@@ -241,7 +241,7 @@ const Mint = () => {
                   placeholder="0"
                   required={true}
                   type="number"
-                  onChange={handleChange}
+                  onChange={onChangeHandler}
                 />
 
                 {/* <SpecialInput
@@ -250,7 +250,7 @@ const Mint = () => {
                   placeholder="0"
                   required={false}
                   type="number"
-                  onChange={handleChange}
+                  onChange={onChangeHandler}
                 /> */}
               </div>
             </div>
