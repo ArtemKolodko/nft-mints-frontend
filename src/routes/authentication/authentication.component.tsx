@@ -12,7 +12,7 @@ const Authentication = () => {
   const [ otpCompleted, setOtpCompleted ] = useState(false);
   const [ errorMessage, setErrorMessage ] = useState('');
   const otpInputRef = useRef<HTMLInputElement[]>([]);
-  const { type } = useParams();
+  //const { type } = useParams();
   const navigate = useNavigate();
 
   const handleSendCode = () => {

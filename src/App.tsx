@@ -3,7 +3,9 @@ import { Route, Routes } from "react-router-dom";
 
 import "./App.scss";
 import Landing from "./routes/landing/landing.component";
-
+import Login from "./routes/login/login.component";
+import Authentication from "./routes/authentication/authentication.component";
+import SmsLoginVerify from "./routes/sms-login-verify/sms-login-verify.component";
 const CreateHome = lazy(() => import("./routes/create-home/create-home.component"));
 const CreateCollectible = lazy(() => import("./routes/create-collectible/create-collectible.component"));
 const CreateAccessPass = lazy(() => import("./routes/create-access-pass/create-access-pass.component"));
@@ -21,7 +23,8 @@ const App = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path='/' element={<Landing />} />
-          {/* <Route path='auth/:type' element={<Authentication />} /> */}
+          <Route path='auth/' element={<Login />} />
+          <Route path='verify/' element={<SmsLoginVerify />} />
           
           {/* Private routes */}
           <Route path="hmy/" element={<Navigation />}>
