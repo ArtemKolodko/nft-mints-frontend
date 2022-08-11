@@ -156,10 +156,10 @@ const Mint = () => {
                             SHARE
                           </Link>
                         </p>
-                        {userData && !userData.stripeConnected &&
+                        {userData  && // TODO: add condition && !userData.stripeConnected
                           <>
                             <h2>
-                              <a onClick={connectStripe}>Connect</a> your Stripe account
+                              <Link to={''} onClick={connectStripe}>Connect</Link> your Stripe account
                             </h2>
                             <p>If you are not connected you won't be able to receive payments and create d3jn NFTs with price</p>
                           </>
