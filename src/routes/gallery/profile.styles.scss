@@ -1,0 +1,56 @@
+.profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+
+  .profile-info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 16px;
+    color: #9aa0a6;
+
+    .profile-title {
+      font-size: 24px;
+    }
+  }
+
+  .profile-image-container {
+    position: relative;
+    height: 180px;
+    width: 100%;
+    background-color: black;
+    display: flex;
+
+    .profile-img {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      left: calc(20% - 50px);
+      top: calc(50% - 50px);
+      border-radius: 50px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-color: #e6e6e6;
+      background-size: contain;
+      border: 2px solid white;
+      z-index: 1;
+    }
+
+    .dj3n-logo {
+      width: 20%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-size: contain;
+      rotate: 90deg;
+      background-position: 10px -20px;
+    }
+
+    .profile-image-bg {
+      width: 80%;
+      height: 100%;
+      background-color: #e6e6e6;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+}

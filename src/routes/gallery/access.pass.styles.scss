@@ -1,0 +1,43 @@
+.user-pass-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-content: flex-start;
+  gap: 16px;
+
+  .user-pass-title, .user-pass-details {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    font-size: 24px;
+    background-color: #CCCCCC;
+    border-radius: 8px;
+    padding: 16px 24px;
+    color: black;
+    font-weight: bold;
+  }
+
+  .user-pass-details {
+    background-color: transparent;
+    border: 1px solid #CCCCCC;
+    color: #CCCCCC;
+    padding: 4px 8px;
+    font-size: 14px;
+  }
+}
+
+.pass-ticket {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 114px;
+  height: 152px;
+  background-repeat: no-repeat;
+
+  .pass-ticket-logo {
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+}
