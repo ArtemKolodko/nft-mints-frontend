@@ -1,4 +1,6 @@
 import { compose, createStore, applyMiddleware, Middleware } from 'redux';
+import { loadSessionState } from '../utils/storage/session-storage.utils';
+
 import logger from 'redux-logger';
 
 import { rootReducer } from './root-reducer';
@@ -11,4 +13,6 @@ const middleWares = [
 
 const composedEnhancers = compose(applyMiddleware(...middleWares));
 
-export const store = createStore(rootReducer, undefined, composedEnhancers);
+const persistedState = loadSessionState();
+
+export const store = createStore(rootReducer, persistedState, composedEnhancers);

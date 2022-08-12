@@ -59,7 +59,6 @@ const SmsLoginVerify = () => {
   }, [setIsPending, setRedirectUri]);
 
   function doRedirect(uri) {
-    console.log("lslsl");
     navigate('/nfts/');
   }
 
