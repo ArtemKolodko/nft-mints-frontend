@@ -7,6 +7,10 @@ type UserType = {
   userType? : UserTypeEnum;
   stripeConnected? : boolean;
   id? : string;
+  name? : string;
+  publicLink? : string;
+  profileImage? : any;
+  profileImageBg? : any;
 }
 
 export enum UserTypeEnum {
