@@ -1,102 +1,74 @@
-$black: #333333;
-$blue: #686de0;
-$gray: #d3d3d3;
-$green: #6ab04c;
-$red: #dc3545;
-$white: #ffffff;
+@import "../../assets/scss//mixins";
+@import "../../assets/scss/variables";
 
-.authentication-container {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.login {
+  @include flex-column();
 
-  .auth-form-container {
+  button {
+    cursor: pointer;
+    background-color: $blue;
+    width: 10em;
+  }
+
+  min-height: 86vh;
+  padding: 2em 0 2em 0;
+  box-sizing: border-box;
+
+  &__header {
+    margin-top: 5em;
+    @include flex-center();
+  }
+
+  &__logo {
+    width: 3em;
+    padding-right: 0.5em;
+  }
+
+  &__title {
+    font-weight: 900;
+    color: white;
+    margin: 0;
+  }
+
+  &__subtitle {
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 2em;
+  }
+
+  &__body {
+    margin-top: 2em;
+    text-align: center;
+    align-items: center;
+  }
+
+  &__phone_input {
+    @include flex-center();
+    align-items: center;
+    align-content: center;
     text-align: center;
 
-    .send-code-button {
-      cursor: pointer;
-      background-color: #00aee9;
-      border: 0;
-      color: white;
-      font-size: 0.9rem;
-      border-radius: 20px;
-      padding: 0.4em 1.5em 0.4em;
-      margin-top: 5vh;
-    }
+    
   }
+  // input {
+  //   border-radius: 20px;
+  //   padding: 0.8em 2em 0.8em;
+  //   margin-bottom: 1em;
+  //   margin-top: 1em;
+  //   text-align: center;
+  //   width: 5em !important;
+  // }
 
-  .otp-container {
-    .pin-field-container {
-      display: grid;
-      grid-auto-columns: max-content;
-      grid-auto-flow: column;
-      justify-content: center;
-      margin: 4rem 0;
-    }
-
-    .pin-field {
-      border: 1px solid $gray;
-      border-right: none;
-      font-size: 2rem;
-      height: 4rem;
-      outline: none;
-      text-align: center;
-      transition-duration: 250ms;
-      transition-property: color, border, box-shadow, transform;
-      width: 4rem;
-
-      &:first-of-type {
-        border-radius: 0.5rem 0 0 0.5rem;
-      }
-
-      &:last-of-type {
-        border-radius: 0 0.5rem 0.5rem 0;
-        border-right: 1px solid $gray;
-      }
-
-      &:focus {
-        border-color: $blue;
-        box-shadow: 0 0 0.25rem rgba($blue, 0.5);
-        outline: none;
-
-        & + .pin-field {
-          border-left-color: $blue;
-        }
-      }
-
-      &:invalid {
-        animation: shake 5 linear 75ms;
-        border-color: $red;
-        box-shadow: 0 0 0.25rem rgba($red, 0.5);
-
-        & + .pin-field {
-          border-left-color: $red;
-        }
-      }
-
-      &.complete {
-        border-color: $green;
-        color: $green;
-
-        &[disabled] {
-          background: rgba($green, 0.1);
-          cursor: not-allowed;
-          opacity: 0.5;
-        }
-
-        & + .pin-field {
-          border-left-color: $green;
-        }
-      }
-      .step-guide-text {
-        font-weight: 100;
-        font-size: large;
-      }
-
-    }
-
-  }
+  // &__phone_input {
+  //   @include flex-center();
+  //   input {
+  //     border-radius: 20px;
+  //     padding: 0.8em 2em 0.8em;
+  //     margin-bottom: 1em;
+  //     margin-top: 1em;
+  //     text-align: center;
+  //   }
+  // }
 
 }
-

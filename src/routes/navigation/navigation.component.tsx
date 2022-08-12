@@ -1,15 +1,15 @@
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
-
-import { selectCurrentUser } from "../../store/user/user.selector";
-
-import { Link, Navigate } from "react-router-dom";
-import { Outlet } from "react-router-dom";
-import Logo from "../../assets/imgs/DJ3N Logo.png"
+import { Link, Navigate, Outlet } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faUser, faFolder } from "@fortawesome/free-solid-svg-icons";
 import Grid from "@mui/material/Grid";
 
-import "./navigation.styles.scss";
+import { selectCurrentUser } from "../../store/user/user.selector";
 import Header from "../../components/header/header.component";
+import Logo from "../../assets/imgs/DJ3N Logo.png"
+
+import "./navigation.styles.scss";
 
 const Navigation = () => {
   const currentUser = useSelector(selectCurrentUser);
@@ -20,33 +20,22 @@ const Navigation = () => {
   
   return (
     <Fragment>
-      <Header />
-      <Outlet />
-      <div className="navigation-container">
-        <Grid
-          container
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          marginLeft={'10px'}
-          marginRight={'15px'}
-        >
-          {/* <div className="logo">
-            <img src={Logo} alt="logo" />
-          </div>
-          { currentUser ? (<div>{currentUser.phone}</div>) : null} */}
-          <Link className='nav-link' to='mint'>
-            Mint
-          </Link>
-          <Link className='nav-link' to='gallery'>
-            Gallery
-          </Link>
-          <Link className='nav-link' to='gallery'>
-            Explore
-          </Link>
-        </Grid>
+    <Header />
+    <Outlet />
+    <div className="navigation">
+      <div className="navigation__actions">
+        <Link className="navigation__link" to="mint">
+          <FontAwesomeIcon icon={faPlus} />
+        </Link>
+        <Link className="navigation__link" to="gallery">
+          <FontAwesomeIcon icon={faUser} />
+        </Link>
+        <Link className="navigation__link" to="gallery">
+          <FontAwesomeIcon icon={faFolder} />
+        </Link>
       </div>
-    </Fragment>
+    </div>
+  </Fragment>
   );
 };
 

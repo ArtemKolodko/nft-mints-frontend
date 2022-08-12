@@ -1,11 +1,13 @@
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import "./App.scss";
 import Landing from "./routes/landing/landing.component";
 import Login from "./routes/login/login.component";
 import Authentication from "./routes/authentication/authentication.component";
 import SmsLoginVerify from "./routes/sms-login-verify/sms-login-verify.component";
+
+import "./App.scss";
+
 const CreateHome = lazy(() => import("./routes/create-home/create-home.component"));
 const CreateCollectible = lazy(() => import("./routes/create-collectible/create-collectible.component"));
 const CreateAccessPass = lazy(() => import("./routes/create-access-pass/create-access-pass.component"));
@@ -15,6 +17,7 @@ const Checkout = lazy(() => import("./routes/checkout/checkout.component"));
 const CheckoutSuccess = lazy(() => import("./routes/checkout/checkout-success.component"));
 const CheckoutFailure = lazy(() => import("./routes/checkout/checkout-failure.component"));
 const ClaimNft = lazy(() => import("./routes/claim-nft/claim-nft.component"));
+
 
 // todo Protected/public routes
 const App = () => {

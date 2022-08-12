@@ -9,35 +9,16 @@ import "./header.styles.scss";
 
 const Header = () => {
   const currentUser = useSelector(selectCurrentUser);
-  console.log('header',currentUser)
+  console.log("header", currentUser);
   return (
     <Fragment>
-      <div className="navigation-container">
-        <Grid
-          container
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          marginLeft={'10px'}
-          marginRight={'15px'}
-        >
-          <div className="logo">
-            <img src={Logo} alt="logo" />
-          </div>
-         
-          {/* <Link className='nav-link' to='mint'>
-            Mint
-          </Link>
-          <Link className='nav-link' to='gallery'>
-            Gallery
-          </Link>
-          <Link className='nav-link' to='gallery'>
-            Explore
-          </Link> */}
-          <div className="wallet-address nav-wallet">
-          { currentUser ? (<h3>{currentUser.phone}</h3>) : null}
-          </div>
-        </Grid>
+      <div className="header">
+        <div className="header__logo">
+          <img src={Logo} alt="logo" />
+        </div>
+        <div className="header__wallet">
+          {currentUser ? <h3>{currentUser.phone}</h3> : null}
+        </div>
       </div>
     </Fragment>
   );

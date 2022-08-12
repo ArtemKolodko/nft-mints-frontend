@@ -1,6 +1,12 @@
+@import "./assets/scss/styles.scss";
 
-
-h1, h2, h3, h4, h5, h6, p {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   font-weight: 600;
 }
 
@@ -15,60 +21,25 @@ img {
   padding-top: 0;
 }
 
-.button {
-  cursor: pointer;
-  border-width: 0;
-  background-color: #00eeff !important;
-  border-radius: 0.6em;
-  font-size: 2rem;
-  padding: 0.4em 1.5em 0.4em !important;
-  font-weight: 100;
-  text-align: center;
-  color: white !important;
+button {
+  border: 0;
+  color: white;
+  font-size: 1.5rem;
+  border-radius: 20px;
+  padding: 0.4em 1.5em 0.4em;
 }
 
 button:disabled {
-  cursor: default !important;
-  background-color: #dcfaff !important;
-  color: black !important;
+  cursor: default;
+  background-color: #dcfaff;
+  color: black;
 }
 
+code {
+  font-family: "Montserrat", sans-serif;
+}
 
-// .App {
-//   text-align: center;
-// }
-
-// .App-logo {
-//   height: 40vmin;
-//   pointer-events: none;
-// }
-
-// @media (prefers-reduced-motion: no-preference) {
-//   .App-logo {
-//     animation: App-logo-spin infinite 20s linear;
-//   }
-// }
-
-// .App-header {
-//   background-color: #282c34;
-//   min-height: 100vh;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: calc(10px + 2vmin);
-//   color: white;
-// }
-
-// .App-link {
-//   color: #61dafb;
-// }
-
-// @keyframes App-logo-spin {
-//   from {
-//     transform: rotate(0deg);
-//   }
-//   to {
-//     transform: rotate(360deg);
-//   }
-// }
+#root {
+  @include flex-column();
+  min-height: 100vh;
+}
