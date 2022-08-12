@@ -24,7 +24,7 @@ export async function verifyLogin({signature, messageHash, address, error, cance
       `Received invalid status code, ${r.status} while trying to verify login`
     )
   }
-  return true
+  return r.data
 }
 
 export async function logout() {

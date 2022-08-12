@@ -34,14 +34,14 @@ const SmsLoginVerify = () => {
     const phone = loadLocalState();
 
     verifyLogin({ signature, messageHash, address, error, cancelled, phone })
-      .then((isSuccess) => {
-        
+      .then((data) => {
+        if (!data) {
+          setMessage("User not logged in, check the console for details");
+          return
+        }
+
         dispatch(
-          setCurrentUser({
-            phone : phone,
-            userType : UserTypeEnum.CREATOR,
-            uuid : '6aa6ff52-6676-4dc0-aa4f-db8bae367c65'
-          })
+          setCurrentUser(data)
         );
 
         setMessage(
