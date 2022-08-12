@@ -1,8 +1,10 @@
 import { useState, ChangeEvent, useEffect } from "react";
 import { Dropzone, FileItem, FileValidated } from "@dropzone-ui/react";
+import { Link, useNavigate } from "react-router-dom";
+
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Link } from "react-router-dom";
+import Box from "@mui/material/Box";
 
 import CircularProgressWithLabel from "../../components/progress-with-label/progress-with-label.component";
 import {
@@ -11,7 +13,13 @@ import {
   SpecialInput,
   Button,
 } from "../../components/input/input.component";
-import { createCollection } from "../../utils/mint-interface/mint-inteface.utils";
+import {
+  checkLogin,
+  createCollection, getStripeAuthLink,
+  getUserByPhoneNumber,
+  IUser
+} from "../../utils/mint-interface/mint-inteface.utils";
+
 import { addFilesToStorage } from "../../utils/firebase/firebase.utils";
 import { ApiResponseType } from "../../types";
 
@@ -40,6 +48,9 @@ const CreateCollectible = () => {
   const [filesUrl, setFilesUrl] = useState<string[]>([]);
   const [formFields, setFormFields] = useState(defaultFormFields);
   const [mintResponse, setMintResponse] = useState<ApiResponseType | null>(defaultMintResponse);
+  const [userData, setUserData] = useState<IUser>();
+
+  const navigate = useNavigate();
 
   const { title, description, link, quantity, price } = formFields;
 
@@ -48,10 +59,39 @@ const CreateCollectible = () => {
     await addFilesToStorage(files, setUploadProgress, setFilesUrl);
   }
 
+  // TODO: remove hardcoded number after SMS login refactoring (login first, then create collection)
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const data = await getUserByPhoneNumber('+6584901105')
+        console.log('user:', data)
+      } catch(e) {
+        console.log('Cannot get user by phone number', e)
+      }
+    }
+
+    getUser()
+  }, [])
+
+  const connectStripe = async () => {
+    try {
+      const stripeLink = await getStripeAuthLink()
+      console.log('Stripe auth link:', stripeLink)
+      window.open(stripeLink)
+    } catch (e) {
+      console.log('Cannot get Stripe link', e)
+    }
+  }
+
   useEffect(() => {
     const addCollection = async () => {
       const userId = "";
-      createCollection(
+
+      const loginData = await checkLogin()
+      setUserData(loginData)
+      console.log('loginData', loginData)
+
+      const mintData = await createCollection(
         filesUrl[0],
         title,
         description,
@@ -59,14 +99,15 @@ const CreateCollectible = () => {
         price,
         quantity,
         userId
-      ).then((response) => {
-        console.log('then create collection',response);
-        setMintResponse(response);
-        setFormFields(defaultFormFields);
-        setFiles([]);
-      });
+      )
+
+      console.log('createCollection response:', mintData);
+
+      setMintResponse(mintData);
+      setFormFields(defaultFormFields);
+      setFiles([]);
     }
-    
+
     if (filesUrl.length > 0) {
       console.log('mint hhook IF');
       addCollection();
@@ -93,34 +134,61 @@ const CreateCollectible = () => {
   };
 
   return (
-    
       <div className="mint-container">
         <img src={Logo} alt="dj3n logo" />
         <form onSubmit={handleSubmit}>
-       
         {uploadProgress > 0 ? (
           <div className="mint-processing-container">
-            <h2>Uploading media...</h2>
-            <CircularProgressWithLabel value={uploadProgress} />
+            {uploadProgress < 100 && mintResponse && mintResponse.status === 0 &&
+              <>
+                <h2>Uploading media...</h2>
+                <CircularProgressWithLabel value={uploadProgress} />
+              </>
+            }
             {uploadProgress === 100 && (
               <>
-                <h2>Creating Collection...</h2>
-                { mintResponse ? 
-                  ( mintResponse.status === 0 ? 
-                    ( <CircularProgress />) : (
+                { mintResponse ?
+                  ( mintResponse.status === 0 ?
+                    ( <>
+                          <h2>Creating Collection...</h2>
+                          <CircularProgress />
+                    </>) : (
                       <>
-                        <CircularProgressWithLabel value={100} />
-                        <h1>Congratulations!</h1>
-                        <h2>You have successfully created your Collection</h2>
-                        <p>Use the following link to share your collection</p>
+                        <h1 style={{ color: '#2AB500' }}>Success!</h1>
+                        <h2>Collectible listed</h2>
                         <p>
                           <Link to={`checkout/${mintResponse.data.uuid}`} target="_blank">
                             SHARE
                           </Link>
                         </p>
+                        {userData  && // TODO: add condition && !userData.stripeConnected
+                          <>
+                            <h2 style={{ color: '#EA3339' }}>Important:</h2>
+                            <Box width={'350px'}>
+                              <h2>In order to sell your
+                                collectible or access
+                                pass, you must first
+                              </h2>
+                            </Box>
+                            <h1 onClick={connectStripe} style={{ color: '#FEF200', textDecoration: 'underline' }}>
+                              Setup Stripe
+                            </h1>
+                            <Box>
+                              <h2>
+                                Skip to
+                              </h2>
+                              <h2
+                                  onClick={() => navigate(`/gallery/${userData.uuid}`)}
+                                  style={{ textDecoration: 'underline' }}
+                              >
+                                View Gallery
+                              </h2>
+                            </Box>
+                          </>
+                        }
                       </>
-                    )) : 
-                  (<div>Error</div>) 
+                    )) :
+                  (<div>Error</div>)
                   }
                 </>
             )}

@@ -7,6 +7,7 @@ import Authentication from "./routes/authentication/authentication.component";
 import SmsLoginVerify from "./routes/sms-login-verify/sms-login-verify.component";
 
 import "./App.scss";
+import Mint from "./routes/mint/mint.component";
 
 const CreateHome = lazy(() => import("./routes/create-home/create-home.component"));
 const CreateCollectible = lazy(() => import("./routes/create-collectible/create-collectible.component"));
@@ -27,7 +28,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Landing />} />
           <Route path='auth/' element={<Login />} />
-          <Route path='verify/' element={<SmsLoginVerify />} />
+          <Route path='verify/' element={<SmsLoginVerify />} />  
           
           {/* Private routes */}
           <Route path="hmy/" element={<Navigation />}>
