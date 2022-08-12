@@ -24,7 +24,7 @@ export const UserProfile = () => {
                 <div>{profile.publicLink}</div>
             </div>
             <div>
-                <img src={editImg} width={'28px'} />
+                <img src={editImg} width={'28px'} alt={'Edit'} />
             </div>
         </div>
     </div>

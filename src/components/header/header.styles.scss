@@ -26,7 +26,6 @@
     width: 80vw;
     @include flex-column();
     justify-content: center;
-    background-color: $orange;
     text-align: right;
     color: white;
     padding-right: .5em;
@@ -36,4 +35,14 @@
       font-weight: 400;
     }
   }
+
+  &__wallet-public {
+    background-color: $orange;
+  }
+
+  &__wallet-creator {
+    background-color: $blue;
+  }
+
+  
 }

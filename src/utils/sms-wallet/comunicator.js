@@ -1,9 +1,8 @@
 import axios from 'axios'
-const privilegedAxios = axios.create({withCredentials: true})
 
-const GATEWAY = 'https://smsnftgateway2.herokuapp.com'
-// const GATEWAY = 'http://localhost:3000'
-const API_URI = GATEWAY
+const privilegedAxios = axios.create({withCredentials: true})
+const GATEWAY = process.env.REACT_APP_SMS_WALLET_GATEWAY;
+const API_URI = GATEWAY;
 
 export async function initLogin({phone, redirect}) {
   const r = await axios.post(`${API_URI}/v1/login/init`, {phone, redirect})
