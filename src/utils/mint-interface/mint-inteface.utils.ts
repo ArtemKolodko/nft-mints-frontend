@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import { CollectionType } from "../../types/index";
 import { ApiResponseType } from "../../types/index";
 import { ApiTokenResponseType } from "../../types/index";
+import UserType from "../../types/user.types";
 
 const GATEWAY = process.env.REACT_APP_GATEWAY;
 
@@ -201,23 +202,24 @@ export const getTokenDetail = async (
 //   return collections;
 // }
 
-export interface IUser {
-  codeHash: string
-  id: string
-  lastSentCode: number
-  pendingCode: string
-  phone: string
-  stripeConnected: boolean
-  userType: number
-  uuid: string
-}
+//use userType in types folder
+// export interface IUser {
+//   codeHash: string
+//   id: string
+//   lastSentCode: number
+//   pendingCode: string
+//   phone: string
+//   stripeConnected: boolean
+//   userType: number
+//   uuid: string
+// }
 
 /**
  * Sends an OTP code to the given mobileNumber
  * @param mobileNumber {string}
  * @returns Promise with the status code
  */
-export const checkLogin = async (): Promise<IUser> => {
+export const checkLogin = async (): Promise<UserType> => {
   const { data } = await axios.get(`${GATEWAY}/v0/users/whoami`, {
     withCredentials: true,
     headers: {

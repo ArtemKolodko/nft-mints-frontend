@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { setCurrentUser } from "../../store/user/user.action";
 import { verifyLogin } from "../../utils/sms-wallet/comunicator";
 import { loadLocalState } from "../../utils/storage/local-storage.utils";
-import { UserTypeEnum } from "../../types/user.types";
-
 
 import Logo from "../../assets/imgs/DJ3N Logo.png";
 import "./sms-login-verify.styles.scss";

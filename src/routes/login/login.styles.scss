@@ -5,6 +5,7 @@
   @include flex-column();
 
   button {
+    margin-top: 1.5em;
     cursor: pointer;
     background-color: $blue;
     width: 10em;
