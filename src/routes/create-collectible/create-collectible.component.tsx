@@ -21,7 +21,7 @@ import {
 } from "../../utils/mint-interface/mint-inteface.utils";
 
 import { addFilesToStorage } from "../../utils/firebase/firebase.utils";
-import { ApiResponseType } from "../../types";
+import { ApiResponseType, TokenTypeEnum } from "../../types";
 
 import Logo from "../../assets/imgs/DJ3N Logo.png"
 
@@ -98,7 +98,8 @@ const CreateCollectible = () => {
         link,
         price,
         quantity,
-        userId
+        userId,
+        TokenTypeEnum.COLLECTION
       )
 
       console.log('createCollection response:', mintData);
@@ -170,7 +171,7 @@ const CreateCollectible = () => {
                                 pass, you must first
                               </h2>
                             </Box>
-                            <h1 onClick={connectStripe} style={{ color: '#FEF200', textDecoration: 'underline' }}>
+                            <h1 onClick={connectStripe} style={{ cursor: 'pointer', color: '#FEF200', textDecoration: 'underline' }}>
                               Setup Stripe
                             </h1>
                             <Box>
@@ -178,7 +179,7 @@ const CreateCollectible = () => {
                                 Skip to
                               </h2>
                               <h2
-                                  onClick={() => navigate(`/gallery/${userData.uuid}`)}
+                                  onClick={() => navigate(`/nfts/gallery/${userData.uuid}`)}
                                   style={{ textDecoration: 'underline' }}
                               >
                                 View Gallery

@@ -110,7 +110,8 @@ export const createCollection = async (
   link: string,
   rate: number,
   supply: number,
-  userId: string
+  userId: string,
+  tokenType: number = 2
 ): Promise<ApiResponseType | null> => {
   try {
     const URL = `${GATEWAY}/v0/collections/create`;
@@ -122,6 +123,7 @@ export const createCollection = async (
       rate,
       maxMint: supply,
       userId,
+      tokenType
     });
 
     const response = await axios.post(URL, body, {

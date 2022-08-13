@@ -10,6 +10,12 @@ export type CollectionType = {
   userUuid: any;
   productId: string;
   collectionImage: string; 
+  tokenType: number;
+}
+
+export enum TokenTypeEnum {
+  COLLECTION = 2,
+  ACCESS_PASS = 1
 }
 
 export type TokenType = {

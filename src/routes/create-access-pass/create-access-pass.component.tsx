@@ -18,6 +18,7 @@ import { createCollection } from "../../utils/mint-interface/mint-inteface.utils
 import uploadArrow from "../../assets/imgs/upload_arrow.svg";
 
 import "./create-access-pass.styles.scss";
+import { TokenTypeEnum } from "../../types";
 
 const defaultAccessPassData = {
   backgroundColor: "white",
@@ -47,7 +48,8 @@ const CreateAccessPass = () => {
         "",
         accessPassData.price,
         1,
-        userId
+        userId,
+        TokenTypeEnum.ACCESS_PASS
       ).then((response) => {
         console.log("then create Access Pass", response);
         // setMintResponse(response);
