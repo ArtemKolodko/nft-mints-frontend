@@ -1,11 +1,12 @@
 import axios, { AxiosResponse } from "axios";
-
 import { CollectionType } from "../../types/index";
 import { ApiResponseType } from "../../types/index";
 import { ApiTokenResponseType } from "../../types/index";
 import UserType from "../../types/user.types";
 
+const privilegedAxios = axios.create({withCredentials: true})
 const GATEWAY = process.env.REACT_APP_GATEWAY;
+const GATEWAY_V2 = process.env.REACT_APP_SMS_WALLET_GATEWAY
 
 export const getNfts = (tokenId: string) => {};
 
@@ -110,7 +111,8 @@ export const createCollection = async (
   link: string,
   rate: number,
   supply: number,
-  userId: string
+  userId: string,
+  tokenType: number = 2
 ): Promise<ApiResponseType | null> => {
   try {
     const URL = `${GATEWAY}/v0/collections/create`;
@@ -122,6 +124,7 @@ export const createCollection = async (
       rate,
       maxMint: supply,
       userId,
+      tokenType
     });
 
     const response = await axios.post(URL, body, {
@@ -183,6 +186,39 @@ export const getTokenDetail = async (
  }
 };
 
+/**
+ * Returns an array of collections (nft) owned by the given Owner ID
+ * @param ownerUuid {string} Onwer ID
+ * @returns
+ */
+export const getCollectionsByOwner = async (
+  ownerUuid: string
+): Promise<Array<CollectionType> | null> => {
+ try {
+  const URL = `${GATEWAY_V2}/v0/collections/user/${ownerUuid}`;
+  const response = await axios.get(URL)
+  return response.data;
+ } catch (e) {
+  console.error(e);
+  return null;
+ }
+};
+
+/**
+ * Returns an array of collections (nft) owned by the logged in user
+ * @param ownerUuid {string} Onwer ID
+ * @returns
+ */
+ export const getMyCollections = async (): Promise<Array<CollectionType> | null> => {
+ try {
+  const URL = `${GATEWAY_V2}/v0/collections/mycollections`;
+  const response = await privilegedAxios.get(URL)
+  return response.data;
+ } catch (e) {
+  console.error(e);
+  return null;
+ }
+};
 
 /**
  * Returns all the collections
