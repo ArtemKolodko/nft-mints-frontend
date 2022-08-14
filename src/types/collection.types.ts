@@ -11,6 +11,10 @@ export type CollectionType = {
   productId: string;
   collectionImage: string; 
   tokenType: number;
+  creatorRoyalties?: number;
+  perks?: string;
+  additionalDetails?: string;
+  properties?: object;
 }
 
 export enum TokenTypeEnum {

@@ -4,6 +4,15 @@ export type AccessPassProps = {
   price: number;
   backgroundColor: string;
   logo: string;
+  title?: string,
+  perk?: string,
+  description?: string,
+  details?: string,
+  link?: string,
+  venue?: string,
+  city?: string,
+  state?: string,
+  creatorRoyalty?: number
 };
 
 const AccessPass = (props: AccessPassProps) => {

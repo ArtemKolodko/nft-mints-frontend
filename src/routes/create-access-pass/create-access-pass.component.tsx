@@ -21,10 +21,13 @@ import uploadArrow from "../../assets/imgs/upload_arrow.svg";
 import { BasicAreaInput } from "../../components/input/basic-area-input.component";
 
 import "./create-access-pass.styles.scss";
+import { TokenTypeEnum } from "../../types";
 const defaultAccessPassData = {
+  title: "",
   backgroundColor: "white",
   price: 0,
   logo: "",
+  creatorRoyalty: 10,
 };
 
 const CreateAccessPass = () => {
@@ -44,12 +47,18 @@ const CreateAccessPass = () => {
       const userId = "";
       createCollection(
         filesUrl[0],
-        "Access Pass Test",
-        "Description",
-        "",
+        accessPassData.title!,
+        accessPassData.description!,
+        accessPassData.link!,
         accessPassData.price,
-        1,
-        userId
+        1, // how many access pass should we create??
+        userId,
+        TokenTypeEnum.ACCESS_PASS,
+        accessPassData.perk,
+        accessPassData.creatorRoyalty,
+        accessPassData.details,
+        [], // upload multiple files if you want to!
+        accessPassData
       ).then((response) => {
         console.log("then create Access Pass", response);
         // setMintResponse(response);
@@ -217,28 +226,28 @@ const CreateAccessPass = () => {
                 </div>
               )}
             </ImageUploading>
-            <BasicInput 
+            <BasicInput
               name="link"
               placeholder="External link (exclusive content)"
               required={false}
               type="text"
               onChange={onChangeHandler}
             />
-            <BasicInput 
+            <BasicInput
               name="venue"
               placeholder="Venue or Place"
               required={false}
               type="text"
               onChange={onChangeHandler}
             />
-            <BasicInput 
+            <BasicInput
               name="city"
               placeholder="City"
               required={false}
               type="text"
               onChange={onChangeHandler}
             />
-            <BasicInput 
+            <BasicInput
               name="state"
               placeholder="State"
               required={false}
@@ -248,6 +257,8 @@ const CreateAccessPass = () => {
           </div>
 
         </div>
+        <button className="create-access-pass__button" disabled={filesUrl.length === 0 || accessPassData.title === ""}
+          onClick={createTicket}>Create</button>
       </form>
     </div>
     // <div className="create-access-pass-container">

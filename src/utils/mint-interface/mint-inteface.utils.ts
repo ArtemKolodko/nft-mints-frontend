@@ -102,9 +102,12 @@ export const getCollection = async (
  * @param rate {number} Collection's price
  * @param supply {number} Collection's allowed quantity
  * @param userId {string} Onwer ID
+ * @param tokenType {number} enum of token type @see TokenTypeEnum
  * @param perks {string} perks properties
  * @param additionalDetails {string} additional details for collection
  * @param creatorRoyalty {number} royalties paid to creator
+ * @param collectionImages {string[]} list of images; both collectionImage and collectionImages are used
+ * @param properties {object} list of additional properties that can be set on collection
  * @returns {ApiResponseType} The new Collection + response code status
  */
 export const createCollection = async (
@@ -118,7 +121,9 @@ export const createCollection = async (
   tokenType: number = 2,
   perks: string = '',
   creatorRoyalty: number = 0,
-  additionalDetails: string = ''
+  additionalDetails: string = '',
+  collectionImages: string[] = [],
+  properties: object = {}
 ): Promise<ApiResponseType | null> => {
   try {
     const URL = `${GATEWAY}/v1/collections/create`;
@@ -133,7 +138,9 @@ export const createCollection = async (
       tokenType,
       perks,
       additionalDetails,
-      creatorRoyalty
+      creatorRoyalty,
+      collectionImages,
+      properties
     });
 
     const response = await axios.post(URL, body, {
