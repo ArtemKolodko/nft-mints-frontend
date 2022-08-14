@@ -1,21 +1,42 @@
-import { Fragment } from "react";
-import { useSelector } from "react-redux";
+import { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faUser, faFolder } from "@fortawesome/free-solid-svg-icons";
 
-import { selectCurrentUser } from "../../store/user/user.selector";
+import { selectCheckLogin, selectCurrentUser } from "../../store/user/user.selector";
 import Header from "../../components/header/header.component";
 
 import "./navigation.styles.scss";
+import { checkingLogin, setLoginChecked } from "../../store/user/user.action";
+import { checkLogin } from "../../utils/mint-interface/mint-inteface.utils";
 
 const Navigation = () => {
   const currentUser = useSelector(selectCurrentUser);
+  const check = useSelector(selectCheckLogin);
+  const [checked, setChecked] = useState(false)
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (checked) {
+      return;
+    }
+    dispatch(checkingLogin())
+    checkLogin().then(user=>dispatch(setLoginChecked(user))).catch(err=>dispatch(setLoginChecked(null)))
+    
+    setChecked(true)
+  }, [checked])
+
+  console.log(currentUser)
   if (!currentUser) {
     return <Navigate to='/' />
   }
-  
+
+  if (!check.checkedLogin) {
+    return <div>Checking Login</div> // style this
+  }
+
   return (
     <Fragment>
     <Header />

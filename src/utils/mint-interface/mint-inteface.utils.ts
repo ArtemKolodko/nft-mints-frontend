@@ -102,6 +102,9 @@ export const getCollection = async (
  * @param rate {number} Collection's price
  * @param supply {number} Collection's allowed quantity
  * @param userId {string} Onwer ID
+ * @param perks {string} perks properties
+ * @param additionalDetails {string} additional details for collection
+ * @param creatorRoyalty {number} royalties paid to creator
  * @returns {ApiResponseType} The new Collection + response code status
  */
 export const createCollection = async (
@@ -112,10 +115,13 @@ export const createCollection = async (
   rate: number,
   supply: number,
   userId: string,
-  tokenType: number = 2
+  tokenType: number = 2,
+  perks: string = '',
+  creatorRoyalty: number = 0,
+  additionalDetails: string = ''
 ): Promise<ApiResponseType | null> => {
   try {
-    const URL = `${GATEWAY}/v0/collections/create`;
+    const URL = `${GATEWAY}/v1/collections/create`;
     const body = JSON.stringify({
       collectionImage: collectionImage,
       title,
@@ -124,7 +130,10 @@ export const createCollection = async (
       rate,
       maxMint: supply,
       userId,
-      tokenType
+      tokenType,
+      perks,
+      additionalDetails,
+      creatorRoyalty
     });
 
     const response = await axios.post(URL, body, {
@@ -148,6 +157,27 @@ export const createCollection = async (
     }
   }
 };
+
+/**
+ * Returns an array of tokens owned by the given Owner ID
+ * @param ownerUuid {string} Onwer ID
+ * @returns
+ */
+ export const getMyTokensByCreator = async (
+  ownerUuid: string,
+  creatorUuid: string
+): Promise<Array<ApiTokenResponseType> | null> => {
+ try {
+  const URL = `${GATEWAY}/v0/tokens/wallet/${ownerUuid}/${creatorUuid}`;
+  const response = await axios.get(URL)
+  return response.data;
+ } catch (e) {
+  console.error(e);
+  return null;
+ }
+
+};
+
 
 /**
  * Returns an array of tokens owned by the given Owner ID

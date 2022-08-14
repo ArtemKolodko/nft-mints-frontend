@@ -14,7 +14,7 @@ import {
 
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { addFilesToStorage } from "../../utils/firebase/firebase.utils";
-import { ApiResponseType } from "../../types";
+import { ApiResponseType, TokenTypeEnum } from "../../types";
 
 import "./create-collectible.styles.scss";
 
@@ -24,6 +24,9 @@ const defaultFormFields = {
   link: "",
   quantity: 0,
   price: 0,
+  perk: '',
+  details: '',
+  royalty: 0,
 };
 
 const defaultMintResponse: ApiResponseType | null = {
@@ -46,7 +49,7 @@ const CreateCollectible = () => {
 
   const navigate = useNavigate();
 
-  const { title, description, link, quantity, price } = formFields;
+  const { title, description, link, quantity, price, perk, royalty, details } = formFields;
 
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -100,7 +103,11 @@ const CreateCollectible = () => {
         link,
         price,
         quantity,
-        userId
+        userId,
+        TokenTypeEnum.COLLECTION,
+        perk,
+        royalty,
+        details
       );
 
       console.log("createCollection response:", mintData);
@@ -184,7 +191,7 @@ const CreateCollectible = () => {
                             <h2
                               className="create-collective__gallery"
                               onClick={() =>
-                                navigate(`/gallery/${userData.uuid}`)
+                                navigate(`/nfts/gallery/${userData.uuid}`)
                               }
                             >
                               View Gallery
