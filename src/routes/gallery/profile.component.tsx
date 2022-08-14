@@ -3,10 +3,13 @@ import "./profile.styles.scss";
 import editImg from "../../assets/imgs/edit.svg";
 import uploadImageImg from "../../assets/imgs/upload-image.svg";
 import dj3nImg from "../../assets/imgs/dj3n_logo.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { useParams } from "react-router";
-import { updateUser } from "../../utils/mint-interface/mint-inteface.utils";
+import { checkLogin, updateUser } from "../../utils/mint-interface/mint-inteface.utils";
+import CircularProgress from "@mui/material/CircularProgress";
+import { addFileToStorage } from "../../utils/firebase/firebase.utils";
+import { setCurrentUser } from "../../store/user/user.action";
 
 const defaultProfile = {
     name: 'Username',
@@ -20,7 +23,17 @@ export const UserProfile = () => {
     const [username, setUsername] = useState(currentUser?.name);
     const [publicLink, setPublicLink] = useState(currentUser?.publicLink);
 
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [filesUrlImage, setFilesUrlImage] = useState<string[]>([]);
+    const [profileImage, setProfileImage] = useState<FileList | null>(null)
+
+    const [uploadProgressBg, setUploadProgressBg] = useState(0);
+    const [filesUrlBg, setFilesUrlBg] = useState<string[]>([]);
+    const [profileImageBg, setProfileImageBg] = useState<FileList | null>(null)
+
     const [edit, setEdit] = useState(false);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (currentUser) {
@@ -35,13 +48,61 @@ export const UserProfile = () => {
         }
         setEdit(!edit)
     }
-    // should have a tick image when editing
+
+    // todo: duplicated, might be extracted as component
+    // todo: refresh user
+    const uploadImage = async () => {
+        if (profileImage?.item(0)) {
+            await addFileToStorage(profileImage?.item(0)!, setUploadProgress, setFilesUrlImage)
+        }
+    }
+
+    const uploadImageBg = async () => {
+        if (profileImageBg?.item(0)) {
+            await addFileToStorage(profileImageBg?.item(0)!, setUploadProgressBg, setFilesUrlBg)
+        }
+    }
+
+    const refreshUser = async () => {
+        const user = await checkLogin();
+        dispatch(setCurrentUser(user));
+    }
+
+    useEffect(() => {
+        uploadImage();
+    }, [profileImage]);
+
+    useEffect(() => {
+        uploadImageBg();
+    }, [profileImageBg]);
+
+    useEffect(() => {
+        const update = async () => {
+            await updateUser({ profileImageBg: filesUrlBg[0] }).then(e => setUploadProgressBg(0));
+            refreshUser();
+        };
+        update();
+    }, [filesUrlBg]);
+
+    useEffect(() => {
+        const update = async () => {
+            await updateUser({ profileImage: filesUrlImage[0] }).then(e => setUploadProgress(0));
+            refreshUser();
+        };
+        update();
+    }, [filesUrlImage]);
 
     return <div className={'profile-container'}>
         <div className={'profile-image-container'}>
-            <div className={'profile-img'} style={{ backgroundImage: `url(${uploadImageImg})` }} />
+            <div className={'profile-img'} style={{ backgroundImage: `url(${currentUser.profileImage || uploadImageImg})`, overflow: 'hidden' }}>
+                {uploadProgress === 0 && <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} onChange={e => setProfileImage(e.target.files)} />}
+                {uploadProgress > 0 && <CircularProgress value={uploadProgress} />}
+            </div>
             <div className={'dj3n-logo'} style={{ backgroundImage: `url(${dj3nImg})` }} />
-            <div className={'profile-image-bg'} style={{ backgroundImage: `url(${uploadImageImg})` }} />
+            <div className={'profile-image-bg'} style={{ backgroundImage: `url(${currentUser.profileImageBg || uploadImageImg})` }} >
+                {uploadProgressBg === 0 && <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} onChange={e => setProfileImageBg(e.target.files)} />}
+                {uploadProgressBg > 0 && <CircularProgress value={uploadProgressBg} />}
+            </div>
         </div>
         <div className={'profile-info-container'}>
             {!edit && <div>

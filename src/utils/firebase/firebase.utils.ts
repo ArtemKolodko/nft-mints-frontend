@@ -80,3 +80,57 @@ export const addFilesToStorage = async (
 };
 
 
+/**
+ * Stores a media file in firebase's storage
+ * @param fileObj {File} A single file to be uploaded
+ * @param setProgress {Dispatch<SetStateAction<number>>} Hook that updates progress bar
+ * @param setFilesUrl {Dispatch<SetStateAction<string[]>>} Hook that updates that saves
+ *                    each file Firabase Storage's url.
+ */
+ export const addFileToStorage = async (
+  fileObj: File,
+  setProgress: Dispatch<SetStateAction<number>>,
+  setFilesUrl: Dispatch<SetStateAction<string[]>>
+): Promise<Array<string>> => {
+
+  let promises: Array<any> = []; 
+  const STORAGE_FOLDER = process.env.REACT_APP_FIREBASE_STORAGE_FOLDER;
+  const fileUrl: Array<string> = [];
+  const file = fileObj;
+  const name = fileObj.name;
+  console.log("file to upload: ", name);
+  const storageRef = ref(
+    storage,
+    `/${STORAGE_FOLDER}/${Date.now()}${name}`
+  );
+  const uploadTask = uploadBytesResumable(storageRef, file);
+  promises.push(uploadTask);
+  uploadTask.on(
+    "state_changed",
+    (snapshot) => {
+      const progress = Math.round(
+        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      );
+      setProgress(progress);
+    },
+    (error) => {
+      console.log(error); //throw error(error);
+    },
+    async () => {
+      await getDownloadURL(uploadTask.snapshot.ref).then((urls) => {
+        console.log(urls);
+        fileUrl.push(urls);
+      });
+    }
+  );
+
+  Promise.all(promises!).then((x) => {
+    setTimeout(function () {
+      console.log("after all promises", fileUrl[0]);
+      setFilesUrl(fileUrl);
+      console.log(x);
+    }, 2000);
+  });
+
+  return fileUrl;
+};
