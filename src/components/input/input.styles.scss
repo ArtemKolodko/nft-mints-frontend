@@ -17,6 +17,11 @@
   border-width: 0.5px;
   padding: 0.4em 1.5em 0.4em;
   width: 10em;
+
+  &::placeholder {
+    font-size: 0.8rem;
+    opacity: 80%;
+  }
  // font-size: medium;
 }
 

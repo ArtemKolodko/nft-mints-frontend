@@ -11,6 +11,7 @@ import { saveLocalState } from "./utils/storage/local-storage.utils";
 import { store } from "./store/store";
 
 import "./App.scss";
+import GetStarted from "./routes/get-started/get-started.component";
 
 const CreateHome = lazy(
   () => import("./routes/create-home/create-home.component")
@@ -33,6 +34,8 @@ const CheckoutFailure = lazy(
   () => import("./routes/checkout/checkout-failure.component")
 );
 const ClaimNft = lazy(() => import("./routes/claim-nft/claim-nft.component"));
+
+
 
 const App = () => {
 
@@ -64,6 +67,13 @@ const App = () => {
             <Route path="gallery/:ownerUuid" element={<Gallery />} />
           </Route>
 
+          {/* User get starting routes */}
+          <Route path='started/' element={<GetStarted />} >
+            <Route index element={<CreateHome />} />
+            <Route path="create-collectible/" element={<CreateCollectible />} />
+            <Route path="create-access-pass/" element={<CreateAccessPass />} />
+          </Route>
+          
           {/* Public routes */}
           <Route path="checkout/:collectionUuid" element={<Checkout />} />
           <Route

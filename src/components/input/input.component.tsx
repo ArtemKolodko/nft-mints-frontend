@@ -4,30 +4,30 @@ import { ChangeEvent, MouseEventHandler } from 'react';
 import 'react-phone-number-input/style.css'
 import './input.styles.scss';
 
-type BasicInputProps = {
-  label: string;
-  name: string;
-  type: string;
-  placeholder?: string;
-  required?: boolean;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-}
+// type BasicInputProps = {
+//   label: string;
+//   name: string;
+//   type: string;
+//   placeholder?: string;
+//   required?: boolean;
+//   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+// }
 
-type AreaInputProps = {
-  label: string;
-  name: string;
-  type: string;
-  placeholder?: string;
-  required?: boolean;
-  onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void
-}
+// type AreaInputProps = {
+//   label: string;
+//   name: string;
+//   type: string;
+//   placeholder?: string;
+//   required?: boolean;
+//   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void
+// }
 
-type ButtonType = {
-  label: string;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
-  disabled?: boolean;
-  className?: string;
-}
+// type ButtonType = {
+//   label: string;
+//   onClick?: MouseEventHandler<HTMLButtonElement>;
+//   disabled?: boolean;
+//   className?: string;
+// }
 
 // export const BasicInput = (props : BasicInputProps) => {
 //   //const { name, type, placeholder, required } = props;
@@ -60,38 +60,38 @@ type ButtonType = {
 //   )
 // }
 
-export const Button = (props : ButtonType) => {
-  const { label, ...otherProps } = props;
-  return (
-    <div className='mint-button-container'>
-      <button  
-        className='button'
-        type='submit'
-        {...otherProps}>
-          {label}
-      </button>
-    </div>
+// export const Button = (props : ButtonType) => {
+//   const { label, ...otherProps } = props;
+//   return (
+//     <div className='mint-button-container'>
+//       <button  
+//         className='button'
+//         type='submit'
+//         {...otherProps}>
+//           {label}
+//       </button>
+//     </div>
    
-  )
-}
+//   )
+// }
 
-type PhoneNumberProps = {
-  label: string;
-  name: string;
-  placeholder?: string;
-  required?: boolean;
-  value: any
-  onChange: (event: any) => void;
-  defaultCountry: any 
-  //value={verifyPhoneNumber}
-}
+// type PhoneNumberProps = {
+//   label: string;
+//   name: string;
+//   placeholder?: string;
+//   required?: boolean;
+//   value: any
+//   onChange: (event: any) => void;
+//   defaultCountry: any 
+//   //value={verifyPhoneNumber}
+// }
 
-export const PhoneNumberInput = (props: PhoneNumberProps) => {
-  const { name, label, defaultCountry, value, ...otherProps } = props;
-  return (
-    <div className='basic-input-container'>
-      <label htmlFor={name}>{label}</label>
-      <PhoneInput name={name} id={name} defaultCountry={defaultCountry} value={value} {...otherProps} />
-    </div>
-  )
-}
+// export const PhoneNumberInput = (props: PhoneNumberProps) => {
+//   const { name, label, defaultCountry, value, ...otherProps } = props;
+//   return (
+//     <div className='basic-input-container'>
+//       <label htmlFor={name}>{label}</label>
+//       <PhoneInput name={name} id={name} defaultCountry={defaultCountry} value={value} {...otherProps} />
+//     </div>
+//   )
+// }

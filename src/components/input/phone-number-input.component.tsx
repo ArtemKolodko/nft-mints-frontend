@@ -1,5 +1,8 @@
 import PhoneInput from 'react-phone-number-input';
 
+import 'react-phone-number-input/style.css'
+import './input.styles.scss';
+
 type PhoneNumberProps = {
   label: string;
   name: string;
@@ -11,11 +14,11 @@ type PhoneNumberProps = {
   //value={verifyPhoneNumber}
 }
 
-export const PhoneNumberInput = (props: PhoneNumberProps) => {
+const PhoneNumberInput = (props: PhoneNumberProps) => {
   const { name, label, defaultCountry, value, ...otherProps } = props;
   return (
-    <div className='basic-input-container'>
-      <PhoneInput name={name} id={name} defaultCountry={defaultCountry} value={value} {...otherProps} />
-    </div>
+    <PhoneInput name={name} id={name} defaultCountry={defaultCountry} value={value} {...otherProps} />
   )
 }
+
+export default PhoneNumberInput;

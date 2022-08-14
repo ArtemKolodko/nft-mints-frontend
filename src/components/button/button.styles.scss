@@ -1,0 +1,19 @@
+@import "../../assets/scss/styles.scss";
+
+.button-container {
+  
+  button {
+    border: 0;
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 20px;
+    padding: 0.4em 1.5em 0.4em;
+  }
+  
+  button:disabled {
+    cursor: default;
+    background-color: $light-grey;
+    color: $dark-grey;
+  }
+
+}

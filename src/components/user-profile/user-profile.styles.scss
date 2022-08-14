@@ -1,8 +1,11 @@
 .profile-container {
   max-width: 800px;
   margin: 0 auto;
+  white-space: pre-line;
 
   .profile-info-container {
+    margin-left: 0.8em;
+    margin-right: 0.8em;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -10,7 +13,8 @@
     color: #9aa0a6;
 
     .profile-title {
-      font-size: 24px;
+      text-align: left;
+      font-size: 1.5rem;
     }
   }
 
@@ -52,5 +56,14 @@
       background-repeat: no-repeat;
       background-position: center;
     }
+  }
+
+  .profile-description {
+    margin-left: 0.8em !important;
+    margin-right: 0.8em !important;
+    color: #9aa0a6;
+    text-align: left;
+    font-size: 0.8rem;
+    margin-left: 0.3em;
   }
 }

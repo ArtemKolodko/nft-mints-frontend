@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEventHandler } from 'react';
+import { ChangeEvent } from 'react';
 
 type AreaInputProps = {
   label?: string;
@@ -18,5 +18,3 @@ export const BasicAreaInput = (props : AreaInputProps) => {
     />
   )
 }
-
-// rows={4}

@@ -7,9 +7,9 @@ import {
   getCollection,
   checkoutCollectionV2,
 } from "../../utils/mint-interface/mint-inteface.utils";
-import {
-  PhoneNumberInput,
-} from "../../components/input/input.component";
+import
+  PhoneNumberInput
+ from "../../components/input/phone-number-input.component";
 import NftDetail from "../../components/nft-detail/nft-detail.component";
 import Logo from "../../assets/imgs/DJ3N Logo.png";
 

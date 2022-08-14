@@ -11,14 +11,16 @@ export const defaultProfile = {
 };
 
 export type UserProfileProps = {
-  name : string;
-  publicLink : string;
-  profileImage : any;
-  profileImageBg : any;
+  name: string;
+  publicLink: string;
+  profileImage: any;
+  profileImageBg: any;
+  profileDescription?: string;
 };
 
 export const UserProfile = (props: UserProfileProps) => {
-  const { name, publicLink, profileImage, profileImageBg } = props;
+  const { name, publicLink, profileImage, profileImageBg, profileDescription } =
+    props;
 
   return (
     <div className={"profile-container"}>
@@ -45,6 +47,7 @@ export const UserProfile = (props: UserProfileProps) => {
           <img src={editImg} width={"28px"} alt={"Edit"} />
         </div>
       </div>
+      { profileDescription && <div className="profile-description">{profileDescription}</div> }
     </div>
   );
 };
