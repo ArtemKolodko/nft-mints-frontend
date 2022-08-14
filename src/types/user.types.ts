@@ -11,6 +11,7 @@ type UserType = {
   publicLink? : string;
   profileImage? : any;
   profileImageBg? : any;
+  description?: string;
 }
 
 export enum UserTypeEnum {

@@ -4,11 +4,11 @@ import { ApiResponseType } from "../../types/index";
 import { ApiTokenResponseType } from "../../types/index";
 import UserType from "../../types/user.types";
 
-const privilegedAxios = axios.create({withCredentials: true})
+const privilegedAxios = axios.create({ withCredentials: true })
 const GATEWAY = process.env.REACT_APP_GATEWAY;
 const GATEWAY_V2 = process.env.REACT_APP_SMS_WALLET_GATEWAY
 
-export const getNfts = (tokenId: string) => {};
+export const getNfts = (tokenId: string) => { };
 
 /**
  * Sends an OTP code to the given mobileNumber
@@ -62,7 +62,7 @@ export const checkoutCollectionV2 = async (
     });
     console.log(body);
     console.log(JSON.stringify(body));
-    const response = await axios.post(`${GATEWAY}/v0/payment/checkoutv2`,body,  {
+    const response = await axios.post(`${GATEWAY}/v0/payment/checkoutv2`, body, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -170,18 +170,18 @@ export const createCollection = async (
  * @param ownerUuid {string} Onwer ID
  * @returns
  */
- export const getMyTokensByCreator = async (
+export const getMyTokensByCreator = async (
   ownerUuid: string,
   creatorUuid: string
 ): Promise<Array<ApiTokenResponseType> | null> => {
- try {
-  const URL = `${GATEWAY}/v0/tokens/wallet/${ownerUuid}/${creatorUuid}`;
-  const response = await axios.get(URL)
-  return response.data;
- } catch (e) {
-  console.error(e);
-  return null;
- }
+  try {
+    const URL = `${GATEWAY}/v0/tokens/wallet/${ownerUuid}/${creatorUuid}`;
+    const response = await axios.get(URL)
+    return response.data;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 
 };
 
@@ -194,14 +194,14 @@ export const createCollection = async (
 export const getTokensByOwner = async (
   ownerUuid: string
 ): Promise<Array<ApiTokenResponseType> | null> => {
- try {
-  const URL = `${GATEWAY}/v0/tokens/${ownerUuid}`;
-  const response = await axios.get(URL)
-  return response.data;
- } catch (e) {
-  console.error(e);
-  return null;
- }
+  try {
+    const URL = `${GATEWAY}/v0/tokens/${ownerUuid}`;
+    const response = await axios.get(URL)
+    return response.data;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 
 };
 
@@ -213,14 +213,14 @@ export const getTokensByOwner = async (
 export const getTokenDetail = async (
   tokenUuid: string
 ): Promise<ApiTokenResponseType | null> => {
- try {
-  const URL = `${GATEWAY}/v0/tokens/token/${tokenUuid}`;
-  const response = await axios.get(URL)
-  return response.data;
- } catch (e) {
-  console.error(e);
-  return null;
- }
+  try {
+    const URL = `${GATEWAY}/v0/tokens/token/${tokenUuid}`;
+    const response = await axios.get(URL)
+    return response.data;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 };
 
 /**
@@ -231,14 +231,14 @@ export const getTokenDetail = async (
 export const getCollectionsByOwner = async (
   ownerUuid: string
 ): Promise<Array<CollectionType> | null> => {
- try {
-  const URL = `${GATEWAY_V2}/v0/collections/user/${ownerUuid}`;
-  const response = await axios.get(URL)
-  return response.data;
- } catch (e) {
-  console.error(e);
-  return null;
- }
+  try {
+    const URL = `${GATEWAY_V2}/v0/collections/user/${ownerUuid}`;
+    const response = await axios.get(URL)
+    return response.data;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 };
 
 /**
@@ -246,15 +246,15 @@ export const getCollectionsByOwner = async (
  * @param ownerUuid {string} Onwer ID
  * @returns
  */
- export const getMyCollections = async (): Promise<Array<CollectionType> | null> => {
- try {
-  const URL = `${GATEWAY_V2}/v0/collections/mycollections`;
-  const response = await privilegedAxios.get(URL)
-  return response.data;
- } catch (e) {
-  console.error(e);
-  return null;
- }
+export const getMyCollections = async (): Promise<Array<CollectionType> | null> => {
+  try {
+    const URL = `${GATEWAY_V2}/v0/collections/mycollections`;
+    const response = await privilegedAxios.get(URL)
+    return response.data;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 };
 
 /**
@@ -308,7 +308,7 @@ export const checkLogin = async (): Promise<UserType> => {
  * @returns Promise with the status code
  */
 export const getUserByPhoneNumber = async (
-    mobileNumber: string
+  mobileNumber: string
 ): Promise<AxiosResponse<any, any> | null> => {
   const { data } = await axios.get(`${GATEWAY}/v0/users/phone/${mobileNumber}`, {
     withCredentials: true,
@@ -318,6 +318,29 @@ export const getUserByPhoneNumber = async (
   });
   return data
 };
+
+export const updateUser = async ({
+  publicLink,
+  name,
+  profileImage,
+  profileImageBg,
+  description
+}: UserType): Promise<AxiosResponse<any, any> | null> => {
+
+  const body = JSON.stringify({
+    publicLink,
+    name,
+    profileImage,
+    profileImageBg,
+    description
+  });
+  return await axios.put(`${GATEWAY}/v0/users/`, body, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+}
 
 /**
  * Sends an OTP code to the given mobileNumber
