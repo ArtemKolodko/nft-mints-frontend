@@ -11,7 +11,6 @@ p {
   white-space: pre-line;
 }
 
-
 img {
   max-width: 100%;
   margin-left: 0;
@@ -54,30 +53,71 @@ code {
   color: $important;
 }
 
-// Form styles
+// Form Global styles
+.form {
+  @include flex-column();
+  width: 80vw;
+  margin: 0 auto;
 
+  &__title {
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 2em;
+  }
+
+  &__message {
+    width: 350px;
+  }
+
+  &__stripe {
+    color: $stripe;
+    text-decoration: underline;
+  }
+
+  &__gallery {
+    text-decoration: underline;
+  }
+
+  h4 {
+    color: $light-grey;
+    width: 100%;
+  }
+
+  &--row {
+    @include flex-wrap();
+
+    .basic-checkbox {
+      width: 33%;
+    }
+    .basic-input {
+      width: 50%;
+      display: flex;
+      justify-content: flex-end;
+
+      &::placeholder {
+        text-align: right;
+      }
+    }
+  }
+
+  &__button {
+    font-size: 1rem;
+    background-color: $blue;
+    margin-left: 1em;
+    padding: 0 3.25em 0 3.25em;
+  }
+}
+
+// Form basic elements container
 .basic {
   @include flex-wrap();
   margin-bottom: 5%;
   font-weight: 100;
 
-  .basic-input,
-  .area-input {
-    width: 100%;
-    border-radius: 8px;
-    border-width: 0.5px;
-    padding: 0.4em 1.5em 0.4em;
-    margin-bottom: 1em;
-
-    &::placeholder {
-      font-size: 0.8rem;
-      opacity: 80%;
-    }
-  }
-
   .basic-checkbox {
     position: relative;
-    margin-top: .25em;
+    margin-top: 0.25em;
     margin-bottom: 12px;
     padding-left: 2em;
     cursor: pointer;
@@ -98,7 +138,7 @@ code {
       width: 0;
 
       &:checked ~ .checkmark {
-        background-color:$blue-secondary;
+        background-color: $blue-secondary;
       }
     }
 
@@ -114,19 +154,51 @@ code {
   }
 }
 
+// Increase / Decrease buttons styles
 .quantity {
-  @include flex-column();
+  @include flex-wrap();
   margin-bottom: 10%;
   font-weight: 100;
 
-  .special-input {
-    @include flex-center();
-    width: 2em;
+  &__button {
+    display: inline-block;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    &--decrease,
+    &--increase {
+      @include flex-column();
+      justify-content: center;
+      width: 2.5em;
+      height: 2.5em;
+      text-align: center;
+      font-weight: 600;
+      color: white;
+      background-color: $blue-secondary;
+      border-radius: 50%;
+    }
+  }
+
+  &__button:hover {
+    cursor: pointer;
+  }
+
+  &__number {
     text-align: center;
-    border-radius: 15px;
-    border-width: 0.5px;
-    font-size: 1.5rem;
-    padding: 0.25em;
-    margin-bottom: 1em;
+    color: white;
+    border: none;
+    background-color: $black;
+    width: 2.5em;
+    height: 2.5em;
+  }
+
+  &__number[type="number"]::-webkit-inner-spin-button,
+  &__number[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }

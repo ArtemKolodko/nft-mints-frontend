@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
 import Header from "../../components/header/header.component";
 import { checkingLogin, setLoginChecked } from "../../store/user/user.action";
-import { selectCheckLogin } from "../../store/user/user.selector";
+// import { selectCheckLogin } from "../../store/user/user.selector";
 import { checkLogin } from "../../utils/mint-interface/mint-inteface.utils";
 
 const GetStarted = () => {

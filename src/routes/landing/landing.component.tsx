@@ -1,6 +1,7 @@
 import { Navigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import { UserProfile } from '../../components/user-profile/user-profile.component';
@@ -9,9 +10,9 @@ import MascotBanner from '../../assets/imgs/mascot/Banner.png';
 import Header from '../../components/header/header.component';
 import { selectCurrentUser } from '../../store/user/user.selector';
 
+
 import './landing.styles.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isPropertyAccessChain } from 'typescript';
+
 
 
 
