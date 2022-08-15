@@ -1,15 +1,15 @@
 export type CollectionType = {
-  title : string;
-  description : string;
+  title: string;
+  description: string;
   link: string;
-  collectionAddress: "",
-  rate: 10,
-  maxMint: 100,
+  collectionAddress: string,
+  rate: number,
+  maxMint: number,
   uuid: string;
   priceId: string;
   userUuid: any;
   productId: string;
-  collectionImage: string; 
+  collectionImage: string;
   tokenType: number;
   creatorRoyalties?: number;
   perks?: string;
@@ -23,7 +23,7 @@ export enum TokenTypeEnum {
 }
 
 export type TokenType = {
-  contractAddress: string, 
+  contractAddress: string,
   collectionUUID: string,
   sequence: string,
   ownerUUID: string,
@@ -40,9 +40,9 @@ export type CreatorType = {
 }
 
 export type SocialType = {
-  discord:string; 
-  email: string; 
-  instagram: string; 
-  twitter: string; 
+  discord:string;
+  email: string;
+  instagram: string;
+  twitter: string;
   website: string;
 }
