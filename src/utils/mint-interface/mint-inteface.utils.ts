@@ -319,6 +319,18 @@ export const getUserByPhoneNumber = async (
   return data
 };
 
+/**
+ * Get user by uuid
+ * @param userUuid {string}
+ * @returns user
+ */
+ export const getUserByUuid = async (
+  userUuid: string
+): Promise<UserType | null> => {
+  const { data } = await axios.get(`${GATEWAY}/v0/users/${userUuid}`);
+  return data
+};
+
 export const updateUser = async ({
   publicLink,
   name,

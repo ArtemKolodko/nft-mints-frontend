@@ -10,18 +10,16 @@ import { checkLogin, updateUser } from "../../utils/mint-interface/mint-inteface
 import CircularProgress from "@mui/material/CircularProgress";
 import { addFileToStorage } from "../../utils/firebase/firebase.utils";
 import { setCurrentUser } from "../../store/user/user.action";
+import UserType from "../../types/user.types";
 
 // const defaultProfile = {
 //     name: 'Username',
 //     publicLink: '@username'
 // }
 
-export const UserProfile = () => {
-    const currentUser = useSelector(selectCurrentUser);
-    const { ownerUuid } = useParams();
-
-    const [username, setUsername] = useState(currentUser?.name);
-    const [publicLink, setPublicLink] = useState(currentUser?.publicLink);
+export const UserProfile = ({displayUser, currentUuid}:{displayUser:UserType|undefined, currentUuid: string}) => {
+    const [username, setUsername] = useState(displayUser?.name || '');
+    const [publicLink, setPublicLink] = useState(displayUser?.publicLink || '');
 
     const [uploadProgress, setUploadProgress] = useState(0);
     const [filesUrlImage, setFilesUrlImage] = useState<string[]>([]);
@@ -36,14 +34,17 @@ export const UserProfile = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (currentUser) {
-            setUsername(currentUser.name);
-            setPublicLink(currentUser.publicLink);
+        if (displayUser) {
+            setUsername(displayUser.name || '');
+            setPublicLink(displayUser.publicLink || '');
         }
-    }, [currentUser]);
+    }, [displayUser]);
 
     const update = async () => {
-        if (edit && (username?.length > 0 || publicLink?.length > 0)) {
+        if (displayUser?.uuid !== currentUuid) {
+            return; // cannot edit
+        }
+        if (edit && (username.length > 0 || publicLink.length > 0)) {
             await updateUser({ name: username, publicLink })
         }
         setEdit(!edit)
@@ -98,13 +99,13 @@ export const UserProfile = () => {
 
     return <div className={'profile-container'}>
         <div className={'profile-image-container'}>
-            <div className={'profile-img'} style={{ backgroundImage: `url(${currentUser.profileImage || uploadImageImg})`, overflow: 'hidden' }}>
-                {uploadProgress === 0 && <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} onChange={e => setProfileImage(e.target.files)} />}
+            <div className={'profile-img'} style={{ backgroundImage: `url(${displayUser?.profileImage || uploadImageImg})`, overflow: 'hidden' }}>
+                {uploadProgress === 0 && <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} onChange={e => setProfileImage(e.target.files)} disabled={currentUuid !== displayUser?.uuid} />}
                 {uploadProgress > 0 && <CircularProgress value={uploadProgress} />}
             </div>
             <div className={'dj3n-logo'} style={{ backgroundImage: `url(${dj3nImg})` }} />
-            <div className={'profile-image-bg'} style={{ backgroundImage: `url(${currentUser.profileImageBg || uploadImageImg})`, overflow: 'hidden' }} >
-                {uploadProgressBg === 0 && <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} onChange={e => setProfileImageBg(e.target.files)} />}
+            <div className={'profile-image-bg'} style={{ backgroundImage: `url(${displayUser?.profileImageBg || uploadImageImg})`, overflow: 'hidden' }} >
+                {uploadProgressBg === 0 && <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} onChange={e => setProfileImageBg(e.target.files)} disabled={currentUuid !== displayUser?.uuid} />}
                 {uploadProgressBg > 0 && <CircularProgress value={uploadProgressBg} />}
             </div>
         </div>
@@ -118,7 +119,7 @@ export const UserProfile = () => {
                 <div><input type='text' value={publicLink} onChange={e => setPublicLink(e.target.value)} placeholder='@username' /></div>
             </div>}
             <div>
-                {(ownerUuid === currentUser.uuid || !ownerUuid) && <img src={editImg} width={'28px'} alt={'Edit'} onClick={update} />}
+                {(currentUuid === displayUser?.uuid) && <img src={editImg} width={'28px'} alt={'Edit'} onClick={update} />}
             </div>
         </div>
     </div>
