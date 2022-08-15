@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import { Tab, Tabs } from "@mui/material";
 import NftCard from "../../components/nft-card/nft-card.component";
 import { ApiTokenResponseType, CollectionType } from "../../types";
-import { getTokensByOwner, getCollectionsByOwner, getMyTokensByCreator } from "../../utils/mint-interface/mint-inteface.utils";
+import { getTokensByOwner, getCollectionsByOwner, getMyTokensByCreator, getUserByUuid } from "../../utils/mint-interface/mint-inteface.utils";
 import gridImg from "../../assets/imgs/grid.svg";
 import basketImg from "../../assets/imgs/basket.svg";
 import { UserProfile } from "./profile.component";
@@ -13,13 +13,16 @@ import { useSelector } from "react-redux";
 import { selectCheckLogin, selectCurrentUser } from "../../store/user/user.selector";
 import CollectionCard from "../../components/collection-card/collection-card.component";
 import {getUserAccessPasses} from "../../api/client";
+import UserType from "../../types/user.types";
 
 const GridIcon = () => <img src={gridImg} alt="Grid" />
 const BasketIcon = () => <img src={basketImg} alt="Basket" />
 
 const Gallery = () => {
   const currentUser = useSelector(selectCurrentUser);
+  const [displayUser, setDisplayUser] = useState<UserType | undefined>(undefined)
   const checkLogin = useSelector(selectCheckLogin);
+  const [loaded, setLoaded] = useState(false)
 
   const [activeTabIndex, setActiveTabIndex] = React.useState(0);
   const [tokens, setTokens] = useState<Array<ApiTokenResponseType> | null>([]);
@@ -58,27 +61,41 @@ const Gallery = () => {
   }
 
   useEffect(() => {
-    if (ownerUuid && activeTabIndex === 1) {
-      loadAccessPasses()
-    }
-  }, [ownerUuid, activeTabIndex])
-
-  useEffect(() => {
-    if (!checkLogin.checkedLogin) {
+    // fix logic; why loading many times
+    if (!checkLogin.checkedLogin || loaded) {
       return; // don't get until we have checked our login
     }
+
+    setLoaded(e=>{return true})
 
     // options 1) not logged in
     // show creator gallery
     if (!currentUser) {
+      const getCollections = async () => {
+        const data = await getCollectionsByOwner(ownerUuid!);
+        if (data) {
+          console.log(data);
+          setCollections(data);
+        }
+      }
+
       getCollections();
       return;
     }
 
     // options 2) logged in
+
+    let getTokens = async () => {
+      // i'm logged in and the gallery is the same as the logged in user
+      // get all my tokens
+      const data = await getTokensByOwner(currentUser.uuid);
+      if (data) {
+        console.log(data)
+        setTokens(data)
+      }
+    }
     // a) gallery list is same as the current user
     if (currentUser.uuid === ownerUuid) {
-      // get all my collections for gallery view (if they exist, users won't have any)
       getCollections()
       // get all my tokens
     }
@@ -99,6 +116,14 @@ const Gallery = () => {
 
     getTokens();
 
+    if (ownerUuid !== currentUser.uuid && ownerUuid && ownerUuid !== '') {
+      // empty means current user
+      getUserByUuid(ownerUuid).then(user => setDisplayUser(user!))
+    }
+    else {
+      setDisplayUser(currentUser)
+    }
+
   }, [ownerUuid, checkLogin.checkedLogin]);
 
   const handleChangeTab = (e: React.SyntheticEvent, value: number) => setActiveTabIndex(value)
@@ -107,7 +132,7 @@ const Gallery = () => {
 
   return (
     <div>
-      <UserProfile />
+      <UserProfile displayUser={displayUser} currentUuid={currentUser.uuid}/>
       <div className="gallery-container">
         <div className={'gallery-header'}>
           <Tabs value={activeTabIndex} onChange={handleChangeTab} aria-label="icon tabs example">

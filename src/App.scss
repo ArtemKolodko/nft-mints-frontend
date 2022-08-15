@@ -84,28 +84,12 @@ code {
     width: 100%;
   }
 
-  &--row {
-    @include flex-wrap();
-
-    .basic-checkbox {
-      width: 33%;
-    }
-    .basic-input {
-      width: 50%;
-      display: flex;
-      justify-content: flex-end;
-
-      &::placeholder {
-        text-align: right;
-      }
-    }
-  }
-
   &__button {
     font-size: 1rem;
     background-color: $blue;
     margin-left: 1em;
-    padding: 0 3.25em 0 3.25em;
+    padding-left: 2.85em;
+    padding-right: 2.85em;
   }
 }
 

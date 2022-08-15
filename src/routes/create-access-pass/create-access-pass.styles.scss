@@ -2,141 +2,33 @@
 @import "../../assets/scss/variables";
 
 .create-access-pass {
-  min-height: 86vh;
-  padding: 2em 0 2em 0;
-  box-sizing: border-box;
-
-  &__subtitle {
-    color: white;
-    font-weight: 600;
-    text-align: center;
-    margin-top: 2em;
-  }
-
-  &__message {
-    width: 350px;
-  }
-
-  &__stripe {
-    color: $stripe;
-    text-decoration: underline;
-  }
-
-  &__gallery {
-    text-decoration: underline;
-  }
-
-  &__form {
-    @include flex-column();
-    width: 80vw;
-    margin: 0 auto;
-
-    h4 {
-      color: $light-grey;
-    }
-
+  .form {
     &__logo-wrapper {
-      align-self: center !important;
+      @include flex-column();
+      justify-content: center;
       align-content: center;
-      text-align: center !important;
-      cursor: pointer;
-      box-sizing: border-box;
-
-      position: relative;
-      width: 192px;
-      height: 192px;
-
-
-      border: 1px dashed #808080;
-      border-radius: 24px;
+      width: 12em;
+      height: 12em;
+      margin: 0 auto 2em;
+      border: 1px dashed $medium-gray;
+      border-radius: 1.5em;
 
       .upload-icon {
-        position: relative;
-        width: 40px;
-        height: 40px;
-
+        margin: 0 auto;
+        width: 100%;
+        width: 2.5em;
+        height: 2.5em;
       }
 
       .upload-text {
-        position: relative;
-        width: 128px;
-        height: 80px;
-
+        text-align: center;
+        margin: 0 auto;
+        width: 100%;
+        width: 8em;
+        height: 5em;
         font-weight: 400;
-
-        color: #ffffff;
+        color: White;
       }
     }
-
-    &--row {
-      @include flex-wrap();
-
-      .basic-checkbox {
-        width: 33%;
-      }
-
-      .basic-input {
-        width: 50% !important;
-        display: flex !important;
-        justify-content: flex-end !important;
-
-        &::placeholder {
-          text-align: right;
-        }
-      }
-    }
-  }
-
-  &__button {
-    background-color: $blue;
   }
 }
-
-// .create-access-pass-container {
-//   .upload-logo-wrapper {
-//     cursor: pointer;
-//     box-sizing: border-box;
-
-//     position: absolute;
-//     width: 192px;
-//     height: 192px;
-//     left: calc(50% - 192px/2);
-//     top: calc(50% - 192px/2);
-
-//     /* Neutrals/500 Grey */
-
-//     border: 1px dashed #808080;
-//     border-radius: 24px;
-
-//     .upload-icon {
-//       position: absolute;
-//       width: 40px;
-//       height: 40px;
-//       left: calc(50% - 40px/2);
-//       top: calc(50% - 40px/2 - 46px);
-//     }
-
-//     .upload-text {
-//       position: absolute;
-//       width: 128px;
-//       height: 80px;
-//       left: calc(50% - 128px/2);
-//       top: calc(50% - 80px/2 + 14px);
-
-//       /* Paragraph 1/P1 Regular */
-
-//       font-family: 'Montserrat';
-//       font-style: normal;
-//       font-weight: 400;
-//       font-size: 1rem;
-//       line-height: 1.2rem;
-//       display: flex;
-//       align-items: center;
-//       text-align: center;
-
-//       /* Shades/White */
-
-//       color: #FFFFFF;
-//     }
-//   }
-// }
