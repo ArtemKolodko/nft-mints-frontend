@@ -34,7 +34,7 @@ const NewUserAlert = ({ openAlert, redirect }: NewUSerAlertProps) => {
   };
   
   const handleChange = (event: any) => {
-    const { value } = event;
+    const { value } = event?.target;
     setPhoneNumber(value);
   }
   

@@ -43,7 +43,7 @@ export const UserProfile = () => {
     }, [currentUser]);
 
     const update = async () => {
-        if (edit && username?.length > 0 || publicLink?.length > 0) {
+        if (edit && (username?.length > 0 || publicLink?.length > 0)) {
             await updateUser({ name: username, publicLink })
         }
         setEdit(!edit)
@@ -99,7 +99,7 @@ export const UserProfile = () => {
                 {uploadProgress > 0 && <CircularProgress value={uploadProgress} />}
             </div>
             <div className={'dj3n-logo'} style={{ backgroundImage: `url(${dj3nImg})` }} />
-            <div className={'profile-image-bg'} style={{ backgroundImage: `url(${currentUser.profileImageBg || uploadImageImg})` }} >
+            <div className={'profile-image-bg'} style={{ backgroundImage: `url(${currentUser.profileImageBg || uploadImageImg})`, overflow: 'hidden' }} >
                 {uploadProgressBg === 0 && <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} onChange={e => setProfileImageBg(e.target.files)} />}
                 {uploadProgressBg > 0 && <CircularProgress value={uploadProgressBg} />}
             </div>
