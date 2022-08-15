@@ -43,7 +43,7 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = store.subscribe(() => {
       const user = store.getState().user;
-      if (user) {
+      if (user && user.currentUser) {
         saveSessionState(store.getState());
         saveLocalState(user.currentUser.phone);
       }

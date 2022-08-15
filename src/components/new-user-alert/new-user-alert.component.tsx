@@ -27,14 +27,14 @@ const NewUserAlert = ({ openAlert, redirect }: NewUSerAlertProps) => {
     
   };
 
-  const verifyPhone = (): boolean | undefined => {
-    if (phoneNumber && phoneNumber.length >= 10)
-      return false;
-    return true;
-  };
+  // const verifyPhone = (): boolean | undefined => {
+  //   if (phoneNumber && phoneNumber.length >= 10)
+  //     return false;
+  //   return true;
+  // };
   
   const handleChange = (event: any) => {
-    const { value } = event;
+    const { value } = event?.target;
     setPhoneNumber(value);
   }
   

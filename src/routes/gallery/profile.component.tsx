@@ -11,10 +11,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { addFileToStorage } from "../../utils/firebase/firebase.utils";
 import { setCurrentUser } from "../../store/user/user.action";
 
-const defaultProfile = {
-    name: 'Username',
-    publicLink: '@username'
-}
+// const defaultProfile = {
+//     name: 'Username',
+//     publicLink: '@username'
+// }
 
 export const UserProfile = () => {
     const currentUser = useSelector(selectCurrentUser);
@@ -43,7 +43,7 @@ export const UserProfile = () => {
     }, [currentUser]);
 
     const update = async () => {
-        if (edit && username?.length > 0 || publicLink?.length > 0) {
+        if (edit && (username?.length > 0 || publicLink?.length > 0)) {
             await updateUser({ name: username, publicLink })
         }
         setEdit(!edit)
@@ -70,10 +70,12 @@ export const UserProfile = () => {
 
     useEffect(() => {
         uploadImage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [profileImage]);
 
     useEffect(() => {
         uploadImageBg();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [profileImageBg]);
 
     useEffect(() => {
@@ -82,6 +84,7 @@ export const UserProfile = () => {
             refreshUser();
         };
         update();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filesUrlBg]);
 
     useEffect(() => {
@@ -90,6 +93,7 @@ export const UserProfile = () => {
             refreshUser();
         };
         update();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filesUrlImage]);
 
     return <div className={'profile-container'}>
@@ -99,7 +103,7 @@ export const UserProfile = () => {
                 {uploadProgress > 0 && <CircularProgress value={uploadProgress} />}
             </div>
             <div className={'dj3n-logo'} style={{ backgroundImage: `url(${dj3nImg})` }} />
-            <div className={'profile-image-bg'} style={{ backgroundImage: `url(${currentUser.profileImageBg || uploadImageImg})` }} >
+            <div className={'profile-image-bg'} style={{ backgroundImage: `url(${currentUser.profileImageBg || uploadImageImg})`, overflow: 'hidden' }} >
                 {uploadProgressBg === 0 && <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} onChange={e => setProfileImageBg(e.target.files)} />}
                 {uploadProgressBg > 0 && <CircularProgress value={uploadProgressBg} />}
             </div>

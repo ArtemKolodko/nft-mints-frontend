@@ -60,11 +60,9 @@ const CreateCollectible = (props: any) => {
     defaultMintResponse
   );
 
-
   const { redirect } = useParams();
 
   const userData = useSelector(selectCurrentUser);
-
 
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -72,9 +70,7 @@ const CreateCollectible = (props: any) => {
   };
 
   useEffect(() => {
-
     if (redirect && filesUrl.length === 0) {
-
       setUploadProgress(100);
       setFilesUrl(loadLocalState(LOCAL_STORAGE.FILES));
       setFormFields(loadLocalState(LOCAL_STORAGE.FORM_FIELDS));
@@ -121,8 +117,8 @@ const CreateCollectible = (props: any) => {
 
     if (filesUrl.length > 0) {
       if (userData) {
-        saveLocalState('',LOCAL_STORAGE.FILES);
-        saveLocalState('',LOCAL_STORAGE.FORM_FIELDS);
+        saveLocalState("", LOCAL_STORAGE.FILES);
+        saveLocalState("", LOCAL_STORAGE.FORM_FIELDS);
         addCollection();
       } else {
         saveLocalState(filesUrl, LOCAL_STORAGE.FILES);
@@ -163,6 +159,21 @@ const CreateCollectible = (props: any) => {
     setFormFields({ ...formFields, [name]: value });
   };
 
+  const increaseSupply = () => {
+    const value = parseInt(formFields.supply+"") + 1;
+    console.log(value);
+    setFormFields({ ...formFields, supply : value })
+  }
+
+  const decreaseSupply = () => {
+    const value = formFields.supply;
+    if (value > 0) {
+      setFormFields({ ...formFields, supply : value - 1})
+    }
+    
+  }
+  
+  
   return (
     <div className="create-collective">
       {isCreatingNewUser ? (
@@ -174,8 +185,8 @@ const CreateCollectible = (props: any) => {
         </>
       ) : (
         <>
-          <h2 className="create-collective__subtitle">Create Collectible</h2>
-          <form className="create-collective__form" onSubmit={handleSubmit}>
+          <h2 className="form__title">Create Collectible</h2>
+          <form className="form" onSubmit={handleSubmit}>
             {uploadProgress > 0 ? (
               <div>
                 {uploadProgress < 100 &&
@@ -219,7 +230,7 @@ const CreateCollectible = (props: any) => {
                 )}
               </div>
             ) : (
-              <div>
+              <div className="basic">
                 <Dropzone
                   onChange={updateFiles}
                   value={files}
@@ -270,7 +281,7 @@ const CreateCollectible = (props: any) => {
                     onChange={handleAreaChange}
                   />
 
-                  <div className="create-collective__form--row">
+                  <div className="form--row">
                     <label className="basic-checkbox">
                       <input
                         type="checkbox"
@@ -319,26 +330,32 @@ const CreateCollectible = (props: any) => {
                     onChange={handleInputChange}
                   />
                 </div>
-                <h3 className="create-collective__subtitle">Choose Quantity</h3>
                 <div className="quantity">
+                  <div className="quantity__button quantity__button--decrease" 
+                   onClick={decreaseSupply}>
+                    -
+                  </div>
                   <input
-                    className="special-input"
-                    name="supply"
+                    className="quantity__number"
                     placeholder="0"
-                    required={true}
+                    name="supply"
                     type="number"
+                    value={formFields.supply}
                     onChange={handleInputChange}
                   />
-
+                  <div className="quantity__button quantity__button--increase"
+                    onClick={increaseSupply}>
+                    +
+                  </div>
                   <button
-                    className="create-collective__button"
+                    className="form__button"
                     disabled={
                       files.length === 0 ||
                       formFields.title === "" ||
                       formFields.supply === 0
                     }
                   >
-                    Create
+                    Continue
                   </button>
                 </div>
               </div>
