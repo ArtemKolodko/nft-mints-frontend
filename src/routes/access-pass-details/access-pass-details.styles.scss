@@ -1,5 +1,4 @@
 .access-pass-details-container {
-  max-width: 900px;
   text-align: center;
   margin: 0 auto;
   padding: 10px;
@@ -19,6 +18,19 @@
       font-size: 20px;
       font-weight: 600;
     }
+  }
+
+  .access-pass-owner {
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .access-pass-price {
+    width: 100%;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: right;
+    border-bottom: 1px solid #999999;
   }
 }
 

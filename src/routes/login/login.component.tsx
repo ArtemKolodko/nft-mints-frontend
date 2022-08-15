@@ -12,8 +12,14 @@ const Login = () => {
   const [connecting, setConnecting] = useState(false);
 
   const loginHandler = async () => {
-    smsLoginHandler(mobileNumber);
-    setConnecting(true);
+    try {
+      setConnecting(true);
+      await smsLoginHandler(mobileNumber);
+    } catch (e) {
+      console.log('Cannot login:', e)
+    } finally {
+      setConnecting(false)
+    }
   };
 
   const onChangeHandler = (event: any) => {

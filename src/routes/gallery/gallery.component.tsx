@@ -61,6 +61,12 @@ const Gallery = () => {
   }
 
   useEffect(() => {
+    if (ownerUuid && activeTabIndex === 1) {
+      loadAccessPasses()
+    }
+  }, [ownerUuid, activeTabIndex])
+
+  useEffect(() => {
     // fix logic; why loading many times
     if (!checkLogin.checkedLogin || loaded) {
       return; // don't get until we have checked our login

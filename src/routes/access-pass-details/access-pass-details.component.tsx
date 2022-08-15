@@ -12,6 +12,7 @@ import ticketLogoSample from "../../assets/imgs/pass-logo-sample.png";
 import ticketBack from "../../assets/imgs/ticket_background.svg";
 import {getAccessPassById} from "../../api/client";
 import QR from "../../assets/imgs/qrSample.svg";
+import {Button} from "@mui/material";
 
 const AccessPassDetailsCard = (props: { data: CollectionType }) => {
     const { data: { title, rate, description } } = props
@@ -90,6 +91,13 @@ const AccessPassDetails = () => {
                     {!isLoading && accessPass &&
                         <div>
                             <AccessPassDetailsCard data={accessPass} />
+                            <div style={{ marginTop: '8px' }}>
+                                <div className={'access-pass-owner'}>Owned by @asaprocky</div>
+                                <div className={'access-pass-price'}>${accessPass.rate}.00</div>
+                                <div style={{ marginTop: '16px' }}>
+                                    <Button variant="contained" fullWidth={true}>Buy now</Button>
+                                </div>
+                            </div>
                         </div>
                     }
                     {!isLoading && !accessPass &&
