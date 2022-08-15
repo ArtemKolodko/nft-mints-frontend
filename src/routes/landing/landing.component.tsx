@@ -24,9 +24,9 @@ const Landing = () => {
     profileDescription: 'DJ3N allows any creator to host their own storefront in Web3.\nConnect with fans and build your Web3 street team.\nClick around to get started.'
   }
   
-  if (currentUser) {
-    return <Navigate to={`nfts/gallery/${currentUser.uuid}`} />
-  }
+  // if (currentUser) {
+  //   return <Navigate to={`nfts/gallery/${currentUser.uuid}`} />
+  // }
 
   return (
     <div className='landing-container'>

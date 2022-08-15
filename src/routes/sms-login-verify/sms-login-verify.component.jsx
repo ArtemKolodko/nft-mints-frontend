@@ -27,38 +27,47 @@ const SmsLoginVerify = () => {
     const cancelled = params.get("cancelled");
     // We added this one for convenience
     const redirect = params.get("redirect");
+    const destinationPageName = params.get("destinationPageName");
+    const destinationPageUrl = params.get("destinationPageUrl");
     if (redirect) setRedirectUri(redirect);
 
     const phone = loadLocalState();
+
+    const doRedirect = (url) => {
+      navigate(url);
+    };
 
     verifyLogin({ signature, messageHash, address, error, cancelled, phone })
       .then((data) => {
         if (!data) {
           setMessage("User not logged in, check the console for details");
-          return
+          return;
         }
 
-        dispatch(
-          setCurrentUser(data)
-        );
+        dispatch(setCurrentUser(data));
 
         setMessage(
           `Your information has been verified. Redirecting to ${
-            redirect || "gallery"
+            destinationPageName || "gallery"
           } in a few seconds.`
         );
-        setTimeout(doRedirect, 5000, redirect);
+        setTimeout(
+          doRedirect(
+            destinationPageUrl
+              ? destinationPageUrl
+              : `/nfts/gallery/${data.uuid}`
+          ),
+          5000,
+          redirect
+        );
       })
       .catch((err) => {
         console.error(err);
         setMessage("An error has occurred, check the console for details.");
       })
       .finally(() => setIsPending(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setIsPending, setRedirectUri]);
-
-  function doRedirect(uri) {
-    navigate('/nfts/');
-  }
 
   return (
     <div className="login-verify">
@@ -69,7 +78,10 @@ const SmsLoginVerify = () => {
         <h1 className="login-verify__title">DJ3N</h1>
       </div>
       <div className="login-verify__body">
-        <h3>Verifying your credentials.<br /> Please wait...</h3>
+        <h3>
+          Verifying your credentials.
+          <br /> Please wait...
+        </h3>
         <br />
         <p>{message}</p>
         {redirectUri ? <a href={redirectUri}>Continue</a> : null}

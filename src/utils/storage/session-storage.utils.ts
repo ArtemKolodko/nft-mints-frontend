@@ -1,8 +1,8 @@
 const KEY = "redux";
 
-export const loadSessionState = () => {
+export const loadSessionState = (key=KEY) => {
   try {
-    const serializedState = sessionStorage.getItem(KEY);
+    const serializedState = sessionStorage.getItem(key);
     if (!serializedState) return undefined;
     return JSON.parse(serializedState);
   } catch (e) {
@@ -10,10 +10,10 @@ export const loadSessionState = () => {
   }
 }
 
-export const saveSessionState = async (state: any) => {
+export const saveSessionState = async (state: any, key=KEY) => {
   try {
     const serializedState = JSON.stringify(state);
-    sessionStorage.setItem(KEY, serializedState);
+    sessionStorage.setItem(key, serializedState);
   } catch (e) {
     // Ignore
   }

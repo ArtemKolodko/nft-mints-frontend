@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faUser, faFolder } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faCircleUser, faTicket } from "@fortawesome/free-solid-svg-icons"; //faUser, faFolder, f
 
 import { selectCheckLogin, selectCurrentUser } from "../../store/user/user.selector";
 import Header from "../../components/header/header.component";
@@ -26,9 +26,9 @@ const Navigation = () => {
     checkLogin().then(user=>dispatch(setLoginChecked(user))).catch(err=>dispatch(setLoginChecked(null)))
     
     setChecked(true)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checked])
 
-  console.log(currentUser)
   if (!currentUser) {
     return <Navigate to='/' />
   }
@@ -47,10 +47,10 @@ const Navigation = () => {
           <FontAwesomeIcon icon={faPlus} />
         </Link>
         <Link className="navigation__link" to={`gallery/${currentUser.uuid}`}>
-          <FontAwesomeIcon icon={faUser} />
+          <FontAwesomeIcon icon={faCircleUser} />
         </Link>
         <Link className="navigation__link" to={`gallery/${currentUser.uuid}`}>
-          <FontAwesomeIcon icon={faFolder} />
+          <FontAwesomeIcon icon={faTicket} />
         </Link>
       </div>
     </div>

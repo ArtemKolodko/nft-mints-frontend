@@ -1,8 +1,8 @@
 export const LOCAL_STORAGE_KEY = "phoneNumber";
 
-export const loadLocalState = () => {
+export const loadLocalState = (key=LOCAL_STORAGE_KEY) => {
   try {
-    const serializedState = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const serializedState = localStorage.getItem(key);
     if (!serializedState) return undefined;
     return JSON.parse(serializedState);
   } catch (e) {
@@ -10,10 +10,10 @@ export const loadLocalState = () => {
   }
 }
 
-export const saveLocalState = (state: any) => {
+export const saveLocalState = (state: any, key=LOCAL_STORAGE_KEY) => {
   try {
     const serializedState = JSON.stringify(state);
-    localStorage.setItem(LOCAL_STORAGE_KEY, serializedState);
+    localStorage.setItem(key, serializedState);
   } catch (e) {
     // Ignore
   }

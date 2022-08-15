@@ -42,8 +42,8 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = store.subscribe(() => {
       const user = store.getState().user;
-      saveSessionState(store.getState());
       if (user) {
+        saveSessionState(store.getState());
         saveLocalState(user.currentUser.phone);
       }
     });
@@ -62,8 +62,8 @@ const App = () => {
           {/* Private routes */}
           <Route path="nfts/" element={<Navigation />}>
             <Route index element={<CreateHome />} />
-            <Route path="create-collectible/" element={<CreateCollectible />} />
-            <Route path="create-access-pass/" element={<CreateAccessPass />} />
+            <Route path="create-collectible/:redirect" element={<CreateCollectible />} />
+            <Route path="create-access-pass/:redirect" element={<CreateAccessPass />} />
             <Route path="gallery/:ownerUuid" element={<Gallery />} />
           </Route>
 

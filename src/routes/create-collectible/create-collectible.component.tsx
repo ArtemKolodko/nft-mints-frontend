@@ -1,15 +1,15 @@
 import { useState, ChangeEvent, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Dropzone, FileItem, FileValidated } from "@dropzone-ui/react";
 
 import CircularProgress from "@mui/material/CircularProgress";
 import CircularProgressWithLabel from "../../components/progress-with-label/progress-with-label.component";
 import {
-  checkLogin,
+  // checkLogin,
   createCollection,
-  getStripeAuthLink,
-  getUserByPhoneNumber,
+  // getStripeAuthLink,
+  // getUserByPhoneNumber,
 } from "../../utils/mint-interface/mint-inteface.utils";
 
 import { selectCurrentUser } from "../../store/user/user.selector";
@@ -17,16 +17,25 @@ import { addFilesToStorage } from "../../utils/firebase/firebase.utils";
 import { ApiResponseType, TokenTypeEnum } from "../../types";
 
 import "./create-collectible.styles.scss";
+import CreateResult from "../../components/create-result/create-result.component";
+
+import NewUserAlert from "../../components/new-user-alert/new-user-alert.component";
+import {
+  loadLocalState,
+  saveLocalState,
+} from "../../utils/storage/local-storage.utils";
+import Button from "../../components/button/button.component";
 
 const defaultFormFields = {
   title: "",
   description: "",
   link: "",
-  quantity: 0,
-  price: 0,
-  perk: '',
-  details: '',
-  royalty: 0,
+  rate: "",
+  supply: 0,
+  perks: "",
+  creatorRoyalty: "",
+  additionalDetails: "",
+  gift: false,
 };
 
 const defaultMintResponse: ApiResponseType | null = {
@@ -34,80 +43,73 @@ const defaultMintResponse: ApiResponseType | null = {
   status: 0,
 };
 
-//const BASE_URL = process.env.REACT_APP_BASE_URL;
+enum LOCAL_STORAGE {
+  FILES = "filesURL",
+  FORM_FIELDS = "formFields",
+}
 
-const CreateCollectible = () => {
+const CreateCollectible = (props: any) => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [files, setFiles] = useState<FileValidated[]>([]);
   const [filesUrl, setFilesUrl] = useState<string[]>([]);
   const [formFields, setFormFields] = useState(defaultFormFields);
+  const [giftChecked, setGiftChecked] = useState(false);
+  const [isCreatingNewUser, setIsCreatingNewUser] = useState(false);
+
   const [mintResponse, setMintResponse] = useState<ApiResponseType | null>(
     defaultMintResponse
   );
 
+
+  const { redirect } = useParams();
+
   const userData = useSelector(selectCurrentUser);
 
-  const navigate = useNavigate();
-
-  const { title, description, link, quantity, price, perk, royalty, details } = formFields;
 
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     await addFilesToStorage(files, setUploadProgress, setFilesUrl);
   };
 
-  // TODO: remove hardcoded number after SMS login refactoring (login first, then create collection)
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     try {
-  //       const data = await getUserByPhoneNumber("+6584901105");
-  //       console.log("user:", data);
-  //     } catch (e) {
-  //       console.log("Cannot get user by phone number", e);
-  //     }
-  //   };
+  useEffect(() => {
 
-  //   getUser();
-  // }, []);
+    if (redirect && filesUrl.length === 0) {
 
-  const connectStripe = async () => {
-    try {
-      const stripeLink = await getStripeAuthLink();
-      console.log("Stripe auth link:", stripeLink);
-      window.open(stripeLink);
-    } catch (e) {
-      console.log("Cannot get Stripe link", e);
+      setUploadProgress(100);
+      setFilesUrl(loadLocalState(LOCAL_STORAGE.FILES));
+      setFormFields(loadLocalState(LOCAL_STORAGE.FORM_FIELDS));
     }
-  };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [redirect]);
 
   useEffect(() => {
-    console.log(
-      "useEffect addCollection",
-      title,
-      description,
-      link,
-      quantity,
-      price
-    );
+    console.log("USEFFECT FILES URL", filesUrl);
     const addCollection = async () => {
       const userId = userData ? userData.uuid : "";
-
-      //const loginData = await checkLogin();
-      // setUserData(loginData);
-      // console.log("loginData", loginData);
+      const {
+        title,
+        description,
+        link,
+        rate,
+        supply,
+        perks,
+        creatorRoyalty,
+        additionalDetails,
+      } = formFields;
 
       const mintData = await createCollection(
         filesUrl[0],
         title,
         description,
         link,
-        price,
-        quantity,
+        rate ? parseInt(rate) : 0,
+        supply,
         userId,
         TokenTypeEnum.COLLECTION,
-        perk,
-        royalty,
-        details
+        perks,
+        creatorRoyalty ? parseInt(creatorRoyalty) : 0,
+        additionalDetails
       );
 
       console.log("createCollection response:", mintData);
@@ -118,11 +120,19 @@ const CreateCollectible = () => {
     };
 
     if (filesUrl.length > 0) {
-      console.log("mint hhook IF");
-      addCollection();
+      if (userData) {
+        saveLocalState('',LOCAL_STORAGE.FILES);
+        saveLocalState('',LOCAL_STORAGE.FORM_FIELDS);
+        addCollection();
+      } else {
+        saveLocalState(filesUrl, LOCAL_STORAGE.FILES);
+        saveLocalState(formFields, LOCAL_STORAGE.FORM_FIELDS);
+        setIsCreatingNewUser(true);
+      }
     }
+
     // eslint-disable-next-line
-  }, [filesUrl]);
+  }, [filesUrl, userData]);
 
   const updateFiles = (incommingFiles: FileValidated[]) => {
     setFiles(incommingFiles);
@@ -132,9 +142,20 @@ const CreateCollectible = () => {
     setFiles(files.filter((x) => x.id !== id));
   };
 
-  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormFields({ ...formFields, [name]: value });
+
+    if (name === "gift") {
+      setFormFields({
+        ...formFields,
+        [name]: !giftChecked,
+        rate: "",
+        creatorRoyalty: "",
+      });
+      setGiftChecked(!giftChecked);
+    } else {
+      setFormFields({ ...formFields, [name]: value });
+    }
   };
 
   const handleAreaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -144,184 +165,187 @@ const CreateCollectible = () => {
 
   return (
     <div className="create-collective">
-      <h2 className="create-collective__subtitle">Create Collectible</h2>
-      <form className="create-collective__form" onSubmit={handleSubmit}>
-        {uploadProgress > 0 ? (
-          <div>
-            {uploadProgress < 100 && mintResponse && mintResponse.status === 0 && (
-              <>
-                <h2>Uploading media...</h2>
-                <CircularProgressWithLabel value={uploadProgress} />
-              </>
-            )}
-            {uploadProgress === 100 && (
-              <>
-                {mintResponse ? (
-                  mintResponse.status === 0 ? (
+      {isCreatingNewUser ? (
+        <>
+          <NewUserAlert
+            openAlert={isCreatingNewUser}
+            redirect="/nfts/create-collectible/redirect"
+          />
+        </>
+      ) : (
+        <>
+          <h2 className="create-collective__subtitle">Create Collectible</h2>
+          <form className="create-collective__form" onSubmit={handleSubmit}>
+            {uploadProgress > 0 ? (
+              <div>
+                {uploadProgress < 100 &&
+                  mintResponse &&
+                  mintResponse.status === 0 && (
                     <>
-                      <h2>Creating Collection...</h2>
-                      <CircularProgress />
+                      <h2>Uploading media...</h2>
+                      <CircularProgressWithLabel value={uploadProgress} />
                     </>
-                  ) : (
-                    <>
-                      <h1 className="success">Success!</h1>
-                      <h2>Collectible listed</h2>
-                      <p>
-                        <Link
-                          to={`checkout/${mintResponse.data.uuid}`}
-                          target="_blank"
-                        >
-                          SHARE
-                        </Link>
-                      </p>
-                      {userData && ( // TODO: add condition && !userData.stripeConnected
+                  )}
+                {uploadProgress === 100 && (
+                  <>
+                    {mintResponse ? (
+                      mintResponse.status === 0 ? (
                         <>
-                          <h2 className="important">Important:</h2>
-                          <div className="create-collective__message">
-                            <h2>
-                              In order to sell your collectible or access pass,
-                              you must first
-                            </h2>
-                          </div>
-                          <h1 className="create-collective__stripe" onClick={connectStripe}>
-                            Setup Stripe
-                          </h1>
-                          <div>
-                            <h2>Skip to</h2>
-                            <h2
-                              className="create-collective__gallery"
-                              onClick={() =>
-                                navigate(`/nfts/gallery/${userData.uuid}`)
-                              }
-                            >
-                              View Gallery
-                            </h2>
-                          </div>
+                          <h2>Creating Collection...</h2>
+                          <CircularProgress />
                         </>
-                      )}
-                    </>
-                  )
-                ) : (
-                  <div>Error</div>
+                      ) : (
+                        <div className="create-result">
+                          <h1 className="success">Success!</h1>
+                          <h2>Collectible listed</h2>
+
+                          <Button
+                            label="Share"
+                            onClick={() =>
+                              window.open(
+                                `/checkout/${mintResponse.data.uuid}`,
+                                "_blank"
+                              )
+                            }
+                          />
+
+                          {userData && <CreateResult uuid={userData.uuid} />}
+                        </div>
+                      )
+                    ) : (
+                      <div>Error</div>
+                    )}
+                  </>
                 )}
-              </>
-            )}
-          </div>
-        ) : (
-          <div>
-            <Dropzone
-              onChange={updateFiles}
-              value={files}
-              accept={"image/*"} //
-              maxFileSize={104857600}
-              label={"Drop Files here\nor click to browse"}
-              minHeight={"195px"}
-              maxHeight={"500px"}
-              disableScroll
-              footer={true}
-              maxFiles={1}
-              style={{ marginBottom: "5%" }}
-            >
-              {files.map((file) => (
-                <FileItem
-                  {...file}
-                  key={file.id}
-                  onDelete={handleDelete}
-                  alwaysActive
-                  preview
-                  info
-                  elevation={1}
-                  resultOnTooltip
-                />
-              ))}
-            </Dropzone>
-            <div className="basic">
-              <input
-                className="basic-input"
-                name="title"
-                placeholder="Collectible or Collection Name*"
-                required={true}
-                type="text"
-                onChange={onChangeHandler}
-              />
-              <textarea
-                className="area-input"
-                name="description"
-                placeholder="Elaborate on the story or purpose*"
-                required={false}
-                onChange={handleAreaChange}
-              />
-              <textarea
-                className="area-input"
-                name="details"
-                placeholder="Additional Details*"
-                required={false}
-                onChange={handleAreaChange}
-              />
-
-              <div className="create-collective__form--row">
-                <label className="basic-checkbox">
-                  <input type="checkbox" name="gift" value="gift" />
-                  <span className="checkmark"></span>
-                  Gift
-                </label>
-                <input
-                  className="basic-input"
-                  name="price"
-                  placeholder="Price*"
-                  required={true}
-                  type="number"
-                  onChange={onChangeHandler}
-                />
               </div>
+            ) : (
+              <div>
+                <Dropzone
+                  onChange={updateFiles}
+                  value={files}
+                  accept={"image/*"} //
+                  maxFileSize={104857600}
+                  label={"Drop Files here\nor click to browse"}
+                  minHeight={"195px"}
+                  maxHeight={"500px"}
+                  disableScroll
+                  footer={true}
+                  maxFiles={1}
+                  style={{ marginBottom: "5%" }}
+                >
+                  {files.map((file) => (
+                    <FileItem
+                      {...file}
+                      key={file.id}
+                      onDelete={handleDelete}
+                      alwaysActive
+                      preview
+                      info
+                      elevation={1}
+                      resultOnTooltip
+                    />
+                  ))}
+                </Dropzone>
+                <div className="basic">
+                  <input
+                    className="basic-input"
+                    name="title"
+                    placeholder="Collectible or Collection Name*"
+                    required={true}
+                    type="text"
+                    onChange={handleInputChange}
+                  />
+                  <textarea
+                    className="area-input"
+                    name="description"
+                    placeholder="Elaborate on the story or purpose*"
+                    required={false}
+                    onChange={handleAreaChange}
+                  />
+                  <textarea
+                    className="area-input"
+                    name="additionalDetails"
+                    placeholder="Additional Details*"
+                    required={false}
+                    onChange={handleAreaChange}
+                  />
 
-              <input
-                className="basic-input"
-                name="royalty"
-                placeholder="Creator Royalty*"
-                required={true}
-                type="text"
-                onChange={onChangeHandler}
-              />
-              <h4>Optional</h4>
-              <input
-                className="basic-input"
-                name="perk"
-                placeholder="Perk Name"
-                required={false}
-                type="text"
-                onChange={onChangeHandler}
-              />
-              <input
-                className="basic-input"
-                name="link"
-                placeholder="Link to unlisted youtube, exclusive Discord chat or file to download"
-                required={false}
-                type="text"
-                onChange={onChangeHandler}
-              />
-            </div>
-            <h3 className="create-collective__subtitle">Choose Quantity</h3>
-            <div className="quantity">
-              <input
-                className="special-input"
-                name="quantity"
-                placeholder="0"
-                required={true}
-                type="number"
-                onChange={onChangeHandler}
-              />
+                  <div className="create-collective__form--row">
+                    <label className="basic-checkbox">
+                      <input
+                        type="checkbox"
+                        name="gift"
+                        onChange={handleInputChange}
+                      />
+                      <span className="checkmark"></span>
+                      Gift
+                    </label>
+                    <input
+                      className="basic-input"
+                      name="rate"
+                      value={formFields.rate}
+                      placeholder="Price*"
+                      required={true}
+                      type="number"
+                      onChange={handleInputChange}
+                      disabled={giftChecked}
+                    />
+                  </div>
 
-              <button
-                className="create-collective__button"
-                disabled={files.length === 0 || title === "" || quantity === 0}
-              >
-                Create
-              </button>
-            </div>
-          </div>
-        )}
-      </form>
+                  <input
+                    className="basic-input"
+                    name="creatorRoyalty"
+                    placeholder="Creator Royalty*"
+                    required={true}
+                    type="number"
+                    onChange={handleInputChange}
+                    disabled={giftChecked}
+                  />
+                  <h4>Optional</h4>
+                  <input
+                    className="basic-input"
+                    name="perks"
+                    placeholder="Perk Name"
+                    required={false}
+                    type="text"
+                    onChange={handleInputChange}
+                  />
+                  <input
+                    className="basic-input"
+                    name="link"
+                    placeholder="Link to unlisted youtube, exclusive Discord chat or file to download"
+                    required={false}
+                    type="text"
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <h3 className="create-collective__subtitle">Choose Quantity</h3>
+                <div className="quantity">
+                  <input
+                    className="special-input"
+                    name="supply"
+                    placeholder="0"
+                    required={true}
+                    type="number"
+                    onChange={handleInputChange}
+                  />
+
+                  <button
+                    className="create-collective__button"
+                    disabled={
+                      files.length === 0 ||
+                      formFields.title === "" ||
+                      formFields.supply === 0
+                    }
+                  >
+                    Create
+                  </button>
+                </div>
+              </div>
+            )}
+          </form>
+        </>
+      )}
     </div>
   );
 };
