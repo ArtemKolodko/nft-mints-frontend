@@ -4,6 +4,8 @@ import Button from "../button/button.component";
 import { getStripeAuthLink } from "../../utils/mint-interface/mint-inteface.utils";
 
 import "./create-result.styles.scss";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
 
 export type CreateResultProps = {
   uuid: string;
@@ -11,6 +13,7 @@ export type CreateResultProps = {
 
 const CreateResult = ({ uuid }: CreateResultProps) => {
   const navigate = useNavigate();
+  const user = useSelector(selectCurrentUser)
 
   const connectStripe = async (e: any) => {
     console.log(e);
@@ -26,9 +29,10 @@ const CreateResult = ({ uuid }: CreateResultProps) => {
 
   return (
     <div className="create-result">
-      <div className="create-result__subtitle create-result__alert">
+      {!user?.stripeConnected &&  <><div className="create-result__subtitle create-result__alert">
         <h2>Important</h2>
       </div>
+      
       <h3>In order to sell your collectible or access pass, you must first</h3>
 
       <Button label="Setup Stripe" className={"info"} onClick={connectStripe} />
@@ -36,6 +40,8 @@ const CreateResult = ({ uuid }: CreateResultProps) => {
       <div className="create-result__subtitle">
         <h3>Skip to</h3>
       </div>
+      </>}
+      {user?.stripeConnected && <h3>You've already connected your Stripe account</h3>}
       <Button
         label="View Gallery"
         className={"info"}
