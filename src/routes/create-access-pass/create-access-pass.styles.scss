@@ -3,6 +3,25 @@
 
 .create-access-pass {
   .form {
+
+    &--row {
+      @include flex-wrap();
+      width: 100%;
+  
+      .basic-checkbox {
+        width: 33.3333333%;
+      }
+      .basic-input {
+        width: 66.6666666%;
+        display: flex;
+        justify-content: flex-end;
+  
+        &::placeholder {
+          text-align: right;
+        }
+      }
+    }
+    
     &__logo-wrapper {
       @include flex-column();
       justify-content: center;
@@ -20,6 +39,13 @@
         height: 2.5em;
       }
 
+      .upload-image {
+        margin: 0 auto;
+        width: 100%;
+        width: 6em;
+        height: 6em;
+      }
+
       .upload-text {
         text-align: center;
         margin: 0 auto;
@@ -28,6 +54,146 @@
         height: 5em;
         font-weight: 400;
         color: White;
+      }
+    }
+
+    &__colors {
+      @include flex-wrap();
+      width: 100%;
+      margin: 1em 0 1em 0;
+
+      & > div {
+        @include flex-column();
+        width: 33.333333%;
+        justify-content: center;
+        align-content: center;
+
+        label {
+          font-size: 0.85rem;
+          font-weight: 400;
+          line-height: 1.1em;
+          text-align: center;
+          height: 2.5em;
+          color: white;
+        }
+
+        input {
+          margin: 0 auto;
+          background-color: transparent;
+          border: 0;
+        }
+      }
+    }
+
+    &__pass {
+      width: 90%;
+      justify-content: center;
+      align-self: center;
+      font-weight: 400;
+      color: $medium-gray;
+      background-color: transparent;
+      margin: 0 auto 1em;
+      padding: 0.45em 0 0.45em;
+
+      &--top {
+        border: 18px solid transparent;
+        border-image: url("../../assets/imgs/pass-top.svg") 100% 14 0 14;
+        margin-bottom: -18px;
+      }
+
+      &--container {
+        @include flex-column();
+        justify-content: center;
+        background-color: $pass-background;
+      }
+
+      &--price {
+        font-size: 0.9rem;
+        text-align: right;
+        margin: 0 0.5em 0;
+      }
+
+      &--info {
+        @include flex-column();
+        margin: 0.5em;
+        border: 1px;
+        border-style: solid;
+        border-color: $black;
+        border-radius: 0.5em;
+        
+
+        .logo {
+          margin: 1em auto 0;
+          width: 3em;
+        }
+
+        .qr {
+          width: 9em;
+          margin: 1em auto 0;
+          background-color: $black;
+        }
+
+        h3 {
+          font-size: 1rem;
+          text-align: center;
+          color: White;
+          background-color: $medium-gray;
+          padding: 1em 0 1em 0;
+        }
+
+        .details {
+          @include flex-wrap();
+          border-bottom: 1px solid $black;
+          box-sizing: border-box;
+
+          .col {
+            width: 50%;
+            font-size: 0.85rem;
+            text-align: right;
+            padding: 0.25em 0 0.25em 0;
+            box-sizing: border-box;
+
+            &:nth-child(odd) {
+              text-align: left;
+              padding-left: 0.25em;
+            }
+
+            &:nth-child(even) {
+              text-align: right;
+              padding-right: 0.25em;
+            }
+          }
+        }
+
+        .full {
+          @include flex-wrap();
+          padding: 0.25em;
+
+          .description {
+            width: 100%;
+            font-size: 0.75rem;
+            margin-bottom: 0.5em;
+          }
+        }
+
+        .img-container {
+          text-align: center;
+          color: White;
+          background-color: $medium-gray;
+          padding: 1em 0 1em 0;
+          border-radius: 0 0 .5em .5em;
+
+          img {
+            background-color: $black;
+            padding: .5em;
+          }
+        }
+      }
+
+      &--bottom {
+        border: 18px solid transparent;
+        border-image: url("../../assets/imgs/pass-bottom.svg") 0 14 100% 14;
+        margin-top: -18px;
       }
     }
   }

@@ -60,7 +60,7 @@ const Header = () => {
         <div className={walletClass}>
           {currentUser ? (
             <h3 onClick={toggleWallet}>
-              { showWallet ? (<div>{truncateAddressString(currentUser.uuid,6)}</div>) : <FontAwesomeIcon icon={faWallet} />}
+              { showWallet ? (<div>{truncateAddressString(currentUser.walletAddress,6)}</div>) : <FontAwesomeIcon icon={faWallet} />}
             </h3>
           ) : (
             <Link to="/auth/" style={{ color: "white" }}>

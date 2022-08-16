@@ -1,73 +1,196 @@
-.ticket {
-  position: relative;
-  box-sizing: border-box;
-  width: 300px;
-  height: 450px;
-  //margin: 150px auto 0;
-  padding: 20px;
-  border-radius: 10px;
-  background: red;
-  box-shadow: 2px 2px 15px 0px #ab9b0d;
+@import "../../assets/scss/mixins";
+@import "../../assets/scss/variables";
 
-  &:before,
-  &:after {
-    content: "";
-    position: absolute;
-    left: 5px;
-    height: 6px;
-    width: 290px;
-  }
+.create-access-pass {
+  .form {
+    &__pass {
+      width: 90%;
+      justify-content: center;
+      align-self: center;
+      font-weight: 400;
+      color: $medium-gray;
+      background-color: transparent;
+      margin: 0 auto 1em;
+      padding: 0.45em 0 0.45em;
 
-  &:before {
-    top: -5px;
-    background: radial-gradient(
-        circle,
-        transparent,
-        transparent 50%,
-        #fbfbfb 50%,
-        #fbfbfb 100%
-      ) -7px -8px / 16px 16px repeat-x;
-  }
+      &--top {
+        border: 18px solid transparent;
+        border-image: url("../../assets/imgs/pass-top.svg") 100% 14 0 14;
+        margin-bottom: -18px;
+      }
 
-  &:after {
-    bottom: -5px;
-    background: radial-gradient(
-        circle,
-        transparent,
-        transparent 50%,
-        #fbfbfb 50%,
-        #fbfbfb 100%
-      ) -7px -2px / 16px 16px repeat-x;
-  }
+      &--container {
+        @include flex-column();
+        justify-content: center;
+        //background-color: $pass-background;
+      }
 
-  .ticket__content {
-    box-sizing: border-box;
-    height: 100%;
-    width: 100%;
-    border: 6px solid #d8d8d8;
+      &--price {
+        font-size: 0.9rem;
+        text-align: right;
+        margin: 0 0.5em 0;
+      }
 
-    .ticket__price {
-      text-align: center;
-    }
+      &--info {
+        @include flex-column();
+        margin: 0.5em;
+        border: 1px;
+        border-style: solid;
+        border-color: $black;
+        border-radius: 0.5em;
+        
 
-    .ticket__logo {
-      
-      margin-left: 100px;
-      img {
-        width: 80px;
+        .logo {
+          margin: 1em auto 0;
+          //width: 3em;
+          max-width: 17em !important;
+          max-height: 5em !important;
+        }
+
+        .qr {
+          width: 9em;
+          margin: 1em auto 0;
+          background-color: $black;
+        }
+
+        h3 {
+          font-size: 1rem;
+          text-align: center;
+          color: White;
+          background-color: $medium-gray;
+          padding: 1em 0 1em 0;
+        }
+
+        .details {
+          @include flex-wrap();
+          border-bottom: 1px solid $black;
+          box-sizing: border-box;
+
+          .col {
+            width: 50%;
+            font-size: 0.85rem;
+            text-align: right;
+            padding: 0.25em 0 0.25em 0;
+            box-sizing: border-box;
+
+            &:nth-child(odd) {
+              text-align: left;
+              padding-left: 0.25em;
+            }
+
+            &:nth-child(even) {
+              text-align: right;
+              padding-right: 0.25em;
+            }
+          }
+        }
+
+        .full {
+          @include flex-wrap();
+          padding: 0.25em;
+
+          .description {
+            width: 100%;
+            font-size: 0.75rem;
+            margin-bottom: 0.5em;
+          }
+        }
+
+        .img-container {
+          text-align: center;
+          color: White;
+          background-color: $medium-gray;
+          padding: 1em 0 1em 0;
+          border-radius: 0 0 .5em .5em;
+
+          img {
+            background-color: $black;
+            padding: .5em;
+          }
+        }
+      }
+
+      &--bottom {
+        border: 18px solid transparent;
+        border-image: url("../../assets/imgs/pass-bottom.svg") 0 14 100% 14;
+        margin-top: -18px;
       }
     }
-
-    .ticket__text {
-      font-family: "Helvetica", "Arial", sans-serif;
-      font-size: 3rem;
-      font-weight: 900;
-      text-transform: uppercase;
-      color: black;
-      text-align: center;
-      //   transform: translate(-25px, 25px) rotate(-55deg) ;
-    }
   }
+}
+
+
+
+// .ticket {
+//   position: relative;
+//   box-sizing: border-box;
+//   width: 300px;
+//   height: 450px;
+//   //margin: 150px auto 0;
+//   padding: 20px;
+//   border-radius: 10px;
+//   background: red;
+//   box-shadow: 2px 2px 15px 0px #ab9b0d;
+
+//   &:before,
+//   &:after {
+//     content: "";
+//     position: absolute;
+//     left: 5px;
+//     height: 6px;
+//     width: 290px;
+//   }
+
+//   &:before {
+//     top: -5px;
+//     background: radial-gradient(
+//         circle,
+//         transparent,
+//         transparent 50%,
+//         #fbfbfb 50%,
+//         #fbfbfb 100%
+//       ) -7px -8px / 16px 16px repeat-x;
+//   }
+
+//   &:after {
+//     bottom: -5px;
+//     background: radial-gradient(
+//         circle,
+//         transparent,
+//         transparent 50%,
+//         #fbfbfb 50%,
+//         #fbfbfb 100%
+//       ) -7px -2px / 16px 16px repeat-x;
+//   }
+
+//   .ticket__content {
+//     box-sizing: border-box;
+//     height: 100%;
+//     width: 100%;
+//     border: 6px solid #d8d8d8;
+
+//     .ticket__price {
+//       text-align: center;
+//     }
+
+//     .ticket__logo {
+      
+//       margin-left: 100px;
+//       img {
+//         width: 80px;
+//       }
+//     }
+
+//     .ticket__text {
+//       font-family: "Helvetica", "Arial", sans-serif;
+//       font-size: 3rem;
+//       font-weight: 900;
+//       text-transform: uppercase;
+//       color: black;
+//       text-align: center;
+//       //   transform: translate(-25px, 25px) rotate(-55deg) ;
+//     }
+//   }
 
   
-}
+// }
