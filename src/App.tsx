@@ -12,6 +12,7 @@ import { store } from "./store/store";
 
 import "./App.scss";
 import GetStarted from "./routes/get-started/get-started.component";
+import CollectibleDetails from "./routes/collectible-details/collectible-details.component";
 
 const CreateHome = lazy(
   () => import("./routes/create-home/create-home.component")
@@ -67,6 +68,7 @@ const App = () => {
             <Route path="create-access-pass/:redirect" element={<CreateAccessPass />} />
             <Route path="gallery/:ownerUuid" element={<Gallery />} />
             <Route path="access-pass/:uuid/" element={<AccessPassDetails />} />
+            <Route path="collectible/:uuid/" element={<CollectibleDetails />} />
           </Route>
 
           {/* User get starting routes */}

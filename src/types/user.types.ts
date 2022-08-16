@@ -12,6 +12,7 @@ type UserType = {
   profileImage? : any;
   profileImageBg? : any;
   description?: string;
+  walletAddress?: string;
 }
 
 export enum UserTypeEnum {

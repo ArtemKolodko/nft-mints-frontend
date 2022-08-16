@@ -89,7 +89,7 @@ const AccessPassDetails = () => {
 
     const onCloseClick = () => {
         if (accessPass) {
-            navigate(`/nfts/gallery/${accessPass.userUuid}`)
+            navigate(`/nfts/gallery/${accessPass.ownerUUID}`)
         }
     }
 

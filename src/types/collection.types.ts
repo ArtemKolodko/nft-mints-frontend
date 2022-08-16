@@ -7,7 +7,7 @@ export type CollectionType = {
   maxMint: number,
   uuid: string;
   priceId: string;
-  userUuid: any;
+  ownerUUID: string;
   productId: string;
   collectionImage: string;
   tokenType: number;

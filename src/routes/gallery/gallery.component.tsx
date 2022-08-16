@@ -125,6 +125,7 @@ const Gallery = () => {
   const handleChangeTab = (e: React.SyntheticEvent, value: number) => setActiveTabIndex(value)
 
   const onClickAccessPass = (uuid: string) => navigate(`/nfts/access-pass/${uuid}`)
+  const onClickCollectible = (uuid: string) => navigate(`/nfts/collectible/${uuid}`)
 
   return (
     <div>
@@ -139,7 +140,7 @@ const Gallery = () => {
         <div style={{ marginTop: '16px' }}>
           <div className="gallery" style={{ display: activeTabIndex === 0 ? 'grid' : 'none' }}>
             {collections && collections.map((collection) => (
-              <CollectionCard key={collection.uuid} {...collection} />
+              <CollectionCard key={collection.uuid} collection={collection} onClick={() => onClickCollectible(collection.uuid)} />
             ))}
             {tokens && tokens.map((token) => (
               <NftCard key={token.token.sequence} {...token} />
@@ -148,6 +149,7 @@ const Gallery = () => {
           <div style={{ display: activeTabIndex === 1 ? 'grid' : 'none' }}>
             {accessPasses.map(pass =>
                 <UserAccessPass
+                    key={pass.uuid}
                     {...pass}
                     onClick={() => onClickAccessPass(pass.uuid)}
                 />)}
