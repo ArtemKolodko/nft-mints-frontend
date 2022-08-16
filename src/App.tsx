@@ -65,7 +65,9 @@ const App = () => {
           <Route path="nfts/" element={<Navigation />}>
             <Route index element={<CreateHome />} />
             <Route path="create-collectible/:redirect" element={<CreateCollectible />} />
+            <Route path="create-collectible/" element={<CreateCollectible />} />
             <Route path="create-access-pass/:redirect" element={<CreateAccessPass />} />
+            <Route path="create-access-pass/" element={<CreateAccessPass />} />
             <Route path="gallery/:ownerUuid" element={<Gallery />} />
             <Route path="access-pass/:uuid/" element={<AccessPassDetails />} />
             <Route path="collectible/:uuid/" element={<CollectibleDetails />} />
