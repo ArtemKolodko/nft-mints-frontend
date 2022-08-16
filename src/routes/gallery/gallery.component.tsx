@@ -121,6 +121,12 @@ const Gallery = () => {
 
   }, [ownerUuid, checkLogin.checkedLogin]);
 
+  useEffect(() => {
+    if (ownerUuid === currentUser?.uuid) {
+      setDisplayUser(currentUser) // update if the user updates
+    }
+  }, [ownerUuid, currentUser])
+
   const handleChangeTab = (e: React.SyntheticEvent, value: number) => setActiveTabIndex(value)
 
   return (

@@ -80,6 +80,9 @@ export const UserProfile = ({displayUser, currentUuid}:{displayUser:UserType|und
     }, [profileImageBg]);
 
     useEffect(() => {
+        if (filesUrlBg.length === 0) {
+            return
+        }
         const update = async () => {
             await updateUser({ profileImageBg: filesUrlBg[0] }).then(e => setUploadProgressBg(0));
             refreshUser();
@@ -89,6 +92,9 @@ export const UserProfile = ({displayUser, currentUuid}:{displayUser:UserType|und
     }, [filesUrlBg]);
 
     useEffect(() => {
+        if (filesUrlImage.length === 0) {
+            return
+        }
         const update = async () => {
             await updateUser({ profileImage: filesUrlImage[0] }).then(e => setUploadProgress(0));
             refreshUser();
