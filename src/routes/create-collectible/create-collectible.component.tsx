@@ -161,7 +161,6 @@ const CreateCollectible = (props: any) => {
 
   const increaseSupply = () => {
     const value = parseInt(formFields.supply+"") + 1;
-    console.log(value);
     setFormFields({ ...formFields, supply : value })
   }
 
@@ -235,7 +234,7 @@ const CreateCollectible = (props: any) => {
                   onChange={updateFiles}
                   value={files}
                   accept={"image/*"} //
-                  maxFileSize={104857600}
+                  maxFileSize={5242880} // 100MB = {104857600}
                   label={"Drop Files here\nor click to browse"}
                   minHeight={"195px"}
                   maxHeight={"500px"}

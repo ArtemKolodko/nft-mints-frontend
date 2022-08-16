@@ -51,6 +51,7 @@ const SmsLoginVerify = () => {
             destinationPageName || "gallery"
           } in a few seconds.`
         );
+        
         setTimeout(
           doRedirect(
             destinationPageUrl
