@@ -1,0 +1,56 @@
+@import "../../assets/scss/variables";
+
+.collectible-details-container {
+  width: 60vw;
+  margin: 0 auto;
+  padding: 10px;
+  color: #FFFFFF;
+
+  .collectible-details-header {
+    height: 24px;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .collectible-details-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .collectible-details-title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .collectible-details-image-container {
+      max-width: 500px;
+
+      img {
+        border-radius: 8px;
+      }
+    }
+
+    .collectible-details-info {
+      margin-top: 16px;
+      border-radius: 8px;
+      background-color: #F2F2F2;
+      padding: 16px 24px;
+      color: $black;
+      font-size: 14px;
+    }
+  }
+
+  .collectible-details-owner {
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .collectible-details-price {
+    width: 100%;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: right;
+    border-bottom: 1px solid #999999;
+  }
+}
