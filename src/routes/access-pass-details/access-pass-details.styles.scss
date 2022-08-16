@@ -1,8 +1,16 @@
+@import "../../assets/scss/variables";
+
 .access-pass-details-container {
-  text-align: center;
+  width: 80vw;
   margin: 0 auto;
   padding: 10px;
   color: #FFFFFF;
+
+  .access-pass-details-header {
+    height: 24px;
+    display: flex;
+    justify-content: flex-start;
+  }
 
   .access-pass-details-wrapper {
     display: flex;
@@ -10,11 +18,7 @@
     justify-content: center;
     align-items: center;
 
-    .header {
-      height: 24px;
-    }
-
-    .title {
+    .access-pass-details-title {
       font-size: 20px;
       font-weight: 600;
     }
@@ -40,77 +44,91 @@
   align-items: center;
   justify-content: center;
   width: 300px;
-  background-repeat: no-repeat;
-  background-size: 100%;
-  padding: 24px 8px;
   color: #000000;
   font-size: 12px;
 
-  .access-pass-header {
-    width: inherit;
+  .access-pass-header, .access-pass-footer {
     display: flex;
     justify-content: flex-end;
     font-size: 14px;
+    background-color: $stripe;
+    mask-image: url("../../assets/imgs/ticket-top.svg");
+    mask-size: cover;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: inherit;
+    height: 26px;
   }
 
-  .access-pass-info {
-    width: 100%;
-    margin-top: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #999999;
-    border-radius: 8px;
-    padding-bottom: 4px;
+  .access-pass-footer {
+    rotate: 180deg;
+  }
 
-    .access-pass-logo {
-      width: 80px;
-      height: 80px;
-      background-repeat: no-repeat;
-      background-size: contain;
-      margin-top: 4px;
-    }
+  .access-pass-content {
+    padding: 0 8px 8px;
+    background-color: $stripe;
 
-    .access-pass-title {
-      width: inherit;
-      background: #999999;
-      color: black;
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 42px;
-    }
-
-    .access-pass-location {
-      width: inherit;
-      font-size: 12px;
-      padding: 8px;
-
-      &-line {
-        display: flex;
-        justify-content: space-between;
-        padding: 2px 8px;
-      }
-    }
-
-    .access-pass-details {
-      padding: 4px 8px;
-      border-top: 2px solid #999999;
-
-      &-description {
-        font-size: 16px;
-      }
-    }
-
-    .access-pass-details-button {
+    .access-pass-info {
+      width: 100%;
       margin-top: 8px;
-      background: #999999;
-      border-radius: 28px;
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 24px;
-      padding: 4px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #999999;
+      border-radius: 8px;
+      padding-bottom: 4px;
+
+      .access-pass-logo {
+        width: 80px;
+        height: 80px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        margin-top: 4px;
+      }
+
+      .access-pass-title {
+        width: inherit;
+        margin-top: 4px;
+        background: #999999;
+        color: black;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 42px;
+        text-align: center;
+      }
+
+      .access-pass-location {
+        width: inherit;
+        font-size: 12px;
+        padding: 8px;
+
+        &-line {
+          display: flex;
+          justify-content: space-between;
+          padding: 2px 8px;
+        }
+      }
+
+      .access-pass-details {
+        padding: 4px 8px;
+        border-top: 2px solid #999999;
+
+        &-description {
+          font-size: 16px;
+        }
+      }
+
+      .access-pass-details-button {
+        cursor: pointer;
+        margin-top: 8px;
+        background: #999999;
+        border-radius: 28px;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 24px;
+        padding: 4px 16px;
+      }
     }
   }
-
 }
