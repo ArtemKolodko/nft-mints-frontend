@@ -20,6 +20,10 @@ const CreateHome = lazy(
 const CreateCollectible = lazy(
   () => import("./routes/create-collectible/create-collectible.component")
 );
+const FiatOnramp = lazy(
+    () => import("./routes/fiat-onramp/fiat-onramp.component")
+)
+
 const CreateAccessPass = lazy(
   () => import("./routes/create-access-pass/create-access-pass.component")
 );
@@ -60,6 +64,7 @@ const App = () => {
           <Route path="/" element={<Landing />} />
           <Route path="auth/" element={<Login />} />
           <Route path="verify/" element={<SmsLoginVerify />} />
+          <Route path='onramp' element={<FiatOnramp />} />
 
           {/* Private routes */}
           <Route path="nfts/" element={<Navigation />}>
