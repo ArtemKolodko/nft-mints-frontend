@@ -90,16 +90,6 @@ const Gallery = () => {
     }
 
     // options 2) logged in
-
-    let getTokens = async () => {
-      // i'm logged in and the gallery is the same as the logged in user
-      // get all my tokens
-      const data = await getTokensByOwner(currentUser.uuid);
-      if (data) {
-        console.log(data)
-        setTokens(data)
-      }
-    }
     // a) gallery list is same as the current user
     if (currentUser.uuid === ownerUuid) {
       getCollections()
