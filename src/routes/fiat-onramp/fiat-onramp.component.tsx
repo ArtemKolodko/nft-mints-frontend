@@ -21,9 +21,9 @@ const FiatOnramp = (props: any) => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (name === "oneAmount") {
-      setFormFields({...formFields, [name]: ethers.utils.parseEther(value).toString()});
+      setFormFields({...formFields, [name]: value});
     }
-    if(name == "address"){
+    if(name === "address"){
       setErrorMessage("")
       setFormFields({...formFields, [name]: value});
     }
@@ -41,7 +41,7 @@ const FiatOnramp = (props: any) => {
       hostAppName: 'D3jn',
       hostLogoUrl: 'https://collectible-creator.netlify.app/static/media/DJ3N%20Logo.36cec0b22275a29a1c30.png',
       swapAsset: 'HARMONY_ONE',
-      swapAmount: formFields.oneAmount,
+      swapAmount: ethers.utils.parseEther(formFields.oneAmount).toString(),
       userAddress: formFields.address,
       userEmailAddress: formFields.email
     });
