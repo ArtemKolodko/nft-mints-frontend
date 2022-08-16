@@ -7,6 +7,7 @@ import ticketBack from "../../assets/imgs/ticket_background.svg";
 export interface UserAccessPassProps {
     title: string
     description: string
+    onClick: () => void
 }
 
 const Ticket = () => {
@@ -20,8 +21,8 @@ const Ticket = () => {
 }
 
 export const UserAccessPass = (props: UserAccessPassProps) => {
-    const { title, description } = props
-    return <div className={'user-pass-container'}>
+    const { title, description, onClick } = props
+    return <div className={'user-pass-container'} onClick={onClick}>
         <div>
             <Ticket />
         </div>

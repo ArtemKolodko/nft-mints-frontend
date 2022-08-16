@@ -34,6 +34,7 @@ const CheckoutFailure = lazy(
   () => import("./routes/checkout/checkout-failure.component")
 );
 const ClaimNft = lazy(() => import("./routes/claim-nft/claim-nft.component"));
+const AccessPassDetails = lazy(() => import("./routes/access-pass-details/access-pass-details.component"));
 
 
 
@@ -65,6 +66,7 @@ const App = () => {
             <Route path="create-collectible/:redirect" element={<CreateCollectible />} />
             <Route path="create-access-pass/:redirect" element={<CreateAccessPass />} />
             <Route path="gallery/:ownerUuid" element={<Gallery />} />
+            <Route path="access-pass/:uuid/" element={<AccessPassDetails />} />
           </Route>
 
           {/* User get starting routes */}
@@ -73,7 +75,7 @@ const App = () => {
             <Route path="create-collectible/" element={<CreateCollectible />} />
             <Route path="create-access-pass/" element={<CreateAccessPass />} />
           </Route>
-          
+
           {/* Public routes */}
           <Route path="checkout/:collectionUuid" element={<Checkout />} />
           <Route

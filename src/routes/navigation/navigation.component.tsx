@@ -24,9 +24,8 @@ const Navigation = () => {
     }
     dispatch(checkingLogin())
     checkLogin().then(user=>dispatch(setLoginChecked(user))).catch(err=>dispatch(setLoginChecked(null)))
-    
+
     setChecked(true)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checked])
 
   if (!currentUser) {
