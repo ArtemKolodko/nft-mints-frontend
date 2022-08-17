@@ -17,10 +17,10 @@ export type EditorProps = {
 }
 
 export type UserProfileProps = {
-  name: string;
-  publicLink: string;
-  profileImage: any;
-  profileImageBg: any;
+  name?: string;
+  publicLink?: string;
+  profileImage?: any;
+  profileImageBg?: any;
   profileDescription?: string;
   editable?: boolean;
   editor?: EditorProps;
@@ -28,7 +28,7 @@ export type UserProfileProps = {
 
 type EditableComponentProps = {
   value: string;
-  stateAction: Dispatch<SetStateAction<string>>;
+  stateAction: Dispatch<SetStateAction<string | undefined>>;
   editing: boolean;
   editingCls: string;
   normalCls: string;
@@ -52,8 +52,10 @@ export const UserProfile = (props: UserProfileProps) => {
 
   const [editing, setEditing] = useState(false)
   const [nameStr, setName] = useState(name)
-  const [description, setDescription] = useState(profileDescription || '')
+  const [description, setDescription] = useState(profileDescription)
   const [link, setLink] = useState(publicLink)
+
+  console.log(nameStr, description, profileImage, link, name, profileDescription, publicLink)
 
   return (
     <div className={"profile-container"}>
@@ -76,12 +78,15 @@ export const UserProfile = (props: UserProfileProps) => {
         </div>
       </div>
       <div className={"profile-info-container"}>
-        <div>
+        <div style={{"flexGrow": "1"}}>
           <div className='profile-title'>
-            <EditableComponent normalCls="profile-title" editingCls="profile-title-edit" value={nameStr} stateAction={setName} editing={editing} placeholder="Username"/>
+            <EditableComponent normalCls="profile-title" editingCls="profile-title-edit" value={nameStr || 'username'} stateAction={setName} editing={editing} placeholder="Username"/>
           </div>
           <div className='profile-link-sm'>
-            <EditableComponent normalCls="profile-link-sm" editingCls="profile-link-sm-edit" value={link} stateAction={setLink} editing={editing} placeholder="@username"/>
+            <EditableComponent normalCls="profile-link-sm" editingCls="profile-link-sm-edit" value={link || '@username'} stateAction={setLink} editing={editing} placeholder="@username"/>
+          </div>
+          <div className='profile-description-cls'>
+            <EditableComponent textArea={true} normalCls="profile-description" editingCls="profile-description-edit" value={description!} stateAction={setDescription} editing={editing} placeholder="@description"/>
           </div>
         </div>
         
@@ -89,14 +94,12 @@ export const UserProfile = (props: UserProfileProps) => {
           <img hidden={!editable} src={editImg} width={"20px"} alt={"Edit"} onClick={e => {
             if (editing) {
               // not editing, update!
-              editor?.updateProfile(name, publicLink, profileDescription!)
+              editor?.updateProfile(name!, publicLink!, profileDescription!)
             }
             setEditing(!editing)
           }} />
         </div>
       </div>
-      <EditableComponent textArea={true} normalCls="profile-description" editingCls="profile-description-edit" value={description} stateAction={setDescription} editing={editing} placeholder="@description"/>
-      
     </div>
   );
 };

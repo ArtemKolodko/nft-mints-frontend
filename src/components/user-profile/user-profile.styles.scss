@@ -5,6 +5,7 @@
   max-width: 800px;
   margin: 0 auto;
   white-space: pre-line;
+  margin-bottom: 4px;
 
   .profile-info-container {
     margin-left: 0.8em;
@@ -23,19 +24,18 @@
       text-align: left;
       flex-grow: 1;
       font-size: 0.7rem;
-      width: 80vw;
       color: $blue;
     }
     .profile-title-edit {
       flex-grow: 1;
       font-size: 1.0rem;
-      width: 100%;
+      width: 90%;
     }
 
     .profile-link-sm-edit {
       flex-grow: 1;
       font-size: 0.6rem;
-      width: 80vw;
+      width: 90%;
     }
   }
 
@@ -80,20 +80,19 @@
   }
 
   .profile-description {
-    margin-left: 1.0em !important;
-    margin-right: 1.0em !important;
     color: #9aa0a6;
     text-align: left;
     font-size: 0.7rem;
-    margin-left: 0.3em;
+  }
+
+  .profile-description-cls {
+    text-align: left;
+    font-size: 0.6rem;
   }
 
   .profile-description-edit {
     font-size: 0.6rem;
-    display: flex;
-    width: 80vw;
-    text-align: left;
-    margin-left: 0.9em !important;
-    margin-right: 0.9em !important;
+    flex-grow: 1;
+    width: 90%;
   }
 }
