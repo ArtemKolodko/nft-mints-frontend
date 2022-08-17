@@ -4,6 +4,7 @@ import editImg from "../../assets/imgs/edit.svg";
 import dj3nImg from "../../assets/imgs/dj3n_logo.svg";
 
 import "./user-profile.styles.scss";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 export const defaultProfile = {
   name: "Username",
@@ -33,10 +34,15 @@ type EditableComponentProps = {
   editingCls: string;
   normalCls: string;
   placeholder: string;
-  textArea?: boolean
+  textArea?: boolean;
+  isLink?: boolean;
+  navigator?: NavigateFunction
 }
 
 const EditableComponent = (props: EditableComponentProps) => {
+  if (!props.editing && props.isLink) {
+    return <div onClick={() => props.navigator!(`/${props.value}`)} className={props.normalCls}>{props.value}</div>
+  }
   if (!props.editing) {
     return <div className={props.normalCls}>{props.value}</div>
   }
@@ -54,6 +60,8 @@ export const UserProfile = (props: UserProfileProps) => {
   const [nameStr, setName] = useState(name)
   const [profileDescription, setDescription] = useState(description)
   const [link, setLink] = useState(publicLink)
+
+  const navigator = useNavigate()
 
   useEffect(() => {
     setName(name)
@@ -87,7 +95,7 @@ export const UserProfile = (props: UserProfileProps) => {
             <EditableComponent normalCls="profile-title" editingCls="profile-title-edit" value={nameStr || 'username'} stateAction={setName} editing={editing} placeholder="Username"/>
           </div>
           <div className='profile-link-sm'>
-            <EditableComponent normalCls="profile-link-sm" editingCls="profile-link-sm-edit" value={link || '@username'} stateAction={setLink} editing={editing} placeholder="@username"/>
+            <EditableComponent isLink={true} navigator={navigator} normalCls="profile-link-sm" editingCls="profile-link-sm-edit" value={link || '@username'} stateAction={setLink} editing={editing} placeholder="@username"/>
           </div>
           <div className='profile-description-cls'>
             <EditableComponent textArea={true} normalCls="profile-description" editingCls="profile-description-edit" value={profileDescription!} stateAction={setDescription} editing={editing} placeholder="description"/>

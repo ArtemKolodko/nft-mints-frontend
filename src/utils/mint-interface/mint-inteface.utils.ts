@@ -75,6 +75,17 @@ export const checkoutCollectionV2 = async (
   }
 };
 
+export const getUuidFromVanityTag = async (tag: string): Promise<string | null> => {
+  try {
+    const url = `${GATEWAY}/v0/users/vanity/${tag}`;
+    const response = await axios.get(url);
+    return response.data.uuid;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
+
 /**
  * Retrieves the Collection of a given Collection uid
  * @param collectionUuid {string} Collection uid

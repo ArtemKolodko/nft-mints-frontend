@@ -9,7 +9,7 @@ import { UserAccessPass } from "./access.pass.component";
 import { useSelector } from "react-redux";
 import { selectCheckLogin, selectCurrentUser } from "../../store/user/user.selector";
 import CollectionCard from "../../components/collection-card/collection-card.component";
-import {getUserAccessPasses} from "../../api/client";
+import { getUserAccessPasses } from "../../api/client";
 import UserType from "../../types/user.types";
 import GalleryTab from "../../components/gallery/gallery-tab.component";
 
@@ -55,7 +55,8 @@ const Gallery = () => {
     // get all my tokens
     try {
       setIsLoading(true)
-      const data = await getTokensByOwner(currentUser.uuid);
+      const data = await getTokensByOwner(currentUser?.uuid);
+      console.log(data)
       setTokens(data)
     } catch (e) {
       console.log('Cannot load tokens:', e)
@@ -81,8 +82,16 @@ const Gallery = () => {
       return; // don't get until we have checked our login
     }
 
-    setLoaded(e=>{return true})
+    setLoaded(e => { return true })
 
+    if (ownerUuid !== currentUser?.uuid && ownerUuid && ownerUuid !== '') {
+      // empty means current user
+      console.log("get user by uuid and setting display user")
+      getUserByUuid(ownerUuid).then(user => setDisplayUser(user!))
+    }
+    else {
+      setDisplayUser(currentUser)
+    }
     // options 1) not logged in
     // show creator gallery
     if (!currentUser) {
@@ -92,7 +101,7 @@ const Gallery = () => {
 
     // options 2) logged in
     // a) gallery list is same as the current user
-    if (currentUser.uuid === ownerUuid) {
+    if (currentUser?.uuid === ownerUuid) {
       getCollections()
       // get all my tokens
     }
@@ -105,7 +114,8 @@ const Gallery = () => {
         // filter tokens by the owner and creator uuid
         try {
           setIsLoading(true)
-          const data = await getMyTokensByCreator(currentUser.uuid, ownerUuid!);
+          const data = await getMyTokensByCreator(currentUser?.uuid, ownerUuid!);
+          console.log(data)
           setTokens(data)
         } catch (e) {
           console.log('Cannot load filtered tokens:', e)
@@ -116,14 +126,6 @@ const Gallery = () => {
     }
 
     getTokens();
-
-    if (ownerUuid !== currentUser.uuid && ownerUuid && ownerUuid !== '') {
-      // empty means current user
-      getUserByUuid(ownerUuid).then(user => setDisplayUser(user!))
-    }
-    else {
-      setDisplayUser(currentUser)
-    }
 
   }, [ownerUuid, checkLogin.checkedLogin]);
 
@@ -140,7 +142,7 @@ const Gallery = () => {
 
   return (
     <div>
-      <MyProfile displayUser={displayUser} canEdit={currentUser.uuid === displayUser?.uuid}/>
+      <MyProfile displayUser={displayUser} canEdit={currentUser?.uuid === displayUser?.uuid} />
       <div className="gallery-container">
         <div className={'gallery-header'}>
           <GalleryTab activeTabIndex={activeTabIndex} handleChangeTab={handleChangeTab} />
@@ -156,11 +158,11 @@ const Gallery = () => {
           </div>
           <div style={{ display: activeTabIndex === 1 ? 'grid' : 'none' }}>
             {accessPasses.map(pass =>
-                <UserAccessPass
-                    key={pass.uuid}
-                    {...pass}
-                    onClick={() => onClickAccessPass(pass.uuid)}
-                />)}
+              <UserAccessPass
+                key={pass.uuid}
+                {...pass}
+                onClick={() => onClickAccessPass(pass.uuid)}
+              />)}
           </div>
         </div>
       </div>

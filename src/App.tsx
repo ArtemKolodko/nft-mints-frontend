@@ -34,6 +34,9 @@ const CheckoutSuccess = lazy(
 const CheckoutFailure = lazy(
   () => import("./routes/checkout/checkout-failure.component")
 );
+const Vanity = lazy(
+  () => import("./routes/vanity/vanity.component")
+)
 const ClaimNft = lazy(() => import("./routes/claim-nft/claim-nft.component"));
 const AccessPassDetails = lazy(() => import("./routes/access-pass-details/access-pass-details.component"));
 
@@ -88,6 +91,7 @@ const App = () => {
           />
           <Route path="cancel/:userUuid" element={<CheckoutFailure />} />
           <Route path="collectionable/:tokenUuid" element={<ClaimNft />} />
+          <Route path="/:vanityUrl" element={<Vanity />}/>
         </Routes>
       </Suspense>
     </>

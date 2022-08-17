@@ -59,7 +59,7 @@ const CollectibleDetails = () => {
         }
     }
 
-    const isOwner = currentUser.uuid === collection?.ownerUUID
+    const isOwner = currentUser?.uuid === collection?.ownerUUID
 
     return (
         <div className={'collectible-details-container'}>
@@ -94,7 +94,7 @@ const CollectibleDetails = () => {
                         <div>
                             <div className={'collectible-details-title'}>{collection.title}</div>
                             <div className={'collectible-details-image-container'}>
-                                <img src={collection.collectionImage} width={'100%'} height={'100%'} alt='Collectible' />
+                                <img alt={collection.description || collection.title} src={collection.collectionImage} width={'100%'} height={'100%'} />
                             </div>
                             <div style={{ marginTop: '8px' }}>
                                 <div className={'collectible-details-owner'}>Owned by {owner ? owner.name : '-'}</div>
