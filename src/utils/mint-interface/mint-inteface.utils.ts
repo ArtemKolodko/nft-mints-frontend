@@ -82,15 +82,9 @@ export const checkoutCollectionV2 = async (
  */
 export const getCollection = async (
   collectionUuid: string
-): Promise<CollectionType | null> => {
-  try {
-    const url = `${GATEWAY}/v0/collections/${collectionUuid}`;
-    const response = await axios.get(url);
-    return response.data;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
+): Promise<CollectionType> => {
+  const { data } = await axios.get(`${GATEWAY}/v0/collections/${collectionUuid}`);
+  return data;
 };
 
 /**
@@ -168,21 +162,15 @@ export const createCollection = async (
 /**
  * Returns an array of tokens owned by the given Owner ID
  * @param ownerUuid {string} Onwer ID
+ * @param creatorUuid
  * @returns
  */
 export const getMyTokensByCreator = async (
   ownerUuid: string,
   creatorUuid: string
-): Promise<Array<ApiTokenResponseType> | null> => {
-  try {
-    const URL = `${GATEWAY}/v0/tokens/wallet/${ownerUuid}/${creatorUuid}`;
-    const response = await axios.get(URL)
-    return response.data;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-
+): Promise<ApiTokenResponseType[]> => {
+  const { data } = await axios.get(`${GATEWAY}/v0/tokens/wallet/${ownerUuid}/${creatorUuid}`)
+  return data;
 };
 
 
@@ -193,16 +181,9 @@ export const getMyTokensByCreator = async (
  */
 export const getTokensByOwner = async (
   ownerUuid: string
-): Promise<Array<ApiTokenResponseType> | null> => {
-  try {
-    const URL = `${GATEWAY}/v0/tokens/${ownerUuid}`;
-    const response = await axios.get(URL)
-    return response.data;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-
+): Promise<ApiTokenResponseType[]> => {
+  const { data } = await axios.get(`${GATEWAY}/v0/tokens/${ownerUuid}`)
+  return data
 };
 
 /**
@@ -230,15 +211,9 @@ export const getTokenDetail = async (
  */
 export const getCollectionsByOwner = async (
   ownerUuid: string
-): Promise<Array<CollectionType> | null> => {
-  try {
-    const URL = `${GATEWAY_V2}/v0/collections/user/${ownerUuid}`;
-    const response = await axios.get(URL)
-    return response.data;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
+): Promise<CollectionType[]> => {
+  const { data } = await axios.get(`${GATEWAY_V2}/v0/collections/user/${ownerUuid}`)
+  return data
 };
 
 /**
