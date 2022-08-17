@@ -131,7 +131,7 @@ const Gallery = () => {
         <div className={'gallery-header'}>
           <GalleryTab activeTabIndex={activeTabIndex} handleChangeTab={handleChangeTab} />
         </div>
-        <div style={{ marginTop: '0.8em', margin: '8px', padding:"8px"}}>
+        <div>
           <div className="gallery" style={{ display: activeTabIndex === 0 ? 'table' : 'none' }}>
             {collections && collections.map((collection) => (
               <CollectionCard key={collection.uuid} {...collection} />

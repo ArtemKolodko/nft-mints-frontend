@@ -3,13 +3,13 @@
 
 .nft-card-container {
   cursor: pointer;
-  height: calc(33.33vw - 16px);
+  height: calc(33vw - 1em);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   float: left;
   margin: 1px;
-  width: calc(33.33vw - 16px);
+  width: calc(33vw - 1em);
   border: 1px solid $neutralgray;
 
   .nft-info {
