@@ -22,10 +22,10 @@ import UserType from "../../types/user.types";
 
 export const UserProfile = ({
   displayUser,
-  currentUuid,
+  canEdit,
 }: {
   displayUser: UserType | undefined;
-  currentUuid: string;
+  canEdit: boolean;
 }) => {
   const [username, setUsername] = useState(displayUser?.name || "");
   const [publicLink, setPublicLink] = useState(displayUser?.publicLink || "");
@@ -50,7 +50,7 @@ export const UserProfile = ({
   }, [displayUser]);
 
   const update = async () => {
-    if (displayUser?.uuid !== currentUuid) {
+    if (!canEdit) {
       return; // cannot edit
     }
     if (edit && (username.length > 0 || publicLink.length > 0)) {
@@ -97,6 +97,9 @@ export const UserProfile = ({
   }, [profileImageBg]);
 
   useEffect(() => {
+    if (filesUrlBg.length === 0) {
+      return;
+    }
     const update = async () => {
       await updateUser({ profileImageBg: filesUrlBg[0] }).then((e) =>
         setUploadProgressBg(0)
@@ -108,6 +111,9 @@ export const UserProfile = ({
   }, [filesUrlBg]);
 
   useEffect(() => {
+    if (filesUrlImage.length === 0) {
+      return;
+    }
     const update = async () => {
       await updateUser({ profileImage: filesUrlImage[0] }).then((e) =>
         setUploadProgress(0)
@@ -135,7 +141,7 @@ export const UserProfile = ({
               type="file"
               style={{ opacity: 0, fontSize: "300px" }}
               onChange={(e) => setProfileImage(e.target.files)}
-              disabled={currentUuid !== displayUser?.uuid}
+              disabled={!canEdit}
             />
           )}
           {uploadProgress > 0 && <CircularProgress value={uploadProgress} />}
@@ -158,7 +164,7 @@ export const UserProfile = ({
               type="file"
               style={{ opacity: 0, fontSize: "300px" }}
               onChange={(e) => setProfileImageBg(e.target.files)}
-              disabled={currentUuid !== displayUser?.uuid}
+              disabled={!canEdit}
             />
           )}
           {uploadProgressBg > 0 && (
@@ -194,8 +200,8 @@ export const UserProfile = ({
           </div>
         )}
         <div>
-          {currentUuid === displayUser?.uuid && (
-            <img src={editImg} width={"20px"} alt={"Edit"} onClick={update} />
+          {canEdit && (
+            <img src={editImg} width={"28px"} alt={"Edit"} onClick={update} />
           )}
         </div>
       </div>

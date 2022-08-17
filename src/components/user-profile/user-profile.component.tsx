@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import editImg from "../../assets/imgs/edit.svg";
 //import uploadImageImg from "../../assets/imgs/upload-image.svg";
 import dj3nImg from "../../assets/imgs/dj3n_logo.svg";
@@ -10,44 +10,93 @@ export const defaultProfile = {
   publicLink: "@username",
 };
 
+export type EditorProps = {
+  updateProfile: (name: string, publicLink: string, profileDescription: string) => void;
+  updateImage: (profileImage: FileList | null) => void;
+  updateBackground: (profileImage?: FileList | null) => void;
+}
+
 export type UserProfileProps = {
   name: string;
   publicLink: string;
   profileImage: any;
   profileImageBg: any;
   profileDescription?: string;
+  editable?: boolean;
+  editor?: EditorProps;
 };
 
+type EditableComponentProps = {
+  value: string;
+  stateAction: Dispatch<SetStateAction<string>>;
+  editing: boolean;
+  editingCls: string;
+  normalCls: string;
+  placeholder: string;
+  textArea?: boolean
+}
+
+const EditableComponent = (props: EditableComponentProps) => {
+  if (!props.editing) {
+    return <div className={props.normalCls}>{props.value}</div>
+  }
+  if (props.textArea) {
+    return <textarea className={props.editingCls} placeholder={props.placeholder} value={props.value} onChange={e=>props.stateAction(e.target.value)}/> 
+  }
+  return <input className={props.editingCls} type='text' placeholder={props.placeholder} value={props.value} onChange={e=>props.stateAction(e.target.value)}/>
+}
+
 export const UserProfile = (props: UserProfileProps) => {
-  const { name, publicLink, profileImage, profileImageBg, profileDescription } =
+  const { name, publicLink, profileImage, profileImageBg, profileDescription, editable, editor } =
     props;
+
+  const [editing, setEditing] = useState(false)
+  const [nameStr, setName] = useState(name)
+  const [description, setDescription] = useState(profileDescription || '')
+  const [link, setLink] = useState(publicLink)
 
   return (
     <div className={"profile-container"}>
       <div className={"profile-image-container"}>
         <div
           className={"profile-img"}
-          style={{ backgroundImage: `url(${profileImage})` }}
-        />
+          style={{ backgroundImage: `url(${profileImage})`, overflow: 'hidden' }}
+        >
+          <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} disabled={!editable} onChange={e => props.editor?.updateImage(e.target.files)}/>
+        </div>
         <div
           className={"dj3n-logo"}
           style={{ backgroundImage: `url(${dj3nImg})` }}
         />
         <div
           className={"profile-image-bg"}
-          style={{ backgroundImage: `url(${profileImageBg})` }}
-        />
+          style={{ backgroundImage: `url(${profileImageBg})`, overflow: 'hidden' }}
+        >
+          <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} disabled={!editable} onChange={e => props.editor?.updateBackground(e.target.files)}/>
+        </div>
       </div>
       <div className={"profile-info-container"}>
         <div>
-          <div className={"profile-title"}>{name}</div>
-          <div>{publicLink}</div>
+          <div className='profile-title'>
+            <EditableComponent normalCls="profile-title" editingCls="profile-title-edit" value={nameStr} stateAction={setName} editing={editing} placeholder="Username"/>
+          </div>
+          <div className='profile-link-sm'>
+            <EditableComponent normalCls="profile-link-sm" editingCls="profile-link-sm-edit" value={link} stateAction={setLink} editing={editing} placeholder="@username"/>
+          </div>
         </div>
+        
         <div>
-          <img src={editImg} width={"28px"} alt={"Edit"} />
+          <img hidden={!editable} src={editImg} width={"20px"} alt={"Edit"} onClick={e => {
+            if (editing) {
+              // not editing, update!
+              editor?.updateProfile(name, publicLink, profileDescription!)
+            }
+            setEditing(!editing)
+          }} />
         </div>
       </div>
-      { profileDescription && <div className="profile-description">{profileDescription}</div> }
+      <EditableComponent textArea={true} normalCls="profile-description" editingCls="profile-description-edit" value={description} stateAction={setDescription} editing={editing} placeholder="@description"/>
+      
     </div>
   );
 };

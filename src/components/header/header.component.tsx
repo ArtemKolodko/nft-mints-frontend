@@ -32,6 +32,9 @@ const Header = () => {
         if (currentUser.userType === UserTypeEnum.CREATOR) {
           setWalletClass(`${baseClass} header__wallet-creator`)
         }
+        else {
+          setWalletClass(`${baseClass}`)
+        }
       } else {
         setWalletClass(`${baseClass} header__wallet-public`);
       }
