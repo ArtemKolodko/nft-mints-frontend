@@ -22,12 +22,12 @@
   }
 
   .gallery {
-    justify-items: center;
-    align-content: center;
-    display: grid;
-    grid-template-columns: 1.5fr 1.5fr 1.5fr;
-    // gap: 10px;
-    margin-bottom: 2em;
+    display: table;
+    content: "";
+    clear: both;
+    padding: 1em;
+    margin-right: auto;
+    margin-left: auto;
   }
 }
 
