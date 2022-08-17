@@ -70,9 +70,23 @@ const CollectibleDetails = () => {
                 <div className="collectible-creator-message">
                     This is the landing page your fans will see.
                 </div>
-                <Button variant="contained" fullWidth={true} className='collectible-share-button'>Share Page</Button>
+                <Button variant="contained" fullWidth={true} className='collectible-share-button' onClick={e => {
+                    try {
+                        const data = {
+                            title: collection?.title,
+                            text: collection?.description,
+                            url: window.location.href,
+                        }
+                        navigator.share(data)
+                    }
+                    catch (err) {
+                        console.log('sharing disabled, launching new window', err)
+                        window.open(window.location.href)
+                    }
+
+                }}>Share Page</Button>
             </div>}
-            <hr/>
+            <hr />
             <div className={'collectible-details-wrapper'}>
                 <div style={{ marginTop: '16px' }}>
                     {isLoading && <div>Loading...</div>}
