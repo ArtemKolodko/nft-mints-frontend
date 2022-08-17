@@ -6,28 +6,35 @@ import {
   useState,
   useEffect,
 } from "react";
+import { useSelector } from "react-redux";
 import * as htmlToImage from "html-to-image";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import DatePicker from "react-datepicker";
 
-import AccessPass, {
-  AccessPassProps,
-} from "../../components/acess-pass/access-pass.component";
+//{  AccessPassProps }
+import AccessPass from "../../components/acess-pass/access-pass.component";
 import { BasicInput } from "../../components/input/basic-input.component";
 import { BasicAreaInput } from "../../components/input/basic-area-input.component";
 import { addFilesToStorage } from "../../utils/firebase/firebase.utils";
 import { createCollection } from "../../utils/mint-interface/mint-inteface.utils";
-import uploadArrow from "../../assets/imgs/upload_arrow.svg";
+import { selectCurrentUser } from "../../store/user/user.selector";
+import CreateResult from "../../components/create-result/create-result.component";
+import Button from "../../components/button/button.component";
+import CircularProgress from "@mui/material/CircularProgress";
+import CircularProgressWithLabel from "../../components/progress-with-label/progress-with-label.component";
+import NewUserAlert from "../../components/new-user-alert/new-user-alert.component";
+import { saveLocalState, loadLocalState } from "../../utils/storage/local-storage.utils";
+import { ApiResponseType, TokenTypeEnum } from "../../types";
 
+import uploadArrow from "../../assets/imgs/upload_arrow.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import "./create-access-pass.styles.scss";
+import { useParams } from "react-router-dom";
 
-import Logo from "../../assets/imgs/dj3n_logo.svg";
-import QR from "../../assets/imgs/qr-sample.png";
-
-import { ApiResponseType, TokenTypeEnum } from "../../types";
-import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../store/user/user.selector";
+enum LOCAL_STORAGE {
+  FILES = "filesURL",
+  FORM_FIELDS = "formFields",
+}
 
 const defaultAccessPassData = {
   title: "",
@@ -39,16 +46,15 @@ const defaultAccessPassData = {
   creatorRoyalty: "",
   additionalDetails: "",
   gift: false,
-  primaryBackgroundColor: "#288bc2",
-  secondaryBackgroundColor: "#2732F3",
-  //textColor: "#D0D0D0",
+  primaryBackgroundColor: "#FFFFFF",
+  secondaryBackgroundColor: "#D0D0D0",
   logo: "",
   venue: "",
   city: "",
   state: "",
   age: "",
-  date: "",
-  time: "",
+  //date: new Date(),
+  //time: "",
 };
 
 const defaultMintResponse: ApiResponseType | null = {
@@ -61,22 +67,35 @@ const CreateAccessPass = () => {
   const [giftChecked, setGiftChecked] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [filesToUpload, setFilesToUpload] = useState<Blob[]>([]);
+  //const [filesToUpload, setFilesToUpload] = useState<Blob[]>([]);
   const [filesUrl, setFilesUrl] = useState<string[]>([]);
   const [logo, setLogo] = useState([]);
+  const [isCreatingNewUser, setIsCreatingNewUser] = useState(false);
   const [mintResponse, setMintResponse] = useState<ApiResponseType | null>(
     defaultMintResponse
   );
-  const [ ticketFronImg, setTicketFrontImage ] = useState<Blob>();
-  const [ ticketBackImg, setTicketBackImage ] = useState<Blob>();
-  
-  const [ ticketTextColor, setTicketTextColor ] = useState("#D0D0D0");
+  const [ticketFronImg, setTicketFrontImage] = useState<Blob | null>(null);
+  const [ticketBackImg, setTicketBackImage] = useState<Blob | null>(null);
+
+  const [ticketTextColor, setTicketTextColor] = useState("#333333");
   const maxNumber = 1;
 
   const refFront = useRef<HTMLDivElement>(null);
   const refBack = useRef<HTMLDivElement>(null);
 
+  const { redirect } = useParams();
+  
   const userData = useSelector(selectCurrentUser);
+
+  useEffect(() => {
+    if (redirect && filesUrl.length === 0) {
+      setUploadProgress(100);
+      setFilesUrl(loadLocalState(LOCAL_STORAGE.FILES));
+      setAccessPassData(loadLocalState(LOCAL_STORAGE.FORM_FIELDS));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [redirect]);
 
   useEffect(() => {
     const addCollection = async () => {
@@ -94,8 +113,7 @@ const CreateAccessPass = () => {
         city,
         state,
         age,
-        date,
-        time,
+        //date,
       } = accessPassData;
 
       const mintData = await createCollection(
@@ -116,8 +134,8 @@ const CreateAccessPass = () => {
           city,
           state,
           age,
-          date,
-          time,
+          // date,
+          // time,
         }
       );
 
@@ -126,20 +144,20 @@ const CreateAccessPass = () => {
       setAccessPassData(accessPassData);
     };
 
-    if (filesUrl.length > 0) {
-      console.log("mint hhook IF", filesUrl);
-      addCollection();
-      //setFilesUrl([]);
+    if (filesUrl.length > 1) {
+      if (userData) {
+        saveLocalState("", LOCAL_STORAGE.FILES);
+        saveLocalState("", LOCAL_STORAGE.FORM_FIELDS);
+        addCollection();
+        setFilesUrl([]);
+      } else {
+        saveLocalState(filesUrl, LOCAL_STORAGE.FILES);
+        saveLocalState(accessPassData, LOCAL_STORAGE.FORM_FIELDS);
+        setIsCreatingNewUser(true);
+      }
     }
     // eslint-disable-next-line
   }, [filesUrl]);
-
-  const backgrounColorChange: MouseEventHandler<HTMLButtonElement> = async (
-    e: any
-  ) => {
-    const color = e.target.value;
-    setAccessPassData({ ...accessPassData, primaryBackgroundColor: color });
-  };
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -159,7 +177,6 @@ const CreateAccessPass = () => {
   const onAreaChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setAccessPassData({ ...accessPassData, [name]: value });
-    // setFormFields({ ...formFields, [name]: value });
   };
 
   const increaseSupply = () => {
@@ -174,17 +191,17 @@ const CreateAccessPass = () => {
     }
   };
 
-
   useEffect(() => {
-
     if (ticketFronImg && ticketBackImg) {
-    
       console.log("readyToDownload");
-      addFilesToStorage([ticketFronImg, ticketBackImg], setUploadProgress, setFilesUrl);
-      setFilesToUpload([]);
-    
+      addFilesToStorage(
+        [ticketFronImg, ticketBackImg],
+        setUploadProgress,
+        setFilesUrl
+      );
+      setTicketFrontImage(null);
+      setTicketBackImage(null);
     }
-    
   }, [ticketFronImg, ticketBackImg]);
 
   const createTicket = useCallback(() => {
@@ -195,48 +212,30 @@ const CreateAccessPass = () => {
     htmlToImage
       .toBlob(refFront.current, { cacheBust: true })
       .then((blob) => {
-        console.log('BLOB1',blob);
         if (blob) {
-          // let files = [];
-          // files.push(blob);
           setTicketFrontImage(blob);
-          //setFilesToUpload([blob]);
-          //addFilesToStorage(files, setUploadProgress, setFilesUrl);
         }
       })
       .catch((err) => {
         console.log(err);
-      }) ;
+      });
 
     htmlToImage
       .toBlob(refBack.current, { cacheBust: true })
       .then((blob) => {
-        console.log('BLOB1',blob);
         if (blob) {
-          // let files = [];
-          // files.push(blob);
           setTicketBackImage(blob);
-          //setFilesToUpload([blob]);
-          //addFilesToStorage(files, setUploadProgress, setFilesUrl);
         }
       })
       .catch((err) => {
         console.log(err);
-      }) ;  
-
-    // setTimeout(function () {
-    //     console.log("after all promises", fileUrl[0]);
-    //     setFilesUrl(fileUrl);
-    //     console.log(x);
-    // }, 2000);
-   
+      });
   }, [refFront, refBack]);
 
   const onChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
-
     setLogo(imageList as never[]);
     if (imageList.length > 0) {
       setAccessPassData({ ...accessPassData, logo: imageList[0].dataURL! });
@@ -252,197 +251,259 @@ const CreateAccessPass = () => {
 
   return (
     <div className="create-access-pass">
-      <h2 className="form__title">Create Access Pass</h2>
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="basic">
-          <BasicInput
-            name="title"
-            placeholder="Artits or Name*"
-            required={true}
-            type="text"
-            onChange={onChangeHandler}
+      {isCreatingNewUser ? (
+        <>
+          <NewUserAlert
+            openAlert={isCreatingNewUser}
+            redirect="/nfts/create-collectible/redirect"
           />
-          <BasicInput
-            name="perks"
-            placeholder="Perk Name*"
-            required={true}
-            type="text"
-            onChange={onChangeHandler}
-          />
-          <BasicAreaInput
-            name="description"
-            placeholder="Description*"
-            required={true}
-            type="text"
-            onChange={onAreaChangeHandler}
-          />
-          <BasicAreaInput
-            name="additionalDetails"
-            placeholder="Additional Details*"
-            required={true}
-            type="text"
-            onChange={onAreaChangeHandler}
-          />
-          <div className="form--row">
-            <label className="basic-checkbox">
-              <input type="checkbox" name="gift" onChange={onChangeHandler} />
-              <span className="checkmark"></span>
-              Gift
-            </label>
-            <input
-              className="basic-input"
-              name="rate"
-              value={accessPassData.rate}
-              placeholder="Price*"
-              required={true}
-              type="number"
-              onChange={onChangeHandler}
-              disabled={giftChecked}
-            />
-          </div>
-
-          <input
-            className="basic-input"
-            name="creatorRoyalty"
-            placeholder="Creator Royalty*"
-            required={true}
-            type="number"
-            onChange={onChangeHandler}
-            disabled={giftChecked}
-          />
-          <h4>Optional:</h4>
-
-          <ImageUploading
-            multiple
-            value={logo}
-            onChange={onChange}
-            maxNumber={maxNumber}
-          >
-            {({
-              imageList,
-              onImageUpload,
-              onImageRemoveAll,
-              // onImageUpdate,
-              // onImageRemove,
-              isDragging,
-              dragProps,
-            }) => (
-              // write your building UI
-              <div
-                className="form__logo-wrapper"
-                onClick={
-                  imageList.length > 0 ? onImageRemoveAll : onImageUpload
-                }
-                {...dragProps}
-              >
-                {imageList.length > 0 ? (
-                  <div className="upload-image">
-                    <img src={imageList[0].dataURL} alt="" />
-                  </div>
-                ) : (
+        </>
+      ) : (
+        <>
+          <h2 className="form__title">Create Access Pass</h2>
+          <form className="form" onSubmit={handleSubmit}>
+            {uploadProgress > 0 ? (
+              <div>
+                {uploadProgress < 100 &&
+                  mintResponse &&
+                  mintResponse.status === 0 && (
+                    <>
+                      <h2>Uploading media...</h2>
+                      <CircularProgressWithLabel value={uploadProgress} />
+                    </>
+                  )}
+                {uploadProgress === 100 && (
                   <>
-                    <div className="upload-icon">
-                      <img src={uploadArrow} alt="upload" />
-                    </div>
-                    <div className="upload-text">
-                      Upload Logo or Artwork
-                      <br />
-                      Max 276px wide
-                      <br />
-                      Max 80px high
-                    </div>
+                    {mintResponse ? (
+                      mintResponse.status === 0 ? (
+                        <>
+                          <h2>Creating Collection...</h2>
+                          <CircularProgress />
+                        </>
+                      ) : (
+                        <div className="create-result">
+                          <h1 className="success">Success!</h1>
+                          <h2>Collectible listed</h2>
+
+                          <Button
+                            label="Share"
+                            onClick={() =>
+                              window.open(
+                                `/checkout/${mintResponse.data.uuid}`,
+                                "_blank"
+                              )
+                            }
+                          />
+
+                          {userData && <CreateResult uuid={userData.uuid} />}
+                        </div>
+                      )
+                    ) : (
+                      <div>Error</div>
+                    )}
                   </>
                 )}
               </div>
-            )}
-          </ImageUploading>
-          <BasicInput
-            name="link"
-            placeholder="External link (exclusive content)"
-            required={false}
-            type="text"
-            onChange={onChangeHandler}
-          />
-          <BasicInput
-            name="venue"
-            placeholder="Venue or Place"
-            required={false}
-            type="text"
-            onChange={onChangeHandler}
-          />
-          <BasicInput
-            name="city"
-            placeholder="City"
-            required={false}
-            type="text"
-            onChange={onChangeHandler}
-          />
-          <BasicInput
-            name="state"
-            placeholder="State"
-            required={false}
-            type="text"
-            onChange={onChangeHandler}
-          />
-          <DatePicker
-            className="basic-input"
-            name="date"
-            selected={startDate}
-            onChange={(date: Date) => setStartDate(date)}
-            showTimeSelect
-            dateFormat="Pp"
-          />
-          <BasicInput
-            name="age"
-            placeholder="Age Restriction*"
-            required={false}
-            type="number"
-            onChange={onChangeHandler}
-          />
-          <div className="form__colors">
-            <div>
-              <label htmlFor="pass">Access Pass color</label>
-              <input
-                type="color"
-                id="pass"
-                name="primaryBackgroundColor"
-                value="#27f338"// "#2732F3" //{accessPassData.primaryBackgroundColor} 
-                onChange={onChangeHandler}
-              />
-            </div>
+            ) : (
+              <div className="basic">
+                <BasicInput
+                  name="title"
+                  placeholder="Artits or Name*"
+                  required={true}
+                  type="text"
+                  onChange={onChangeHandler}
+                />
+                <BasicInput
+                  name="perks"
+                  placeholder="Perk Name*"
+                  required={true}
+                  type="text"
+                  onChange={onChangeHandler}
+                />
+                <BasicAreaInput
+                  name="description"
+                  placeholder="Description*"
+                  required={true}
+                  type="text"
+                  onChange={onAreaChangeHandler}
+                />
+                <BasicAreaInput
+                  name="additionalDetails"
+                  placeholder="Additional Details*"
+                  required={true}
+                  type="text"
+                  onChange={onAreaChangeHandler}
+                />
+                <div className="form--row">
+                  <label className="basic-checkbox">
+                    <input
+                      type="checkbox"
+                      name="gift"
+                      onChange={onChangeHandler}
+                    />
+                    <span className="checkmark"></span>
+                    Gift
+                  </label>
+                  <input
+                    className="basic-input"
+                    name="rate"
+                    value={accessPassData.rate}
+                    placeholder="Price*"
+                    required={true}
+                    type="number"
+                    onChange={onChangeHandler}
+                    disabled={giftChecked}
+                  />
+                </div>
 
-            <div>
-              <label htmlFor="secondary">Secondary color</label>
-              <input
-                type="color"
-                id="secondary"
-                name="secondaryBackgroundColor"
-                value={accessPassData.secondaryBackgroundColor}
-                onChange={onChangeHandler}
-              />
-            </div>
+                <input
+                  className="basic-input"
+                  name="creatorRoyalty"
+                  placeholder="Creator Royalty*"
+                  required={true}
+                  type="number"
+                  onChange={onChangeHandler}
+                  disabled={giftChecked}
+                />
+                <h4>Optional:</h4>
 
-            <div>
-              <label htmlFor="text">Text Color</label>
-              <input
-                type="color"
-                id="textColor"
-                name="text"
-                value={ticketTextColor} //{accessPassData.textColor}
-                onChange={(e) => setTicketTextColor(e.target.value)} // onChangeHandler}
-              />
-            </div>
-          </div>
-          <AccessPass
-            refFront={refFront}
-            refBack={refBack}
-            textColor={ticketTextColor}
-            {...accessPassData}
-          />
-          <h3>Quantity</h3>
-          <div className="quantity">
-            <div className="quantity__button quantity__button--decrease">-</div>
-            <input
+                <ImageUploading
+                  multiple
+                  value={logo}
+                  onChange={onChange}
+                  maxNumber={maxNumber}
+                >
+                  {({
+                    imageList,
+                    onImageUpload,
+                    onImageRemoveAll,
+                    isDragging,
+                    dragProps,
+                  }) => (
+                    <div
+                      className="form__logo-wrapper"
+                      onClick={
+                        imageList.length > 0 ? onImageRemoveAll : onImageUpload
+                      }
+                      {...dragProps}
+                    >
+                      {imageList.length > 0 ? (
+                        <div className="upload-image">
+                          <img src={imageList[0].dataURL} alt="" />
+                        </div>
+                      ) : (
+                        <>
+                          <div className="upload-icon">
+                            <img src={uploadArrow} alt="upload" />
+                          </div>
+                          <div className="upload-text">
+                            Upload Logo or Artwork
+                            <br />
+                            Max 276px wide
+                            <br />
+                            Max 80px high
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </ImageUploading>
+                <BasicInput
+                  name="link"
+                  placeholder="External link (exclusive content)"
+                  required={false}
+                  type="text"
+                  onChange={onChangeHandler}
+                />
+                <BasicInput
+                  name="venue"
+                  placeholder="Venue or Place"
+                  required={false}
+                  type="text"
+                  onChange={onChangeHandler}
+                />
+                <BasicInput
+                  name="city"
+                  placeholder="City"
+                  required={false}
+                  type="text"
+                  onChange={onChangeHandler}
+                />
+                <BasicInput
+                  name="state"
+                  placeholder="State"
+                  required={false}
+                  type="text"
+                  onChange={onChangeHandler}
+                />
+                <DatePicker
+                  className="basic-input"
+                  name="date"
+                  selected={startDate}
+                  onChange={(date: Date) => {
+                    setStartDate(date);
+                  }}
+                  showTimeSelect
+                  dateFormat="Pp"
+                />
+                <BasicInput
+                  name="age"
+                  placeholder="Age Restriction*"
+                  required={false}
+                  type="number"
+                  onChange={onChangeHandler}
+                />
+                <div className="form__colors">
+                  <div>
+                    <label htmlFor="pass">Access Pass color</label>
+                    <input
+                      type="color"
+                      id="pass"
+                      name="primaryBackgroundColor"
+                      value={accessPassData.primaryBackgroundColor}
+                      onChange={onChangeHandler}
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="secondary">Secondary color</label>
+                    <input
+                      type="color"
+                      id="secondary"
+                      name="secondaryBackgroundColor"
+                      value={accessPassData.secondaryBackgroundColor}
+                      onChange={onChangeHandler}
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="text">Text Color</label>
+                    <input
+                      type="color"
+                      id="textColor"
+                      name="text"
+                      value={ticketTextColor}
+                      onChange={(e) => setTicketTextColor(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <AccessPass
+                  creator={userData ? userData.publicLink : undefined}
+                  refFront={refFront}
+                  refBack={refBack}
+                  textColor={ticketTextColor}
+                  date={startDate}
+                  {...accessPassData}
+                />
+                <h3>Quantity</h3>
+                <div className="quantity">
+                  <div
+                    className="quantity__button quantity__button--decrease"
+                    onClick={decreaseSupply}
+                  >
+                    -
+                  </div>
+                  <input
                     className="quantity__number"
                     placeholder="0"
                     name="supply"
@@ -450,20 +511,29 @@ const CreateAccessPass = () => {
                     value={accessPassData.supply}
                     onChange={onChangeHandler}
                   />
-            {/* <input className="quantity__number" type="number " value="0" /> */}
-            <div className="quantity__button quantity__button--increase">+</div>
-          </div>
+                  {/* <input className="quantity__number" type="number " value="0" /> */}
+                  <div
+                    className="quantity__button quantity__button--increase"
+                    onClick={increaseSupply}
+                  >
+                    +
+                  </div>
+                </div>
 
-          <button
-            className="form__button"
-            disabled={accessPassData.title === ""}
-            onClick={createTicket}
-          >
-            Continue
-          </button>
-        </div>
-      </form>
+                <button
+                  className="form__button"
+                  disabled={accessPassData.title === ""}
+                  onClick={createTicket}
+                >
+                  Continue
+                </button>
+              </div>
+            )}
+          </form>
+        </>
+      )}
     </div>
+
     // <div className="create-access-pass-container">
     //   <div
     //     ref={ref}

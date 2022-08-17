@@ -14,7 +14,7 @@ import { selectCurrentUser } from '../../store/user/user.selector';
 import './landing.styles.scss';
 import GalleryTab from '../../components/gallery/gallery-tab.component';
 import { Fragment, useState } from 'react';
-import NavigationBar from '../../components/navigation/navigation-bar';
+// import NavigationBar from '../../components/navigation/navigation-bar.component';
 
 
 
@@ -61,7 +61,7 @@ const Landing = () => {
         </div>
         <button className="get-started-button">Tap the plus sign to get started</button>
       </div>
-      <NavigationBar />
+      {/* <NavigationBar /> */}
     </Fragment>
   )
 }
