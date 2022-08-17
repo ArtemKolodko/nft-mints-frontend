@@ -13,7 +13,8 @@ import { selectCurrentUser } from '../../store/user/user.selector';
 
 import './landing.styles.scss';
 import GalleryTab from '../../components/gallery/gallery-tab.component';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
+import NavigationBar from '../../components/navigation/navigation-bar';
 
 
 
@@ -28,7 +29,7 @@ const Landing = () => {
     publicLink: '@yourname',
     profileDescription: 'DJ3N allows any creator to host their own storefront in Web3.\nConnect with fans and build your Web3 street team.\nClick around to get started.'
   }
-  
+
   // if (process.env.NODE_ENV === 'production') {
   //   if (currentUser) {
   //     return <Navigate to={`nfts/gallery/${currentUser.uuid}`} />
@@ -43,22 +44,25 @@ const Landing = () => {
 
 
   return (
-    <div className='landing-container'>
+    <Fragment>
       <Header />
-      <UserProfile name={mockUser.name} 
-        publicLink={mockUser.publicLink} 
-        profileImage={MascotAvatar} 
-        profileImageBg={MascotBanner} 
-        editable={false}
-        profileDescription={mockUser.profileDescription}/>
-      <GalleryTab activeTabIndex={activeTabIndex} handleChangeTab={handleChangeTab}/>
-      <div className='landing-get-started-container'>
-        <Link className="navigation__link" to='started/' >
-          <FontAwesomeIcon icon={faPlus} className='landing-get-started'/>
-        </Link>
+      <div className='landing-container'>
+        <UserProfile name={mockUser.name}
+          publicLink={mockUser.publicLink}
+          profileImage={MascotAvatar}
+          profileImageBg={MascotBanner}
+          editable={false}
+          profileDescription={mockUser.profileDescription} />
+        <GalleryTab activeTabIndex={activeTabIndex} handleChangeTab={handleChangeTab} />
+        <div className='landing-get-started-container'>
+          <Link className="navigation__link" to='started/' >
+            <FontAwesomeIcon icon={faPlus} className='landing-get-started' />
+          </Link>
+        </div>
+        <button className="get-started-button">Tap the plus sign to get started</button>
       </div>
-      <button className="get-started-button">Tap the plus sign to get started</button>
-    </div>
+      <NavigationBar />
+    </Fragment>
   )
 }
 
