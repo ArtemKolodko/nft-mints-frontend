@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import editImg from "../../assets/imgs/edit.svg";
 //import uploadImageImg from "../../assets/imgs/upload-image.svg";
 import dj3nImg from "../../assets/imgs/dj3n_logo.svg";
@@ -55,7 +55,11 @@ export const UserProfile = (props: UserProfileProps) => {
   const [description, setDescription] = useState(profileDescription)
   const [link, setLink] = useState(publicLink)
 
-  console.log(nameStr, description, profileImage, link, name, profileDescription, publicLink)
+  useEffect(() => {
+    setName(name)
+    setDescription(profileDescription)
+    setLink(publicLink)
+  }, [name, publicLink, profileDescription])
 
   return (
     <div className={"profile-container"}>
@@ -86,7 +90,7 @@ export const UserProfile = (props: UserProfileProps) => {
             <EditableComponent normalCls="profile-link-sm" editingCls="profile-link-sm-edit" value={link || '@username'} stateAction={setLink} editing={editing} placeholder="@username"/>
           </div>
           <div className='profile-description-cls'>
-            <EditableComponent textArea={true} normalCls="profile-description" editingCls="profile-description-edit" value={description!} stateAction={setDescription} editing={editing} placeholder="@description"/>
+            <EditableComponent textArea={true} normalCls="profile-description" editingCls="profile-description-edit" value={description!} stateAction={setDescription} editing={editing} placeholder="description"/>
           </div>
         </div>
         
@@ -94,7 +98,7 @@ export const UserProfile = (props: UserProfileProps) => {
           <img hidden={!editable} src={editImg} width={"20px"} alt={"Edit"} onClick={e => {
             if (editing) {
               // not editing, update!
-              editor?.updateProfile(name!, publicLink!, profileDescription!)
+              editor?.updateProfile(name!, link!, description!)
             }
             setEditing(!editing)
           }} />

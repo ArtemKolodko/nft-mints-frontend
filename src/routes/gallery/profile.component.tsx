@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./profile.styles.scss";
-import editImg from "../../assets/imgs/edit.svg";
-import uploadImageImg from "../../assets/imgs/upload-image.svg";
-import dj3nImg from "../../assets/imgs/dj3n_logo.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { selectCurrentUser } from "../../store/user/user.selector";
-import { useParams } from "react-router";
+import { useDispatch } from "react-redux";
+
 import {
-  checkLogin,
-  updateUser,
+    checkLogin,
+    updateUser,
 } from "../../utils/mint-interface/mint-inteface.utils";
-import CircularProgress from "@mui/material/CircularProgress";
 import { addFileToStorage } from "../../utils/firebase/firebase.utils";
 import { setCurrentUser } from "../../store/user/user.action";
 import UserType from "../../types/user.types";
@@ -21,75 +16,39 @@ import { UserProfile } from "../../components/user-profile/user-profile.componen
 //     publicLink: '@username'
 // }
 
-export const MyProfile = ({displayUser, canEdit}:{displayUser:UserType|undefined, canEdit: boolean}) => {
-    const [username, setUsername] = useState(displayUser?.name || '');
-    const [publicLink, setPublicLink] = useState(displayUser?.publicLink || '');
+export const MyProfile = ({ displayUser, canEdit }: { displayUser: UserType | undefined, canEdit: boolean }) => {
 
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [filesUrlImage, setFilesUrlImage] = useState<string[]>([]);
-  const [profileImage, setProfileImage] = useState<FileList | null>(null);
+    const [, setUploadProgress] = useState(0);
+    const [filesUrlImage, setFilesUrlImage] = useState<string[]>([]);
+    const [, setUploadProgressBg] = useState(0);
+    const [filesUrlBg, setFilesUrlBg] = useState<string[]>([]);
 
-  const [uploadProgressBg, setUploadProgressBg] = useState(0);
-  const [filesUrlBg, setFilesUrlBg] = useState<string[]>([]);
-  const [profileImageBg, setProfileImageBg] = useState<FileList | null>(null);
+    const dispatch = useDispatch();
 
-  const [edit, setEdit] = useState(false);
+    const uploadImage = async (image:File | null) => {
+        if (image) {
+            await addFileToStorage(
+                image,
+                setUploadProgress,
+                setFilesUrlImage
+            );
+        }
+    };
 
-  const dispatch = useDispatch();
+    const uploadImageBg = async (image:File | null) => {
+        if (image) {
+            await addFileToStorage(
+                image,
+                setUploadProgressBg,
+                setFilesUrlBg
+            );
+        }
+    };
 
-  useEffect(() => {
-    if (displayUser) {
-      setUsername(displayUser.name || "");
-      setPublicLink(displayUser.publicLink || "");
-    }
-  }, [displayUser]);
-
-  const update = async () => {
-    if (!canEdit) {
-      return; // cannot edit
-    }
-    if (edit && (username.length > 0 || publicLink.length > 0)) {
-      await updateUser({ name: username, publicLink });
-    }
-    setEdit(!edit);
-  };
-
-  // todo: duplicated, might be extracted as component
-  // todo: refresh user
-  const uploadImage = async () => {
-    if (profileImage?.item(0)) {
-      await addFileToStorage(
-        profileImage?.item(0)!,
-        setUploadProgress,
-        setFilesUrlImage
-      );
-    }
-  };
-
-  const uploadImageBg = async () => {
-    if (profileImageBg?.item(0)) {
-      await addFileToStorage(
-        profileImageBg?.item(0)!,
-        setUploadProgressBg,
-        setFilesUrlBg
-      );
-    }
-  };
-
-  const refreshUser = async () => {
-    const user = await checkLogin();
-    dispatch(setCurrentUser(user));
-  };
-
-  useEffect(() => {
-    uploadImage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileImage]);
-
-  useEffect(() => {
-    uploadImageBg();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [profileImageBg]);
+    const refreshUser = async () => {
+        const user = await checkLogin();
+        dispatch(setCurrentUser(user));
+    };
 
     useEffect(() => {
         if (filesUrlBg.length === 0) {
@@ -115,5 +74,27 @@ export const MyProfile = ({displayUser, canEdit}:{displayUser:UserType|undefined
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filesUrlImage]);
 
-    return <UserProfile {...displayUser} editable={canEdit}/>
+    const editor = useMemo(() => {
+        return {
+            updateProfile: async (name: string, publicLink: string, profileDescription: string) => {
+                await updateUser({name, publicLink, description: profileDescription})
+                refreshUser()
+            },
+            updateImage: async (profileImage: FileList | null) => {
+                if (!profileImage) {
+                    return;
+                }
+                uploadImage(profileImage?.item(0))
+            },
+            updateBackground: async (profileImage?: FileList | null) => {
+                if (!profileImage) {
+                    return;
+                }
+                uploadImageBg(profileImage?.item(0))
+            }
+
+        }
+    }, [displayUser, canEdit])
+
+    return <UserProfile {...displayUser} editable={canEdit} editor={editor} />
 }
