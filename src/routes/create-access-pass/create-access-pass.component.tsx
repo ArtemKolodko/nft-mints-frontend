@@ -128,7 +128,7 @@ const CreateAccessPass = () => {
 
     if (filesUrl.length > 0) {
       console.log("mint hhook IF", filesUrl);
-      //addCollection();
+      addCollection();
       //setFilesUrl([]);
     }
     // eslint-disable-next-line

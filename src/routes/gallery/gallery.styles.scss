@@ -9,7 +9,7 @@
 
   .gallery-header {
     position: sticky;
-    top: 40px;
+    top: 0;
     width: 100%;
     background-color: black;
     display: flex;
@@ -22,9 +22,12 @@
   }
 
   .gallery {
-    display: table;
-    content: "";
-    clear: both;
+    justify-items: center;
+    align-content: center;
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1.5fr;
+    // gap: 10px;
+    margin-bottom: 2em;
   }
 }
 
