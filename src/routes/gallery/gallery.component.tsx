@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {useNavigate, useParams} from "react-router-dom";
-import {CircularProgress, Tab, Tabs} from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import NftCard from "../../components/nft-card/nft-card.component";
 import { ApiTokenResponseType, CollectionType } from "../../types";
-import { getTokensByOwner, getCollectionsByOwner, getMyTokensByCreator, getUserByUuid } from "../../utils/mint-interface/mint-inteface.utils";
-import gridImg from "../../assets/imgs/grid.svg";
-import basketImg from "../../assets/imgs/basket.svg";
+import { getTokensByOwner, getMyCollections, getCollectionsByOwner, getMyTokensByCreator, getUserByUuid } from "../../utils/mint-interface/mint-inteface.utils";
 import { UserProfile } from "./profile.component";
 import "./gallery.styles.scss";
 import { UserAccessPass } from "./access.pass.component";
@@ -14,9 +11,7 @@ import { selectCheckLogin, selectCurrentUser } from "../../store/user/user.selec
 import CollectionCard from "../../components/collection-card/collection-card.component";
 import {getUserAccessPasses} from "../../api/client";
 import UserType from "../../types/user.types";
-
-const GridIcon = () => <img src={gridImg} alt="Grid" />
-const BasketIcon = () => <img src={basketImg} alt="Basket" />
+import GalleryTab from "../../components/gallery/gallery-tab.component";
 
 const Gallery = () => {
   const currentUser = useSelector(selectCurrentUser);
@@ -130,7 +125,13 @@ const Gallery = () => {
       setDisplayUser(currentUser)
     }
 
-  }, [ownerUuid, checkLogin.checkedLogin, activeTabIndex]);
+  }, [ownerUuid, checkLogin.checkedLogin]);
+
+  useEffect(() => {
+    if (ownerUuid === currentUser?.uuid) {
+      setDisplayUser(currentUser) // update if the user updates
+    }
+  }, [ownerUuid, currentUser])
 
   const handleChangeTab = (e: React.SyntheticEvent, value: number) => setActiveTabIndex(value)
 
@@ -139,40 +140,28 @@ const Gallery = () => {
 
   return (
     <div>
-      <UserProfile displayUser={displayUser} currentUuid={currentUser.uuid}/>
+      <UserProfile displayUser={displayUser} canEdit={currentUser.uuid === displayUser?.uuid}/>
       <div className="gallery-container">
         <div className={'gallery-header'}>
-          <Tabs value={activeTabIndex} onChange={handleChangeTab} aria-label="icon tabs example">
-            <Tab icon={<GridIcon />} aria-label="phone" />
-            <Tab icon={<BasketIcon />} aria-label="favorite" />
-          </Tabs>
+          <GalleryTab activeTabIndex={activeTabIndex} handleChangeTab={handleChangeTab} />
         </div>
-        <div className={'gallery-content-wrapper'}>
-          {isLoading &&
-              <div className={'spinner-container'}>
-                <CircularProgress />
-              </div>
-          }
-          {!isLoading &&
-              <div>
-                <div className="gallery" style={{ display: activeTabIndex === 0 ? 'grid' : 'none' }}>
-                  {collections && collections.map((collection) => (
-                      <CollectionCard key={collection.uuid} collection={collection} onClick={() => onClickCollectible(collection.uuid)} />
-                  ))}
-                  {tokens && tokens.map((token) => (
-                      <NftCard key={token.token.sequence} {...token} />
-                  ))}
-                </div>
-                <div style={{ display: activeTabIndex === 1 ? 'grid' : 'none' }}>
-                  {accessPasses.map(pass =>
-                      <UserAccessPass
-                          key={pass.uuid}
-                          {...pass}
-                          onClick={() => onClickAccessPass(pass.uuid)}
-                      />)}
-                </div>
-              </div>
-          }
+        <div>
+          <div className="gallery" style={{ display: activeTabIndex === 0 ? 'table' : 'none' }}>
+            {collections && collections.map((collection) => (
+              <CollectionCard key={collection.uuid} collection={collection} onClick={() => onClickCollectible(collection.uuid)} />
+            ))}
+            {tokens && tokens.map((token) => (
+              <NftCard key={token.token.sequence} {...token} />
+            ))}
+          </div>
+          <div style={{ display: activeTabIndex === 1 ? 'grid' : 'none' }}>
+            {accessPasses.map(pass =>
+                <UserAccessPass
+                    key={pass.uuid}
+                    {...pass}
+                    onClick={() => onClickAccessPass(pass.uuid)}
+                />)}
+          </div>
         </div>
       </div>
     </div>

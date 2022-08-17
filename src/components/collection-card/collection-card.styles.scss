@@ -1,14 +1,19 @@
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
 .nft-card-container {
   cursor: pointer;
-  height: 250px;
-  width: 250px;
+  height: calc(33vw - 1em);
+  width: calc(33vw - 1em);
   flex: 1 1 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 7.5px 15px;
+  margin: 1px;
   position: relative;
   overflow: hidden;
+  float: left;
+  border: 1px solid $neutralgray;
 
   .nft-image-wrapper {
     width: inherit;
