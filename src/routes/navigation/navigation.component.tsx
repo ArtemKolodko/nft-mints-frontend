@@ -8,7 +8,7 @@ import Header from "../../components/header/header.component";
 import "./navigation.styles.scss";
 import { checkingLogin, setLoginChecked } from "../../store/user/user.action";
 import { checkLogin } from "../../utils/mint-interface/mint-inteface.utils";
-import NavigationBar from "../../components/navigation/navigation-bar";
+import NavigationBar from "../../components/navigation/navigation-bar.component";
 
 const Navigation = () => {
   const currentUser = useSelector(selectCurrentUser);
@@ -37,9 +37,9 @@ const Navigation = () => {
 
   return (
     <Fragment>
-    <Header />
-    <Outlet />
-    <NavigationBar uuid={currentUser.uuid}/>
+      <Header />
+      <Outlet /> 
+      <NavigationBar uuid={currentUser.uuid}/>
   </Fragment>
   );
 };

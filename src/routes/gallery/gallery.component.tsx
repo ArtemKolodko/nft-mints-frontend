@@ -13,11 +13,6 @@ import {getUserAccessPasses} from "../../api/client";
 import UserType from "../../types/user.types";
 import GalleryTab from "../../components/gallery/gallery-tab.component";
 
-// const defaultAccessPass: UserAccessPassProps = {
-//   title: 'A$AP Rocky',
-//   description: 'After Show Meet and Greet Pass'
-// }
-
 const Gallery = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [displayUser, setDisplayUser] = useState<UserType | undefined>(undefined)
@@ -28,6 +23,7 @@ const Gallery = () => {
   const [tokens, setTokens] = useState<Array<ApiTokenResponseType> | null>([]);
   const [collections, setCollections] = useState<Array<CollectionType> | null>([]);
   const [accessPasses, setAccessPasses] = useState<CollectionType[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const { ownerUuid } = useParams();
   const navigate = useNavigate();
@@ -43,20 +39,28 @@ const Gallery = () => {
 
   // get all my collections for gallery view
   const getCollections = async () => {
-    const data = await getCollectionsByOwner(ownerUuid!)
-    if (data) {
-      console.log(data)
+    try {
+      setIsLoading(true)
+      const data = await getCollectionsByOwner(ownerUuid!)
       setCollections(data)
+    } catch (e) {
+      console.log('Cannot load collections:', e)
+    } finally {
+      setIsLoading(false)
     }
   }
 
   let getTokens = async () => {
     // i'm logged in and the gallery is the same as the logged in user
     // get all my tokens
-    const data = await getTokensByOwner(currentUser.uuid);
-    if (data) {
-      console.log(data)
+    try {
+      setIsLoading(true)
+      const data = await getTokensByOwner(currentUser.uuid);
       setTokens(data)
+    } catch (e) {
+      console.log('Cannot load tokens:', e)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -66,9 +70,14 @@ const Gallery = () => {
     }
   }, [ownerUuid, activeTabIndex])
 
+  // if owner id changed in url
+  useEffect(() => {
+    setLoaded(false)
+  }, [ownerUuid])
+
   useEffect(() => {
     // fix logic; why loading many times
-    if (!checkLogin.checkedLogin || loaded) {
+    if (!checkLogin.checkedLogin || loaded || activeTabIndex !== 0) {
       return; // don't get until we have checked our login
     }
 
@@ -77,14 +86,6 @@ const Gallery = () => {
     // options 1) not logged in
     // show creator gallery
     if (!currentUser) {
-      const getCollections = async () => {
-        const data = await getCollectionsByOwner(ownerUuid!);
-        if (data) {
-          console.log(data);
-          setCollections(data);
-        }
-      }
-
       getCollections();
       return;
     }
@@ -102,10 +103,14 @@ const Gallery = () => {
 
       getTokens = async () => {
         // filter tokens by the owner and creator uuid
-        const data = await getMyTokensByCreator(currentUser.uuid, ownerUuid!);
-        if (data) {
-          console.log(data)
+        try {
+          setIsLoading(true)
+          const data = await getMyTokensByCreator(currentUser.uuid, ownerUuid!);
           setTokens(data)
+        } catch (e) {
+          console.log('Cannot load filtered tokens:', e)
+        } finally {
+          setIsLoading(false)
         }
       }
     }
@@ -140,7 +145,7 @@ const Gallery = () => {
         <div className={'gallery-header'}>
           <GalleryTab activeTabIndex={activeTabIndex} handleChangeTab={handleChangeTab} />
         </div>
-        <div> 
+        <div>
           <div className="gallery" style={{ display: activeTabIndex === 0 ? 'table' : 'none' }}>
             {collections && collections.map((collection) => (
               <CollectionCard key={collection.uuid} collection={collection} onClick={() => onClickCollectible(collection.uuid)} />

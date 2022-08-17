@@ -12,6 +12,7 @@ type AccessPassAdditionalProperties = {
 };
 
 export type AccessPassProps = {
+  creator?: string;
   rate: string;
   primaryBackgroundColor: string;
   secondaryBackgroundColor: string;
@@ -29,8 +30,7 @@ export type AccessPassProps = {
   city: string;
   state: string;
   age: string;
-  date: string;
-  time: string;
+  date: Date;
 };
 
 const AccessPass = (props: AccessPassProps) => {
@@ -45,18 +45,17 @@ const AccessPass = (props: AccessPassProps) => {
     perks,
     description,
     additionalDetails,
-    link,
     creatorRoyalty,
     refFront,
     refBack,
     age,
     date,
-    time,
     venue,
     city,
     state,
+    creator
   } = props;
-
+ 
   return (
     <div>
       <div ref={refFront}>
@@ -76,9 +75,11 @@ const AccessPass = (props: AccessPassProps) => {
                 <div className="col">
                   {city}, {state}
                 </div>
-                <div className="col">Age: {age}</div>
-                <div className="col">{date}</div>
-                <div className="col">{time}</div>
+              
+                {date ? (<div className="col">{date.toLocaleDateString("en-US")}</div>) : null}
+                {age ? <div className="col">Age: {age}</div> : null}
+                {date ? (<div className="col">{`${date.getHours()} : ${date.getMinutes()} `}</div>) : null}
+                {/* {date ? <div className="col"></div> : null}  */}
               </div>
               <div className="full">
                 <div className="perk">{perks}</div>
@@ -96,7 +97,7 @@ const AccessPass = (props: AccessPassProps) => {
             <div className="form__pass--price">${rate}</div>
             <div className="form__pass--info">
               <div className="full">
-                <div className="description">Creator: @creatorname</div>
+                <div className="description">Creator: {creator ? creator : '@creatorname'}</div>
                 <div className="description">
                   Transfer Royalty: {creatorRoyalty}% Harmony HRC-721
                 </div>
