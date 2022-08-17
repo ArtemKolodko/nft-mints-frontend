@@ -12,8 +12,8 @@ export const defaultProfile = {
 
 export type EditorProps = {
   updateProfile: (name: string, publicLink: string, profileDescription: string) => void;
-  updateImage: (profileImage: FileList) => void;
-  updateBackground: (profileImage: FileList) => void;
+  updateImage: (profileImage: FileList | null) => void;
+  updateBackground: (profileImage?: FileList | null) => void;
 }
 
 export type UserProfileProps = {
@@ -62,7 +62,7 @@ export const UserProfile = (props: UserProfileProps) => {
           className={"profile-img"}
           style={{ backgroundImage: `url(${profileImage})`, overflow: 'hidden' }}
         >
-          <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} disabled={!editable} />
+          <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} disabled={!editable} onChange={e => props.editor?.updateImage(e.target.files)}/>
         </div>
         <div
           className={"dj3n-logo"}
@@ -72,7 +72,7 @@ export const UserProfile = (props: UserProfileProps) => {
           className={"profile-image-bg"}
           style={{ backgroundImage: `url(${profileImageBg})`, overflow: 'hidden' }}
         >
-          <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} disabled={!editable} />
+          <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} disabled={!editable} onChange={e => props.editor?.updateBackground(e.target.files)}/>
         </div>
       </div>
       <div className={"profile-info-container"}>
