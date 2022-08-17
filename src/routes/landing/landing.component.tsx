@@ -52,7 +52,7 @@ const Landing = () => {
           profileImage={MascotAvatar}
           profileImageBg={MascotBanner}
           editable={false}
-          profileDescription={mockUser.profileDescription} />
+          description={mockUser.profileDescription} />
         <GalleryTab activeTabIndex={activeTabIndex} handleChangeTab={handleChangeTab} />
         <div className='landing-get-started-container'>
           <Link className="navigation__link" to='started/' >

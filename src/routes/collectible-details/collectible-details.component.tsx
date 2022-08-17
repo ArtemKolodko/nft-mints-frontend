@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { CollectionType } from "../../types";
 import "./collectible-details.styles.scss";
 import { useSelector } from "react-redux";
 import { selectCheckLogin, selectCurrentUser } from "../../store/user/user.selector";
-import {Button} from "@mui/material";
-import {getCollection, getUserByUuid} from "../../utils/mint-interface/mint-inteface.utils";
+import { Button } from "@mui/material";
+import { getCollection, getUserByUuid } from "../../utils/mint-interface/mint-inteface.utils";
 import UserType from "../../types/user.types";
 
 const CollectibleDetails = () => {
@@ -25,7 +25,7 @@ const CollectibleDetails = () => {
             try {
                 const data = await getUserByUuid(ownerUuid)
                 console.log('Collection Owner:', data)
-                if(data) {
+                if (data) {
                     setOwner(data)
                 }
             } catch (e) {
@@ -59,11 +59,34 @@ const CollectibleDetails = () => {
         }
     }
 
+    const isOwner = currentUser.uuid === collection?.ownerUUID
+
     return (
         <div className={'collectible-details-container'}>
             <div className={'collectible-details-header'}>
                 <FontAwesomeIcon icon={faClose} size={'2x'} onClick={onCloseClick} />
             </div>
+            {isOwner && <div className={'collectible-creator-view'}>
+                <div className="collectible-creator-message">
+                    This is the landing page your fans will see.
+                </div>
+                <Button variant="contained" fullWidth={true} className='collectible-share-button' onClick={e => {
+                    try {
+                        const data = {
+                            title: collection?.title,
+                            text: collection?.description,
+                            url: window.location.href,
+                        }
+                        navigator.share(data)
+                    }
+                    catch (err) {
+                        console.log('sharing disabled, launching new window', err)
+                        window.open(window.location.href)
+                    }
+
+                }}>Share Page</Button>
+            </div>}
+            <hr />
             <div className={'collectible-details-wrapper'}>
                 <div style={{ marginTop: '16px' }}>
                     {isLoading && <div>Loading...</div>}
@@ -73,11 +96,11 @@ const CollectibleDetails = () => {
                             <div className={'collectible-details-image-container'}>
                                 <img src={collection.collectionImage} width={'100%'} height={'100%'} />
                             </div>
-                            <div style={{ marginTop: '8px' }}>
+                            <div style={{ marginTop: '5px' }}>
                                 <div className={'collectible-details-owner'}>Owned by @asaprocky</div>
                                 <div className={'collectible-details-price'}>${collection.rate}.00</div>
                                 <div style={{ marginTop: '16px' }}>
-                                    <Button variant="contained" fullWidth={true}>Buy now</Button>
+                                    <Button variant={isOwner ? undefined : "contained"} fullWidth={true} disabled={isOwner}>{isOwner ? `Sell` : `Buy now`}</Button>
                                 </div>
                             </div>
                             <div className={'collectible-details-info'}>

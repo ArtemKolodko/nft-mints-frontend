@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import NftCard from "../../components/nft-card/nft-card.component";
 import { ApiTokenResponseType, CollectionType } from "../../types";
 import { getTokensByOwner, getMyCollections, getCollectionsByOwner, getMyTokensByCreator, getUserByUuid } from "../../utils/mint-interface/mint-inteface.utils";
-import { UserProfile } from "./profile.component";
+import { MyProfile } from "./profile.component";
 import "./gallery.styles.scss";
 import { UserAccessPass } from "./access.pass.component";
 import { useSelector } from "react-redux";
@@ -135,7 +135,7 @@ const Gallery = () => {
 
   return (
     <div>
-      <UserProfile displayUser={displayUser} canEdit={currentUser.uuid === displayUser?.uuid}/>
+      <MyProfile displayUser={displayUser} canEdit={currentUser.uuid === displayUser?.uuid}/>
       <div className="gallery-container">
         <div className={'gallery-header'}>
           <GalleryTab activeTabIndex={activeTabIndex} handleChangeTab={handleChangeTab} />

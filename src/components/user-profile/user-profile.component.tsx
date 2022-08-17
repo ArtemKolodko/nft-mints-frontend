@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import editImg from "../../assets/imgs/edit.svg";
 //import uploadImageImg from "../../assets/imgs/upload-image.svg";
 import dj3nImg from "../../assets/imgs/dj3n_logo.svg";
@@ -17,18 +17,18 @@ export type EditorProps = {
 }
 
 export type UserProfileProps = {
-  name: string;
-  publicLink: string;
-  profileImage: any;
-  profileImageBg: any;
-  profileDescription?: string;
+  name?: string;
+  publicLink?: string;
+  profileImage?: any;
+  profileImageBg?: any;
+  description?: string;
   editable?: boolean;
   editor?: EditorProps;
 };
 
 type EditableComponentProps = {
   value: string;
-  stateAction: Dispatch<SetStateAction<string>>;
+  stateAction: Dispatch<SetStateAction<string | undefined>>;
   editing: boolean;
   editingCls: string;
   normalCls: string;
@@ -47,13 +47,19 @@ const EditableComponent = (props: EditableComponentProps) => {
 }
 
 export const UserProfile = (props: UserProfileProps) => {
-  const { name, publicLink, profileImage, profileImageBg, profileDescription, editable, editor } =
+  const { name, publicLink, profileImage, profileImageBg, description, editable, editor } =
     props;
 
   const [editing, setEditing] = useState(false)
   const [nameStr, setName] = useState(name)
-  const [description, setDescription] = useState(profileDescription || '')
+  const [profileDescription, setDescription] = useState(description)
   const [link, setLink] = useState(publicLink)
+
+  useEffect(() => {
+    setName(name)
+    setDescription(description)
+    setLink(publicLink)
+  }, [name, publicLink, description])
 
   return (
     <div className={"profile-container"}>
@@ -76,12 +82,15 @@ export const UserProfile = (props: UserProfileProps) => {
         </div>
       </div>
       <div className={"profile-info-container"}>
-        <div>
+        <div style={{"flexGrow": "1"}}>
           <div className='profile-title'>
-            <EditableComponent normalCls="profile-title" editingCls="profile-title-edit" value={nameStr} stateAction={setName} editing={editing} placeholder="Username"/>
+            <EditableComponent normalCls="profile-title" editingCls="profile-title-edit" value={nameStr || 'username'} stateAction={setName} editing={editing} placeholder="Username"/>
           </div>
           <div className='profile-link-sm'>
-            <EditableComponent normalCls="profile-link-sm" editingCls="profile-link-sm-edit" value={link} stateAction={setLink} editing={editing} placeholder="@username"/>
+            <EditableComponent normalCls="profile-link-sm" editingCls="profile-link-sm-edit" value={link || '@username'} stateAction={setLink} editing={editing} placeholder="@username"/>
+          </div>
+          <div className='profile-description-cls'>
+            <EditableComponent textArea={true} normalCls="profile-description" editingCls="profile-description-edit" value={profileDescription!} stateAction={setDescription} editing={editing} placeholder="description"/>
           </div>
         </div>
         
@@ -89,14 +98,12 @@ export const UserProfile = (props: UserProfileProps) => {
           <img hidden={!editable} src={editImg} width={"20px"} alt={"Edit"} onClick={e => {
             if (editing) {
               // not editing, update!
-              editor?.updateProfile(name, publicLink, profileDescription!)
+              editor?.updateProfile(nameStr!, link!, profileDescription!)
             }
             setEditing(!editing)
           }} />
         </div>
       </div>
-      <EditableComponent textArea={true} normalCls="profile-description" editingCls="profile-description-edit" value={description} stateAction={setDescription} editing={editing} placeholder="@description"/>
-      
     </div>
   );
 };
