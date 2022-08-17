@@ -28,11 +28,11 @@
     justify-content: center;
     text-align: right;
     color: white;
-    padding-right: .5em;
 
     h3 {
       margin: 0;
       font-weight: 400;
+      padding-right: 0.8em;
     }
   }
 
@@ -41,8 +41,11 @@
   }
 
   &__wallet-creator {
-    background-color: $blue;
+    background-color: $blue-secondary;
   }
 
+  &__wallet-fan {
+    background-color: $success;
+  }
   
 }

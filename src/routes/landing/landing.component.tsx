@@ -12,6 +12,8 @@ import { selectCurrentUser } from '../../store/user/user.selector';
 
 
 import './landing.styles.scss';
+import GalleryTab from '../../components/gallery/gallery-tab.component';
+import { useState } from 'react';
 
 
 
@@ -19,6 +21,7 @@ import './landing.styles.scss';
 const Landing = () => {
 
   const currentUser = useSelector(selectCurrentUser);
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const mockUser = {
     name: 'DJ3N',
@@ -36,6 +39,9 @@ const Landing = () => {
     return <Navigate to={`nfts/gallery/${currentUser.uuid}`} />
   }
 
+  const handleChangeTab = (e: React.SyntheticEvent, value: number) => setActiveTabIndex(value)
+
+
   return (
     <div className='landing-container'>
       <Header />
@@ -43,12 +49,15 @@ const Landing = () => {
         publicLink={mockUser.publicLink} 
         profileImage={MascotAvatar} 
         profileImageBg={MascotBanner} 
+        editable={false}
         profileDescription={mockUser.profileDescription}/>
+      <GalleryTab activeTabIndex={activeTabIndex} handleChangeTab={handleChangeTab}/>
       <div className='landing-get-started-container'>
         <Link className="navigation__link" to='started/' >
           <FontAwesomeIcon icon={faPlus} className='landing-get-started'/>
         </Link>
       </div>
+      <button className="get-started-button">Tap the plus sign to get started</button>
     </div>
   )
 }

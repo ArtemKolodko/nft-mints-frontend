@@ -17,7 +17,7 @@ import UserType from "../../types/user.types";
 //     publicLink: '@username'
 // }
 
-export const UserProfile = ({displayUser, currentUuid}:{displayUser:UserType|undefined, currentUuid: string}) => {
+export const UserProfile = ({displayUser, canEdit}:{displayUser:UserType|undefined, canEdit: boolean}) => {
     const [username, setUsername] = useState(displayUser?.name || '');
     const [publicLink, setPublicLink] = useState(displayUser?.publicLink || '');
 
@@ -41,7 +41,7 @@ export const UserProfile = ({displayUser, currentUuid}:{displayUser:UserType|und
     }, [displayUser]);
 
     const update = async () => {
-        if (displayUser?.uuid !== currentUuid) {
+        if (!canEdit) {
             return; // cannot edit
         }
         if (edit && (username.length > 0 || publicLink.length > 0)) {
@@ -106,12 +106,12 @@ export const UserProfile = ({displayUser, currentUuid}:{displayUser:UserType|und
     return <div className={'profile-container'}>
         <div className={'profile-image-container'}>
             <div className={'profile-img'} style={{ backgroundImage: `url(${displayUser?.profileImage || uploadImageImg})`, overflow: 'hidden' }}>
-                {uploadProgress === 0 && <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} onChange={e => setProfileImage(e.target.files)} disabled={currentUuid !== displayUser?.uuid} />}
+                {uploadProgress === 0 && <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} onChange={e => setProfileImage(e.target.files)} disabled={!canEdit} />}
                 {uploadProgress > 0 && <CircularProgress value={uploadProgress} />}
             </div>
             <div className={'dj3n-logo'} style={{ backgroundImage: `url(${dj3nImg})` }} />
             <div className={'profile-image-bg'} style={{ backgroundImage: `url(${displayUser?.profileImageBg || uploadImageImg})`, overflow: 'hidden' }} >
-                {uploadProgressBg === 0 && <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} onChange={e => setProfileImageBg(e.target.files)} disabled={currentUuid !== displayUser?.uuid} />}
+                {uploadProgressBg === 0 && <input type='file' style={{ 'opacity': 0, 'fontSize': '300px' }} onChange={e => setProfileImageBg(e.target.files)} disabled={!canEdit} />}
                 {uploadProgressBg > 0 && <CircularProgress value={uploadProgressBg} />}
             </div>
         </div>
@@ -125,7 +125,7 @@ export const UserProfile = ({displayUser, currentUuid}:{displayUser:UserType|und
                 <div><input type='text' value={publicLink} onChange={e => setPublicLink(e.target.value)} placeholder='@username' /></div>
             </div>}
             <div>
-                {(currentUuid === displayUser?.uuid) && <img src={editImg} width={'28px'} alt={'Edit'} onClick={update} />}
+                {(canEdit) && <img src={editImg} width={'28px'} alt={'Edit'} onClick={update} />}
             </div>
         </div>
     </div>

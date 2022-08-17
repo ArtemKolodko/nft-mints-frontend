@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Tab, Tabs } from "@mui/material";
 import NftCard from "../../components/nft-card/nft-card.component";
 import { ApiTokenResponseType, CollectionType } from "../../types";
 import { getTokensByOwner, getMyCollections, getCollectionsByOwner, getMyTokensByCreator, getUserByUuid } from "../../utils/mint-interface/mint-inteface.utils";
-import gridImg from "../../assets/imgs/grid.svg";
-import basketImg from "../../assets/imgs/basket.svg";
 import { UserProfile } from "./profile.component";
 import "./gallery.styles.scss";
 import { UserAccessPass, UserAccessPassProps } from "./access.pass.component";
@@ -13,9 +10,7 @@ import { useSelector } from "react-redux";
 import { selectCheckLogin, selectCurrentUser } from "../../store/user/user.selector";
 import CollectionCard from "../../components/collection-card/collection-card.component";
 import UserType from "../../types/user.types";
-
-const GridIcon = () => <img src={gridImg} alt="Grid" />
-const BasketIcon = () => <img src={basketImg} alt="Basket" />
+import GalleryTab from "../../components/gallery/gallery-tab.component";
 
 const defaultAccessPass: UserAccessPassProps = {
   title: 'A$AP Rocky',
@@ -131,13 +126,10 @@ const Gallery = () => {
 
   return (
     <div>
-      <UserProfile displayUser={displayUser} currentUuid={currentUser.uuid}/>
+      <UserProfile displayUser={displayUser} canEdit={currentUser.uuid === displayUser?.uuid}/>
       <div className="gallery-container">
         <div className={'gallery-header'}>
-          <Tabs value={activeTabIndex} onChange={handleChangeTab} aria-label="icon tabs example">
-            <Tab icon={<GridIcon />} aria-label="phone" />
-            <Tab icon={<BasketIcon />} aria-label="favorite" />
-          </Tabs>
+          <GalleryTab activeTabIndex={activeTabIndex} handleChangeTab={handleChangeTab} />
         </div>
         <div style={{ marginTop: '16px' }}>
           <div className="gallery" style={{ display: activeTabIndex === 0 ? 'grid' : 'none' }}>
