@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import { Tab, Tabs } from "@mui/material";
+import {CircularProgress, Tab, Tabs} from "@mui/material";
 import NftCard from "../../components/nft-card/nft-card.component";
 import { ApiTokenResponseType, CollectionType } from "../../types";
 import { getTokensByOwner, getCollectionsByOwner, getMyTokensByCreator, getUserByUuid } from "../../utils/mint-interface/mint-inteface.utils";
@@ -28,6 +28,7 @@ const Gallery = () => {
   const [tokens, setTokens] = useState<Array<ApiTokenResponseType> | null>([]);
   const [collections, setCollections] = useState<Array<CollectionType> | null>([]);
   const [accessPasses, setAccessPasses] = useState<CollectionType[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const { ownerUuid } = useParams();
   const navigate = useNavigate();
@@ -43,20 +44,28 @@ const Gallery = () => {
 
   // get all my collections for gallery view
   const getCollections = async () => {
-    const data = await getCollectionsByOwner(ownerUuid!)
-    if (data) {
-      console.log(data)
+    try {
+      setIsLoading(true)
+      const data = await getCollectionsByOwner(ownerUuid!)
       setCollections(data)
+    } catch (e) {
+      console.log('Cannot load collections:', e)
+    } finally {
+      setIsLoading(false)
     }
   }
 
   let getTokens = async () => {
     // i'm logged in and the gallery is the same as the logged in user
     // get all my tokens
-    const data = await getTokensByOwner(currentUser.uuid);
-    if (data) {
-      console.log(data)
+    try {
+      setIsLoading(true)
+      const data = await getTokensByOwner(currentUser.uuid);
       setTokens(data)
+    } catch (e) {
+      console.log('Cannot load tokens:', e)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -66,9 +75,14 @@ const Gallery = () => {
     }
   }, [ownerUuid, activeTabIndex])
 
+  // if owner id changed in url
+  useEffect(() => {
+    setLoaded(false)
+  }, [ownerUuid])
+
   useEffect(() => {
     // fix logic; why loading many times
-    if (!checkLogin.checkedLogin || loaded) {
+    if (!checkLogin.checkedLogin || loaded || activeTabIndex !== 0) {
       return; // don't get until we have checked our login
     }
 
@@ -77,14 +91,6 @@ const Gallery = () => {
     // options 1) not logged in
     // show creator gallery
     if (!currentUser) {
-      const getCollections = async () => {
-        const data = await getCollectionsByOwner(ownerUuid!);
-        if (data) {
-          console.log(data);
-          setCollections(data);
-        }
-      }
-
       getCollections();
       return;
     }
@@ -102,10 +108,14 @@ const Gallery = () => {
 
       getTokens = async () => {
         // filter tokens by the owner and creator uuid
-        const data = await getMyTokensByCreator(currentUser.uuid, ownerUuid!);
-        if (data) {
-          console.log(data)
+        try {
+          setIsLoading(true)
+          const data = await getMyTokensByCreator(currentUser.uuid, ownerUuid!);
           setTokens(data)
+        } catch (e) {
+          console.log('Cannot load filtered tokens:', e)
+        } finally {
+          setIsLoading(false)
         }
       }
     }
@@ -120,7 +130,7 @@ const Gallery = () => {
       setDisplayUser(currentUser)
     }
 
-  }, [ownerUuid, checkLogin.checkedLogin]);
+  }, [ownerUuid, checkLogin.checkedLogin, activeTabIndex]);
 
   const handleChangeTab = (e: React.SyntheticEvent, value: number) => setActiveTabIndex(value)
 
@@ -137,23 +147,32 @@ const Gallery = () => {
             <Tab icon={<BasketIcon />} aria-label="favorite" />
           </Tabs>
         </div>
-        <div style={{ marginTop: '16px' }}>
-          <div className="gallery" style={{ display: activeTabIndex === 0 ? 'grid' : 'none' }}>
-            {collections && collections.map((collection) => (
-              <CollectionCard key={collection.uuid} collection={collection} onClick={() => onClickCollectible(collection.uuid)} />
-            ))}
-            {tokens && tokens.map((token) => (
-              <NftCard key={token.token.sequence} {...token} />
-            ))}
-          </div>
-          <div style={{ display: activeTabIndex === 1 ? 'grid' : 'none' }}>
-            {accessPasses.map(pass =>
-                <UserAccessPass
-                    key={pass.uuid}
-                    {...pass}
-                    onClick={() => onClickAccessPass(pass.uuid)}
-                />)}
-          </div>
+        <div className={'gallery-content-wrapper'}>
+          {isLoading &&
+              <div className={'spinner-container'}>
+                <CircularProgress />
+              </div>
+          }
+          {!isLoading &&
+              <div>
+                <div className="gallery" style={{ display: activeTabIndex === 0 ? 'grid' : 'none' }}>
+                  {collections && collections.map((collection) => (
+                      <CollectionCard key={collection.uuid} collection={collection} onClick={() => onClickCollectible(collection.uuid)} />
+                  ))}
+                  {tokens && tokens.map((token) => (
+                      <NftCard key={token.token.sequence} {...token} />
+                  ))}
+                </div>
+                <div style={{ display: activeTabIndex === 1 ? 'grid' : 'none' }}>
+                  {accessPasses.map(pass =>
+                      <UserAccessPass
+                          key={pass.uuid}
+                          {...pass}
+                          onClick={() => onClickAccessPass(pass.uuid)}
+                      />)}
+                </div>
+              </div>
+          }
         </div>
       </div>
     </div>

@@ -44,7 +44,7 @@ const CollectibleDetails = () => {
                     await loadCollectibleOwner(data.ownerUUID)
                 }
             } catch (e) {
-                console.error('Cannot get access pass:', e)
+                console.error('Cannot get collectible:', e)
             } finally {
                 setIsLoading(false)
             }
@@ -74,7 +74,7 @@ const CollectibleDetails = () => {
                                 <img src={collection.collectionImage} width={'100%'} height={'100%'} />
                             </div>
                             <div style={{ marginTop: '8px' }}>
-                                <div className={'collectible-details-owner'}>Owned by @asaprocky</div>
+                                <div className={'collectible-details-owner'}>Owned by {owner ? owner.name : '-'}</div>
                                 <div className={'collectible-details-price'}>${collection.rate}.00</div>
                                 <div style={{ marginTop: '16px' }}>
                                     <Button variant="contained" fullWidth={true}>Buy now</Button>

@@ -29,6 +29,17 @@
     gap: 10px;
     margin-bottom: 2em;
   }
+
+  .gallery-content-wrapper {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .spinner-container {
+    width: 100%;
+  }
 }
 
 
