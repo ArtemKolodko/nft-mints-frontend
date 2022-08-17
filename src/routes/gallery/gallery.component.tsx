@@ -141,9 +141,9 @@ const Gallery = () => {
   const onClickCollectible = (uuid: string) => navigate(`/nfts/collectible/${uuid}`)
 
   return (
-    <div>
+    <div className="gallery-container" >
       <MyProfile displayUser={displayUser} canEdit={currentUser?.uuid === displayUser?.uuid} />
-      <div className="gallery-container">
+      <div className="gallery-grid">
         <div className={'gallery-header'}>
           <GalleryTab activeTabIndex={activeTabIndex} handleChangeTab={handleChangeTab} />
         </div>
