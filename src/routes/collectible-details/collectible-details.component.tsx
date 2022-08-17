@@ -88,7 +88,7 @@ const CollectibleDetails = () => {
             </div>}
             <hr />
             <div className={'collectible-details-wrapper'}>
-                <div style={{ marginTop: '16px' }}>
+                <div style={{ marginTop: '16px', width: '100%' }}>
                     {isLoading && <div>Loading...</div>}
                     {!isLoading && collection &&
                         <div>
