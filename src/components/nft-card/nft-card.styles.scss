@@ -1,15 +1,11 @@
 .nft-card-container {
   cursor: pointer;
-  height: 250px;
-  width: 250px;
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 7.5px 15px;
+  height: calc(33.33vw - 8px);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  float: left;
+  width: calc(33.33vw - 8px);
 
   .nft-info {
     text-align: center;

@@ -131,8 +131,8 @@ const Gallery = () => {
         <div className={'gallery-header'}>
           <GalleryTab activeTabIndex={activeTabIndex} handleChangeTab={handleChangeTab} />
         </div>
-        <div style={{ marginTop: '16px' }}>
-          <div className="gallery" style={{ display: activeTabIndex === 0 ? 'grid' : 'none' }}>
+        <div style={{ marginTop: '0.8em', margin: '8px', padding:"8px"}}>
+          <div className="gallery" style={{ display: activeTabIndex === 0 ? 'table' : 'none' }}>
             {collections && collections.map((collection) => (
               <CollectionCard key={collection.uuid} {...collection} />
             ))}
@@ -140,7 +140,7 @@ const Gallery = () => {
               <NftCard key={token.token.sequence} {...token} />
             ))}
           </div>
-          <div style={{ display: activeTabIndex === 1 ? 'grid' : 'none' }}>
+          <div style={{ display: activeTabIndex === 1 ? 'table' : 'none' }}>
             {accessPasses.map(pass => <UserAccessPass {...pass} />)}
           </div>
         </div>
