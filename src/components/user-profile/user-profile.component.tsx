@@ -21,7 +21,7 @@ export type UserProfileProps = {
   publicLink?: string;
   profileImage?: any;
   profileImageBg?: any;
-  profileDescription?: string;
+  description?: string;
   editable?: boolean;
   editor?: EditorProps;
 };
@@ -47,19 +47,19 @@ const EditableComponent = (props: EditableComponentProps) => {
 }
 
 export const UserProfile = (props: UserProfileProps) => {
-  const { name, publicLink, profileImage, profileImageBg, profileDescription, editable, editor } =
+  const { name, publicLink, profileImage, profileImageBg, description, editable, editor } =
     props;
 
   const [editing, setEditing] = useState(false)
   const [nameStr, setName] = useState(name)
-  const [description, setDescription] = useState(profileDescription)
+  const [profileDescription, setDescription] = useState(description)
   const [link, setLink] = useState(publicLink)
 
   useEffect(() => {
     setName(name)
-    setDescription(profileDescription)
+    setDescription(description)
     setLink(publicLink)
-  }, [name, publicLink, profileDescription])
+  }, [name, publicLink, description])
 
   return (
     <div className={"profile-container"}>
@@ -90,7 +90,7 @@ export const UserProfile = (props: UserProfileProps) => {
             <EditableComponent normalCls="profile-link-sm" editingCls="profile-link-sm-edit" value={link || '@username'} stateAction={setLink} editing={editing} placeholder="@username"/>
           </div>
           <div className='profile-description-cls'>
-            <EditableComponent textArea={true} normalCls="profile-description" editingCls="profile-description-edit" value={description!} stateAction={setDescription} editing={editing} placeholder="description"/>
+            <EditableComponent textArea={true} normalCls="profile-description" editingCls="profile-description-edit" value={profileDescription!} stateAction={setDescription} editing={editing} placeholder="description"/>
           </div>
         </div>
         
@@ -98,7 +98,7 @@ export const UserProfile = (props: UserProfileProps) => {
           <img hidden={!editable} src={editImg} width={"20px"} alt={"Edit"} onClick={e => {
             if (editing) {
               // not editing, update!
-              editor?.updateProfile(name!, link!, description!)
+              editor?.updateProfile(nameStr!, link!, profileDescription!)
             }
             setEditing(!editing)
           }} />
