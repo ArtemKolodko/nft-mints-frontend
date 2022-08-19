@@ -171,15 +171,17 @@ export const createCollection = async (
 
 /**
  * Returns an array of tokens owned by the given Owner ID
- * @param ownerUuid {string} Onwer ID
+ * @param ownerUuid {string} Owner ID
  * @param creatorUuid
+ * @param tokenType
  * @returns
  */
 export const getMyTokensByCreator = async (
   ownerUuid: string,
-  creatorUuid: string
+  creatorUuid: string,
+  tokenType = TokenTypeEnum.COLLECTION
 ): Promise<ApiTokenResponseType[]> => {
-  const { data } = await axios.get(`${GATEWAY}/v0/tokens/wallet/${ownerUuid}/${creatorUuid}`)
+  const { data } = await axios.get(`${GATEWAY}/v0/tokens/wallet/${ownerUuid}/${creatorUuid}/${tokenType}`)
   return data;
 };
 
