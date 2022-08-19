@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import Button from "@mui/material/Button";
 
+import { saveLocalState } from "../../utils/storage/local-storage.utils";
 import { CollectionType } from "../../types/collection.types";
 import { checkoutCollectionV2 } from "../../utils/mint-interface/mint-inteface.utils";
 import PhoneNumberInput from "../input/phone-number-input.component";
@@ -15,6 +16,10 @@ export type CheckoutProps = {
   setEnableCheckout: Dispatch<SetStateAction<boolean>>;
 };
 
+export enum CheckoutKey {
+  NFT_IMAGE = 'NFT_IMAGE'
+}
+
 const Checkout = ({ nft, setEnableCheckout, currentUser }: CheckoutProps) => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -23,6 +28,7 @@ const Checkout = ({ nft, setEnableCheckout, currentUser }: CheckoutProps) => {
   const handleButton = async () => {
     if (currentUser) {
       setButtonDisabled(true);
+      saveLocalState(nft.collectionImage,CheckoutKey.NFT_IMAGE);
       const response = await checkoutCollectionV2(Array(nft));
       console.log("handleButton", { response });
       if (response && response.status < 300) {

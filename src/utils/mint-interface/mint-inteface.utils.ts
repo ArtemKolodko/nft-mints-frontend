@@ -44,9 +44,11 @@ export const checkoutCollectionV2 = async (
   collections: CollectionType[],
 
 ): Promise<AxiosResponse | null> => {
+
+  //success/:tokenUuid/:tokenImage
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-  const REDIRECT_URL_SUCCESS = `${BASE_URL}/success/:userUuid/:tokenUuid`;
-  const REDIRECT_URL_FAILURE = `${BASE_URL}/cancel/:userUuid`;
+  const REDIRECT_URL_SUCCESS = `${BASE_URL}/nfts/success/:userUuid/:tokenUuid`;
+  const REDIRECT_URL_FAILURE = `${BASE_URL}/nfts/cancel/:userUuid`;
   console.log("checkout collectionv2");
   try {
     const body = JSON.stringify({
