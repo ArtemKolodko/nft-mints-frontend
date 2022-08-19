@@ -120,6 +120,7 @@ const CreateCollectible = (props: any) => {
         saveLocalState("", LOCAL_STORAGE.FILES);
         saveLocalState("", LOCAL_STORAGE.FORM_FIELDS);
         addCollection();
+        setFilesUrl([]);
       } else {
         saveLocalState(filesUrl, LOCAL_STORAGE.FILES);
         saveLocalState(formFields, LOCAL_STORAGE.FORM_FIELDS);
@@ -161,7 +162,6 @@ const CreateCollectible = (props: any) => {
 
   const increaseSupply = () => {
     const value = parseInt(formFields.supply+"") + 1;
-    console.log(value);
     setFormFields({ ...formFields, supply : value })
   }
 
@@ -235,7 +235,7 @@ const CreateCollectible = (props: any) => {
                   onChange={updateFiles}
                   value={files}
                   accept={"image/*"} //
-                  maxFileSize={104857600}
+                  maxFileSize={5242880} // 100MB = {104857600}
                   label={"Drop Files here\nor click to browse"}
                   minHeight={"195px"}
                   maxHeight={"500px"}
@@ -330,7 +330,9 @@ const CreateCollectible = (props: any) => {
                     onChange={handleInputChange}
                   />
                 </div>
+                <h3>Quantity</h3>
                 <div className="quantity">
+                
                   <div className="quantity__button quantity__button--decrease" 
                    onClick={decreaseSupply}>
                     -
@@ -347,6 +349,7 @@ const CreateCollectible = (props: any) => {
                     onClick={increaseSupply}>
                     +
                   </div>
+                  </div>
                   <button
                     className="form__button"
                     disabled={
@@ -357,7 +360,7 @@ const CreateCollectible = (props: any) => {
                   >
                     Continue
                   </button>
-                </div>
+                
               </div>
             )}
           </form>

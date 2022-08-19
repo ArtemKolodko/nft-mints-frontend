@@ -6,7 +6,8 @@
   height: 6vh;
   width: 100vw;
   position: sticky;
-  bottom: 0;
+  top: 0;
+  z-index: 100;
 
   &__logo {
     @include flex-column();
@@ -28,11 +29,13 @@
     justify-content: center;
     text-align: right;
     color: white;
-    padding-right: .5em;
+    padding-right: 1em;
+    box-sizing: border-box;
 
     h3 {
       margin: 0;
       font-weight: 400;
+      padding-right: 0.8em;
     }
   }
 
@@ -41,8 +44,11 @@
   }
 
   &__wallet-creator {
-    background-color: $blue;
+    background-color: $blue-secondary;
   }
 
+  &__wallet-fan {
+    background-color: $success;
+  }
   
 }

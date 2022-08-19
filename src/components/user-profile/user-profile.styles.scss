@@ -1,69 +1,224 @@
-.profile-container {
-  max-width: 800px;
-  margin: 0 auto;
-  white-space: pre-line;
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
 
-  .profile-info-container {
-    margin-left: 0.8em;
-    margin-right: 0.8em;
+.user-container {
+  @include flex-column();
+  //padding-top: 6vh;
+
+  
+  &__profile-images {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: 16px;
-    color: #9aa0a6;
-
-    .profile-title {
-      text-align: left;
-      font-size: 1.5rem;
-    }
-  }
-
-  .profile-image-container {
-    position: relative;
-    height: 180px;
-    width: 100%;
+    height: 11.25em;
+    width: 100vw;
     background-color: black;
-    display: flex;
 
-    .profile-img {
+    &--left {
+      width: 20vw;
+      background-image: url("../../assets/imgs/dj3n-partial-emblem.svg");
+      background-repeat: no-repeat;
+      background-size: 5.25em;
+      background-position: -3.5em 1.5em;
+     box-sizing: border-box;
+    }
+
+    &--right {
+      width: 80vw; 
+      background-repeat: no-repeat;
+      background-position: center;
+      overflow:hidden;
+
+      &-default {
+        background-color: $light-grey;
+        background-image: url("../../assets/imgs/upload-image.svg");
+        background-size: 9em;
+        overflow: hidden;
+      }
+
+      &-custom {
+        background-size: cover;
+      }
+    }
+
+    &--avatar {
       position: absolute;
-      width: 100px;
-      height: 100px;
-      left: calc(20% - 50px);
-      top: calc(50% - 50px);
+      width: 6em;
+      height: 6em;
+      top: 5.8em;
+      left: 2.5em;
       border-radius: 50px;
       background-repeat: no-repeat;
       background-position: center;
-      background-color: #e6e6e6;
       background-size: contain;
       border: 2px solid white;
       z-index: 1;
-    }
+      overflow: hidden;
 
-    .dj3n-logo {
-      width: 20%;
-      height: 100%;
-      background-repeat: no-repeat;
-      background-size: contain;
-      rotate: 90deg;
-      background-position: 10px -20px;
-    }
-
-    .profile-image-bg {
-      width: 80%;
-      height: 100%;
-      background-color: #e6e6e6;
-      background-repeat: no-repeat;
-      background-position: center;
+      &-default {
+        background-image: url("../../assets/imgs/upload-image.svg");
+        background-color: $light-grey;
+      }
     }
   }
 
-  .profile-description {
-    margin-left: 0.8em !important;
-    margin-right: 0.8em !important;
-    color: #9aa0a6;
-    text-align: left;
-    font-size: 0.8rem;
-    margin-left: 0.3em;
+  .profile-description-edit {
+    //font-size: 0.2rem !important;
+    flex-grow: 1;
+    margin-left: 0.9em;
+    width: 90%;
+    font-size: 0.6rem !important;
+  }
+
+  &__info {
+    
+    @include flex-wrap;
+    margin: 0.5em;
+    justify-content: space-between;
+    margin-top: 16px;
+    margin-bottom: 0px;
+    color: white;
+
+    .profile-title-edit {
+      flex-grow: 1;
+      font-size: 1.0rem;
+      width: 90%;
+    }
+
+    .profile-link-sm-edit {
+      flex-grow: 1;
+      font-size: 0.6rem;
+      width: 90%;
+    }
+
+    &--title {
+      text-align: left;
+      font-size: 1.4rem;
+    }
+
+    &--link {
+      color: $blue;
+    }
+
+    
+
+    &--edit {
+      cursor: pointer;
+      width: 1.75em;
+      background-image: url("../../assets/imgs/edit.svg");
+      background-repeat: no-repeat;
+      background-position: top center;
+
+      
+    }
+
+    &--description {
+      margin-left: 0.8em !important;
+      margin-right: 0.8em !important;
+      text-align: left;
+      font-size: 0.7rem;
+      color: white;
+
+    }
+
+
   }
 }
+
+
+
+
+
+// .profile-container {
+//   max-width: 800px;
+//   margin: 0 auto;
+//   white-space: pre-line;
+//   margin-bottom: 4px;
+
+//   .profile-info-container {
+//     margin-left: 0.8em;
+//     margin-right: 0.8em;
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: space-between;
+//     margin-top: 16px;
+//     color: #9aa0a6;
+
+//     .profile-title {
+//       text-align: left;
+//       font-size: 1.2rem;
+//     }
+//     .profile-link-sm {
+//       text-align: left;
+//       flex-grow: 1;
+//       font-size: 0.7rem;
+//       color: $blue;
+//     }
+    // .profile-title-edit {
+    //   flex-grow: 1;
+    //   font-size: 1.0rem;
+    //   width: 90%;
+    // }
+
+    // .profile-link-sm-edit {
+    //   flex-grow: 1;
+    //   font-size: 0.6rem;
+    //   width: 90%;
+    // }
+//   }
+
+//   .profile-image-container {
+//     position: relative;
+//     height: 180px;
+//     width: 100%;
+//     background-color: black;
+//     display: flex;
+
+//     .profile-img {
+//       position: absolute;
+//       width: 100px;
+//       height: 100px;
+//       left: calc(20% - 50px);
+//       top: calc(50% - 50px);
+//       border-radius: 50px;
+//       background-repeat: no-repeat;
+//       background-position: center;
+//       background-color: #e6e6e6;
+//       background-size: contain;
+//       border: 2px solid white;
+//       z-index: 1;
+//     }
+
+//     .dj3n-logo {
+//       width: 20vw;
+//       height: 100%;
+//       background-repeat: no-repeat;
+//       background-size: contain;
+//       rotate: 90deg;
+//       background-position: 10px -20px;
+//     }
+
+//     .profile-image-bg {
+//       width: 80vw;
+//       height: 100%;
+//       background-color: #e6e6e6;
+//       background-repeat: no-repeat;
+//       background-position: center;
+//     }
+//   }
+
+//   .profile-description {
+//     color: #9aa0a6;
+//     text-align: left;
+//     font-size: 0.7rem;
+//   }
+
+//   .profile-description-cls {
+//     text-align: left;
+//     font-size: 0.6rem;
+//   }
+
+  // .profile-description-edit {
+  //   font-size: 0.6rem;
+  //   flex-grow: 1;
+  //   width: 90%;
+  // }
+// }

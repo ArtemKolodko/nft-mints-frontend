@@ -8,7 +8,7 @@ import Logo from "../../assets/imgs/DJ3N Logo.png";
 import "./login.styles.scss";
 
 const Login = () => {
-  const [mobileNumber, setMobileNumber] = useState("+573232378976");
+  const [mobileNumber, setMobileNumber] = useState(process.env.NODE_ENV !== 'production' ? "+573232378976" : "");
   const [connecting, setConnecting] = useState(false);
 
   const loginHandler = async () => {

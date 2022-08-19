@@ -1,3 +1,15 @@
+export enum TokenTypeEnum {
+  ACCESS_PASS = 1,
+  COLLECTION = 2
+}
+
+export interface AccessPassProperties {
+  age: string
+  city: string
+  state: string
+  venue: string
+}
+
 export type CollectionType = {
   title: string;
   description: string;
@@ -10,16 +22,12 @@ export type CollectionType = {
   ownerUUID: string;
   productId: string;
   collectionImage: string;
-  tokenType: number;
+  collectionImages: string[];
+  tokenType: TokenTypeEnum;
   creatorRoyalties?: number;
   perks?: string;
   additionalDetails?: string;
-  properties?: object;
-}
-
-export enum TokenTypeEnum {
-  COLLECTION = 2,
-  ACCESS_PASS = 1
+  properties?: AccessPassProperties;
 }
 
 export type TokenType = {

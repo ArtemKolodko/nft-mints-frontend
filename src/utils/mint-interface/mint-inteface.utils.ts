@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { CollectionType } from "../../types/index";
+import {CollectionType, TokenTypeEnum} from "../../types/index";
 import { ApiResponseType } from "../../types/index";
 import { ApiTokenResponseType } from "../../types/index";
 import UserType from "../../types/user.types";
@@ -41,28 +41,27 @@ export const sendSMSCode = async (
  * @returns API Response redirection to Stripe checkout
  */
 export const checkoutCollectionV2 = async (
-  otp: string,
-  phoneNumber: string,
   collections: CollectionType[],
 
 ): Promise<AxiosResponse | null> => {
+
+  //success/:tokenUuid/:tokenImage
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-  const REDIRECT_URL_SUCCESS = `${BASE_URL}/success/:userUuid/:tokenUuid`;
-  const REDIRECT_URL_FAILURE = `${BASE_URL}/cancel/:userUuid`;
+  const REDIRECT_URL_SUCCESS = `${BASE_URL}/nfts/success/:userUuid/:tokenUuid`;
+  const REDIRECT_URL_FAILURE = `${BASE_URL}/nfts/cancel/:userUuid`;
   console.log("checkout collectionv2");
   try {
     const body = JSON.stringify({
       nfts: collections.map((collection) => {
         return { collectionUuid: collection.uuid, quantity: 1 };
       }),
-      mobileNumber: phoneNumber,
-      smsCode: otp,
       successUrl: REDIRECT_URL_SUCCESS,
       cancelUrl: REDIRECT_URL_FAILURE,
     });
-    console.log(body);
+    console.log({body});
     console.log(JSON.stringify(body));
-    const response = await axios.post(`${GATEWAY}/v0/payment/checkoutv2`, body, {
+    const response = await axios.post(`${GATEWAY}/v1/payment/checkoutv2`, body, {
+      withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },
@@ -75,6 +74,17 @@ export const checkoutCollectionV2 = async (
   }
 };
 
+export const getUuidFromVanityTag = async (tag: string): Promise<string | null> => {
+  try {
+    const url = `${GATEWAY}/v0/users/vanity/${tag}`;
+    const response = await axios.get(url);
+    return response.data.uuid;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
+
 /**
  * Retrieves the Collection of a given Collection uid
  * @param collectionUuid {string} Collection uid
@@ -82,15 +92,9 @@ export const checkoutCollectionV2 = async (
  */
 export const getCollection = async (
   collectionUuid: string
-): Promise<CollectionType | null> => {
-  try {
-    const url = `${GATEWAY}/v0/collections/${collectionUuid}`;
-    const response = await axios.get(url);
-    return response.data;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
+): Promise<CollectionType> => {
+  const { data } = await axios.get(`${GATEWAY}/v0/collections/${collectionUuid}`);
+  return data;
 };
 
 /**
@@ -167,22 +171,18 @@ export const createCollection = async (
 
 /**
  * Returns an array of tokens owned by the given Owner ID
- * @param ownerUuid {string} Onwer ID
+ * @param ownerUuid {string} Owner ID
+ * @param creatorUuid
+ * @param tokenType
  * @returns
  */
 export const getMyTokensByCreator = async (
   ownerUuid: string,
-  creatorUuid: string
-): Promise<Array<ApiTokenResponseType> | null> => {
-  try {
-    const URL = `${GATEWAY}/v0/tokens/wallet/${ownerUuid}/${creatorUuid}`;
-    const response = await axios.get(URL)
-    return response.data;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-
+  creatorUuid: string,
+  tokenType = TokenTypeEnum.COLLECTION
+): Promise<ApiTokenResponseType[]> => {
+  const { data } = await axios.get(`${GATEWAY}/v0/tokens/wallet/${ownerUuid}/${creatorUuid}/${tokenType}`)
+  return data;
 };
 
 
@@ -193,16 +193,9 @@ export const getMyTokensByCreator = async (
  */
 export const getTokensByOwner = async (
   ownerUuid: string
-): Promise<Array<ApiTokenResponseType> | null> => {
-  try {
-    const URL = `${GATEWAY}/v0/tokens/${ownerUuid}`;
-    const response = await axios.get(URL)
-    return response.data;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-
+): Promise<ApiTokenResponseType[]> => {
+  const { data } = await axios.get(`${GATEWAY}/v0/tokens/${ownerUuid}`)
+  return data
 };
 
 /**
@@ -230,15 +223,17 @@ export const getTokenDetail = async (
  */
 export const getCollectionsByOwner = async (
   ownerUuid: string
-): Promise<Array<CollectionType> | null> => {
-  try {
-    const URL = `${GATEWAY_V2}/v0/collections/user/${ownerUuid}`;
-    const response = await axios.get(URL)
-    return response.data;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
+): Promise<CollectionType[]> => {
+  const { data } = await axios.get(`${GATEWAY_V2}/v0/collections/user/${ownerUuid}`)
+  return data
+};
+
+export const getCollectionsByOwnerAndType = async (
+    ownerUuid: string,
+    tokenType: TokenTypeEnum
+): Promise<CollectionType[]> => {
+  const { data } = await axios.get(`${GATEWAY_V2}/v0/collections/all/${ownerUuid}/${tokenType}`)
+  return data
 };
 
 /**

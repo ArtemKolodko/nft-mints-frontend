@@ -40,7 +40,7 @@ export const addFilesToStorage = async (
   const fileUrl: Array<string> = [];
   files.forEach((f) => {
     const file = f instanceof Blob ? f : f.file;
-    const name = f instanceof Blob ? 'blob' : f.file.name
+    const name = f instanceof Blob ? 'access-pass.png' : f.file.name
     console.log("file to upload: ", name);
     const storageRef = ref(
       storage,

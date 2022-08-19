@@ -10,8 +10,10 @@ const CollectionCard = (props: CollectionCardProps) => {
     const { collection, onClick } = props
     return (
     <div className='nft-card-container'
-      onClick={onClick}
-      style={{ backgroundImage: `url(${collection.collectionImage})` }}>
+      onClick={onClick}>
+        <div className={'nft-image-wrapper'}
+             style={{ backgroundImage: `url(${collection.collectionImage})` }}
+        />
       {/*<div className="nft-info">*/}
       {/*  <p>{collection.title}</p>*/}
       {/*  <p style={{fontSize: '0.8rem'}}>{collection.description}</p>*/}

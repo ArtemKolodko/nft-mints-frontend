@@ -1,7 +1,8 @@
 @import "../../assets/scss/variables";
 
 .access-pass-details-container {
-  width: 60vw;
+  width: calc(100vw - 48px - 18px);
+  max-width: 800px;
   margin: 0 auto;
   padding: 10px;
   color: #FFFFFF;
@@ -43,7 +44,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 300px;
+  width: calc(100vw - 48px - 18px);
+  max-width: 800px;
   color: #000000;
   font-size: 12px;
 
@@ -56,17 +58,17 @@
     mask-size: cover;
     background-repeat: no-repeat;
     background-size: 100%;
-    width: inherit;
+    width: 300px;
     height: 26px;
   }
 
   .access-pass-footer {
-    rotate: 180deg;
+    transform: rotate(180deg)
   }
 
   .access-pass-content {
-    padding: 0 8px 8px;
     background-color: $stripe;
+    width: 300px;
 
     .access-pass-info {
       width: 100%;
@@ -111,11 +113,17 @@
       }
 
       .access-pass-details {
-        padding: 4px 8px;
+        width: inherit;
         border-top: 2px solid #999999;
 
         &-description {
-          font-size: 16px;
+          text-align: center;
+          font-size: 14px;
+        }
+
+        &-additional {
+          padding: 4px 8px;
+          font-size: 12px;
         }
       }
 

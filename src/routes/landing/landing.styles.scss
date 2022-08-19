@@ -2,13 +2,15 @@
 @import "../../assets/scss/mixins";
 
 .landing-container {
-  height: 100vh;
+  height: calc(100vh - 6vh - 80px);
   text-align: center;
-  
-  h1, h2, p {
+
+  h1,
+  h2,
+  p {
     font-weight: 100;
   }
-  
+
   .landing-logo {
     padding-top: 10vh;
     height: 8em;
@@ -34,23 +36,45 @@
     cursor: pointer;
     // background-color: transparent;
     border: 0;
-    color:  #00AEE9;
+    color: #00AEE9;
     font-size: 1.5rem;
   }
 
   .landing-get-started-container {
     @include flex-center();
     justify-content: left !important;
+
     // align-content: flex-end;
     // align-items: flex-end;
     .landing-get-started {
-      margin-top: 1em;
+      margin-top: 0.6em;
       margin-left: 0.6em;
-     // margin-left: 0;
+      // margin-left: 0;
       //text-align: left !important;
       color: white;
       font-size: 4rem;
     }
+  }
+
+  .get-started-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    gap: 10px;
+
+    position: absolute;
+    width: 306px;
+    height: 54px;
+    left: calc(50% - 306px/2 + 1px);
+    margin-top: 30px;
+
+    /* Colors/Blue/Blue Button */
+    font-size: 1.0rem;
+
+    background: $blue;
+    border-radius: 16px;
   }
 
 }

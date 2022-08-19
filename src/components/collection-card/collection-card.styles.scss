@@ -1,15 +1,31 @@
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
 .nft-card-container {
   cursor: pointer;
-  height: 250px;
-  width: 250px;
+  height: calc(33vw - 1em);
+  width: calc(33vw - 1em);
   flex: 1 1 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 7.5px 15px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  margin: 1px;
+  position: relative;
+  overflow: hidden;
+  float: left;
+
+  .nft-image-wrapper {
+    width: inherit;
+    height: inherit;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    transition: transform .2s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
 
   .nft-info {
     text-align: center;

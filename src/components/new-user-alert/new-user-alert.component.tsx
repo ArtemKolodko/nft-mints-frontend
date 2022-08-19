@@ -22,7 +22,7 @@ const NewUserAlert = ({ openAlert, redirect }: NewUSerAlertProps) => {
   
   const loginHandler = async () => {
     setOpen(false);    
-    smsLoginHandler(phoneNumber,'Create Collectiblre', redirect);
+    smsLoginHandler(phoneNumber,'Create Collectible', redirect);
 
     
   };

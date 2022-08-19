@@ -35,7 +35,6 @@
     justify-content: center;
     align-self: center;
     background-color: $blue;
-    box-shadow: 0 0 0 2px $blue;
     outline: dashed 5px $black;
   }
 
@@ -53,7 +52,7 @@
     }
 
     &--content {
-      height: 4.5em;   
+      height: 7em;   
       @include flex-column();
       justify-content: center;
       background-color: $blue;
