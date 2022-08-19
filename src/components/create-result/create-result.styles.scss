@@ -1,0 +1,34 @@
+@import "../../assets/scss/mixins";
+@import "../../assets/scss/variables";
+
+.create-result {
+  text-align: center;
+  //min-height: 86vh;
+  padding: 2em 0 2em 0;
+  box-sizing: border-box;
+  color: white;
+
+  &__subtitle {
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 2em;
+  }
+
+  &__message {
+    width: 350px;
+  }
+
+  &__stripe {
+    color: $stripe;
+    text-decoration: underline;
+  }
+
+  &__button {
+    background-color: $blue !important;
+  }
+
+  &__alert {
+    color: red;
+  }
+}

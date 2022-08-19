@@ -1,0 +1,25 @@
+@import "../../assets/scss/mixins";
+
+.form {
+  &--row {
+    @include flex-wrap();
+    width: 100%;
+
+    .basic-checkbox {
+      width: 33.3333333%;
+    }
+    .basic-input {
+      width: 66.6666666%;
+      display: flex;
+      justify-content: flex-end;
+
+      &::placeholder {
+        text-align: right;
+      }
+    }
+  }
+}
+
+.error{
+  color: red;
+}

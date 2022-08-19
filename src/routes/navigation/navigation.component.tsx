@@ -1,43 +1,59 @@
-import { Fragment } from "react";
-//import { Link } from "react-router-dom";
-import { Outlet } from "react-router-dom";
-import Logo from "../../assets/imgs/DJ3N Logo.png"
-import Grid from "@mui/material/Grid";
+import { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Navigate, Outlet } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faCircleUser, faTicket } from "@fortawesome/free-solid-svg-icons"; //faUser, faFolder, f
+
+import { selectCheckLogin, selectCurrentUser } from "../../store/user/user.selector";
+import Header from "../../components/header/header.component";
 
 import "./navigation.styles.scss";
+import { checkingLogin, setLoginChecked } from "../../store/user/user.action";
+import { checkLogin } from "../../utils/mint-interface/mint-inteface.utils";
 
 const Navigation = () => {
+  const currentUser = useSelector(selectCurrentUser);
+  const check = useSelector(selectCheckLogin);
+  const [checked, setChecked] = useState(false)
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (checked) {
+      return;
+    }
+    dispatch(checkingLogin())
+    checkLogin().then(user=>dispatch(setLoginChecked(user))).catch(err=>dispatch(setLoginChecked(null)))
+
+    setChecked(true)
+  }, [checked])
+
+  if (!currentUser) {
+    return <Navigate to='/' />
+  }
+
+  if (!check.checkedLogin) {
+    return <div>Checking Login</div> // style this
+  }
 
   return (
     <Fragment>
-      <div className="navigation-container">
-        <Grid
-          container
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          marginLeft={'10px'}
-          marginRight={'15px'}
-        >
-          <div className="logo">
-            <img src={Logo} alt="logo" />
-          </div>
-          {/* <Link className='nav-link' to='mint'>
-            Mint
-          </Link>
-          <Link className='nav-link' to='gallery'>
-            Gallery
-          </Link>
-          <Link className='nav-link' to='gallery'>
-            Explore
-          </Link> */}
-          <div className="wallet-address nav-wallet">
-            0x3123....23232
-          </div>
-        </Grid>
+    <Header />
+    <Outlet />
+    <div className="navigation">
+      <div className="navigation__actions">
+        <Link className="navigation__link" to="/nfts/">
+          <FontAwesomeIcon icon={faPlus} />
+        </Link>
+        <Link className="navigation__link" to={`gallery/${currentUser.uuid}`}>
+          <FontAwesomeIcon icon={faCircleUser} />
+        </Link>
+        <Link className="navigation__link" to={`gallery/${currentUser.uuid}`}>
+          <FontAwesomeIcon icon={faTicket} />
+        </Link>
       </div>
-      <Outlet />
-    </Fragment>
+    </div>
+  </Fragment>
   );
 };
 

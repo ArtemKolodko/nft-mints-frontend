@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import Logo from "../../assets/imgs/DJ3N Logo.png"
-import { Button } from "../../components/input/input.component";
+import Button from '../../components/button/button.component';
 
 import "./checkout.styles.scss";
 

@@ -7,9 +7,9 @@ import {
   getCollection,
   checkoutCollectionV2,
 } from "../../utils/mint-interface/mint-inteface.utils";
-import {
-  PhoneNumberInput,
-} from "../../components/input/input.component";
+import
+  PhoneNumberInput
+ from "../../components/input/phone-number-input.component";
 import NftDetail from "../../components/nft-detail/nft-detail.component";
 import Logo from "../../assets/imgs/DJ3N Logo.png";
 
@@ -102,9 +102,8 @@ const Checkout = () => {
         )}
 
         <PhoneNumberInput
-          placeholder="Enter phone number"
+          placeholder="Enter phone number*"
           name="phoneNumber"
-          label="Phone number *"
           required={true}
           defaultCountry="US"
           value={phoneNumber}
@@ -118,9 +117,8 @@ const Checkout = () => {
           }
         />
         <PhoneNumberInput
-          placeholder="Enter phone number"
           name="verifyPhoneNumber"
-          label="Verify Phone number *"
+          placeholder="Verify Phone number *"
           required={true}
           defaultCountry="US"
           value={verifyPhoneNumber}

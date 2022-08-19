@@ -1,0 +1,67 @@
+@import "../../assets/scss//mixins";
+@import "../../assets/scss/variables";
+
+.create-home {
+  @include flex-column();
+  min-height: 86vh;
+  padding: 2em 0 2em 0;
+  box-sizing: border-box;
+
+  &__header {
+    @include flex-center();
+  }
+
+  &__logo {
+    width: 3em;
+    padding-right: 0.5em;
+  }
+
+  &__title {
+    font-weight: 900;
+    color: white;
+    margin: 0;
+  }
+
+  &__subtitle {
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 2em;
+  }
+
+  &__collectible {
+    width: 6em;
+    height: 6em;
+    justify-content: center;
+    align-self: center;
+    background-color: $blue;
+    box-shadow: 0 0 0 2px $blue;
+    outline: dashed 5px $black;
+  }
+
+  &__pass {
+    width: 7.25em;
+    justify-content: center;
+    align-self: center;
+    background-color: transparent;
+    padding: 0 0.45em 0 0.45em;
+
+    &--top {
+      border: 14px solid transparent;
+      border-image: url("../../assets/imgs/ticket-top.svg") 150 14 0 14;
+      margin-bottom: -14px;
+    }
+
+    &--content {
+      height: 4.5em;   
+      @include flex-column();
+      justify-content: center;
+      background-color: $blue;
+    }
+
+    &--bottom {
+      border: 14px solid transparent;
+      border-image: url("../../assets/imgs/ticket-bottom.svg") 150 14 0 14;
+    }
+  }
+}

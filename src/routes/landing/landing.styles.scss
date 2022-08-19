@@ -1,3 +1,6 @@
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
 .landing-container {
   height: 100vh;
   text-align: center;
@@ -8,6 +11,7 @@
   
   .landing-logo {
     padding-top: 10vh;
+    height: 8em;
   }
 
   .brand-name {
@@ -28,9 +32,25 @@
 
   .login-button {
     cursor: pointer;
-    background-color: transparent;
+    // background-color: transparent;
     border: 0;
     color:  #00AEE9;
     font-size: 1.5rem;
   }
+
+  .landing-get-started-container {
+    @include flex-center();
+    justify-content: left !important;
+    // align-content: flex-end;
+    // align-items: flex-end;
+    .landing-get-started {
+      margin-top: 1em;
+      margin-left: 0.6em;
+     // margin-left: 0;
+      //text-align: left !important;
+      color: white;
+      font-size: 4rem;
+    }
+  }
+
 }

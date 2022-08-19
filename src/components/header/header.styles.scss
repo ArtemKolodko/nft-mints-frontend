@@ -1,0 +1,48 @@
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
+.header {
+  display: flex;
+  height: 6vh;
+  width: 100vw;
+  position: sticky;
+  bottom: 0;
+
+  &__logo {
+    @include flex-column();
+    width: 20vw;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    background-color: $dark-grey;
+
+    img {
+      @include flex-center();
+      width: 2em;
+    }
+  }
+
+  &__wallet {
+    width: 80vw;
+    @include flex-column();
+    justify-content: center;
+    text-align: right;
+    color: white;
+    padding-right: .5em;
+
+    h3 {
+      margin: 0;
+      font-weight: 400;
+    }
+  }
+
+  &__wallet-public {
+    background-color: $orange;
+  }
+
+  &__wallet-creator {
+    background-color: $blue;
+  }
+
+  
+}

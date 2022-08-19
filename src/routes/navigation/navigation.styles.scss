@@ -1,32 +1,23 @@
-.navigation-container {
-  position: sticky;
-  top: 0;
-  height: 6vh;
-  //margin-bottom: 2vh;
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
+.navigation {
+  @include flex-center();
   width: 100%;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  border-style: solid;
-  border-width: 0 0 1px 0;
-  border-color: rgba($color: black, $alpha: 0.1);
-  background-color: rgba($color: white, $alpha: 0.9);
-  z-index: 20;
+  height:8vh ;
+  position: sticky;
+  bottom: 0;
+  background-color: $blackOpacity05;
 
-  .logo {
-    img {
-      height: 2em;
-    }
+  &__actions {
+    @include flex-center();
+    width: 33.3333333vw;
+    justify-content: space-around;
+    background-color: $whiteOpacity09;
+    padding: 0.5em;
+    border-radius: 1em;
   }
-  
-  .nav-link {
-    font-weight: 100;
-    text-decoration: none; 
-    color: inherit;
-    cursor: pointer;
-  }
-
-  .nav-wallet {
-    font-weight: 100;
+  &__link {
+    color: black;
   }
 }

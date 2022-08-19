@@ -1,33 +1,94 @@
+import { useEffect } from "react";
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import "./App.scss";
-import CreateAccessPass from "./routes/create-access-pass/create-access-pass.component";
 import Landing from "./routes/landing/landing.component";
+import Login from "./routes/login/login.component";
+import SmsLoginVerify from "./routes/sms-login-verify/sms-login-verify.component";
+import { saveSessionState } from "./utils/storage/session-storage.utils";
+import { saveLocalState } from "./utils/storage/local-storage.utils";
 
-const Mint = lazy(() => import("./routes/mint/mint.component"));
+import { store } from "./store/store";
+
+import "./App.scss";
+import GetStarted from "./routes/get-started/get-started.component";
+import CollectibleDetails from "./routes/collectible-details/collectible-details.component";
+
+const CreateHome = lazy(
+  () => import("./routes/create-home/create-home.component")
+);
+const CreateCollectible = lazy(
+  () => import("./routes/create-collectible/create-collectible.component")
+);
+const FiatOnramp = lazy(
+    () => import("./routes/fiat-onramp/fiat-onramp.component")
+)
+
+const CreateAccessPass = lazy(
+  () => import("./routes/create-access-pass/create-access-pass.component")
+);
 const Gallery = lazy(() => import("./routes/gallery/gallery.component"));
-const Navigation = lazy(() => import("./routes/navigation/navigation.component"));
+const Navigation = lazy(
+  () => import("./routes/navigation/navigation.component")
+);
 const Checkout = lazy(() => import("./routes/checkout/checkout.component"));
-const CheckoutSuccess = lazy(() => import("./routes/checkout/checkout-success.component"));
-const CheckoutFailure = lazy(() => import("./routes/checkout/checkout-failure.component"));
+const CheckoutSuccess = lazy(
+  () => import("./routes/checkout/checkout-success.component")
+);
+const CheckoutFailure = lazy(
+  () => import("./routes/checkout/checkout-failure.component")
+);
 const ClaimNft = lazy(() => import("./routes/claim-nft/claim-nft.component"));
+const AccessPassDetails = lazy(() => import("./routes/access-pass-details/access-pass-details.component"));
 
-// todo Protected/public routes
+
+
 const App = () => {
+
+  useEffect(() => {
+    const unsubscribe = store.subscribe(() => {
+      const user = store.getState().user;
+      if (user && user.currentUser) {
+        saveSessionState(store.getState());
+        saveLocalState(user.currentUser.phone);
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path='landing/' element={<Landing />} />
-          {/* <Route path='auth/:type' element={<Authentication />} /> */}
-          <Route path="/" element={<Navigation />}>
-            <Route index element={<Mint />} />
-            <Route path='create-access-pass/' element={<CreateAccessPass />}/>
+          <Route path="/" element={<Landing />} />
+          <Route path="auth/" element={<Login />} />
+          <Route path="verify/" element={<SmsLoginVerify />} />
+          <Route path='onramp' element={<FiatOnramp />} />
+
+          {/* Private routes */}
+          <Route path="nfts/" element={<Navigation />}>
+            <Route index element={<CreateHome />} />
+            <Route path="create-collectible/:redirect" element={<CreateCollectible />} />
+            <Route path="create-access-pass/:redirect" element={<CreateAccessPass />} />
             <Route path="gallery/:ownerUuid" element={<Gallery />} />
+            <Route path="access-pass/:uuid/" element={<AccessPassDetails />} />
+            <Route path="collectible/:uuid/" element={<CollectibleDetails />} />
           </Route>
+
+          {/* User get starting routes */}
+          <Route path='started/' element={<GetStarted />} >
+            <Route index element={<CreateHome />} />
+            <Route path="create-collectible/" element={<CreateCollectible />} />
+            <Route path="create-access-pass/" element={<CreateAccessPass />} />
+          </Route>
+
+          {/* Public routes */}
           <Route path="checkout/:collectionUuid" element={<Checkout />} />
-          <Route path="success/:userUuid/:tokenUuid" element={<CheckoutSuccess />} />
+          <Route
+            path="success/:userUuid/:tokenUuid"
+            element={<CheckoutSuccess />}
+          />
           <Route path="cancel/:userUuid" element={<CheckoutFailure />} />
           <Route path="collectionable/:tokenUuid" element={<ClaimNft />} />
         </Routes>
@@ -35,5 +96,5 @@ const App = () => {
     </>
   );
 };
-
+//hmy/
 export default App;

@@ -1,1 +1,34 @@
+@import "../../assets/scss/mixins";
+@import "../../assets/scss/variables";
 
+.create-access-pass {
+  .form {
+    &__logo-wrapper {
+      @include flex-column();
+      justify-content: center;
+      align-content: center;
+      width: 12em;
+      height: 12em;
+      margin: 0 auto 2em;
+      border: 1px dashed $medium-gray;
+      border-radius: 1.5em;
+
+      .upload-icon {
+        margin: 0 auto;
+        width: 100%;
+        width: 2.5em;
+        height: 2.5em;
+      }
+
+      .upload-text {
+        text-align: center;
+        margin: 0 auto;
+        width: 100%;
+        width: 8em;
+        height: 5em;
+        font-weight: 400;
+        color: White;
+      }
+    }
+  }
+}
