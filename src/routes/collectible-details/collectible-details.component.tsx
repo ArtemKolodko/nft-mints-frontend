@@ -71,7 +71,7 @@ const CollectibleDetails = () => {
     !isOwner && setEnableCheckout(!enableCheckout);
   };
 
-  const isOwner = currentUser?.uuid === collection?.ownerUUID;
+  const isOwner = currentUser?.uuid === collection?.ownerUUID && currentUser?.uuid;
 
   return (
     <div className={"collectible-details-container"}>

@@ -160,8 +160,6 @@ export const UserProfile = (props: UserProfileProps) => {
           />
           {/* <div className="user-container__info--title">{name}</div> */}
           <EditableComponent
-            isLink={true}
-            navigator={navigator}
             normalCls="user-container__info--link"
             editingCls="profile-link-sm-edit"
             value={link || "@username"}

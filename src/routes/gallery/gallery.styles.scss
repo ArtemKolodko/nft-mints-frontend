@@ -1,10 +1,7 @@
 .gallery-container {
   min-height: 86vh;
-  overflow-x: hidden;
 
   .gallery-grid {
-    overflow: hidden;
-    display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 5em auto;
     justify-content: center;
