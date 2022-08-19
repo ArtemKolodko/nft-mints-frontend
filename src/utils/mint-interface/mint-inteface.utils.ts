@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { CollectionType } from "../../types/index";
+import {CollectionType, TokenTypeEnum} from "../../types/index";
 import { ApiResponseType } from "../../types/index";
 import { ApiTokenResponseType } from "../../types/index";
 import UserType from "../../types/user.types";
@@ -213,6 +213,14 @@ export const getCollectionsByOwner = async (
   ownerUuid: string
 ): Promise<CollectionType[]> => {
   const { data } = await axios.get(`${GATEWAY_V2}/v0/collections/user/${ownerUuid}`)
+  return data
+};
+
+export const getCollectionsByOwnerAndType = async (
+    ownerUuid: string,
+    tokenType: TokenTypeEnum
+): Promise<CollectionType[]> => {
+  const { data } = await axios.get(`${GATEWAY_V2}/v0/collections/all/${ownerUuid}/${tokenType}`)
   return data
 };
 
