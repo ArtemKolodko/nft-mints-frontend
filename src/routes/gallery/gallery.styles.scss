@@ -1,6 +1,7 @@
 .gallery-container {
   min-height: 86vh;
- 
+  overflow-x: hidden;
+
   .gallery-grid {
     overflow: hidden;
     display: grid;
@@ -13,13 +14,14 @@
   
     .gallery-header {
       position: sticky;
-      top: 0;
+      top: 6vh;
       width: 100%;
       background-color: black;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 1;
+      padding-bottom: 1em;
     }
   
     .gallery-menu {
@@ -30,7 +32,9 @@
       display: table;
       content: "";
       clear: both;
-      padding: 1em;
+      padding-left: 1em;
+      padding-right: 1em;
+      padding-bottom: 1em;
       margin-right: auto;
       margin-left: auto;
     }

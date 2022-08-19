@@ -108,12 +108,12 @@ export const UserProfile = (props: UserProfileProps) => {
         <div className="user-container__profile-images--left"></div>
         <div
           className={
-            profileImageBg === undefined
+            profileImageBg === undefined || profileImageBg?.length === 0
               ? `user-container__profile-images--right user-container__profile-images--right-default`
               : `user-container__profile-images--right user-container__profile-images--right-custom`
           }
           style={
-            profileImageBg === undefined
+            profileImageBg === undefined || profileImageBg?.length === 0
               ? undefined
               : { backgroundImage: `url(${profileImageBg})` }
           }
@@ -127,12 +127,12 @@ export const UserProfile = (props: UserProfileProps) => {
         </div>
         <div
           className={
-            profileImage === undefined
+            profileImage === undefined || profileImage?.length === 0
               ? `user-container__profile-images--avatar user-container__profile-images--avatar-default`
               : `user-container__profile-images--avatar`
           }
           style={
-            profileImage === undefined
+            profileImage === undefined || profileImage?.length === 0
               ? undefined
               : { backgroundImage: `url(${profileImage})` }
           }
