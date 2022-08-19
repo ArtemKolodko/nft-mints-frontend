@@ -87,6 +87,9 @@ const Gallery = () => {
     if (ownerUuid && activeTabIndex === 1) {
       loadAccessPasses()
     }
+    if (ownerUuid && activeTabIndex === 0) {
+      getCollections()
+    }
   }, [ownerUuid, activeTabIndex])
 
   // if owner id changed in url
