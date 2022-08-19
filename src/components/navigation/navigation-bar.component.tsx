@@ -3,10 +3,6 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCircleUser, faTicket } from "@fortawesome/free-solid-svg-icons"; //faUser, faFolder, f
 
-export type NewUSerAlertProps = {
-  openAlert: boolean;
-  redirect: string;
-};
 
 const NavigationBar = ({ uuid }: { uuid?: string}) => {
   
@@ -28,4 +24,3 @@ const NavigationBar = ({ uuid }: { uuid?: string}) => {
 };
 
 export default NavigationBar;
-//

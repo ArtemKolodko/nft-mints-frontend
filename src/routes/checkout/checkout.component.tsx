@@ -45,7 +45,7 @@ const Checkout = () => {
   const handleButton = async () => {
     const OTP = "05270";
     setCheckingOut(true);
-    const response = await checkoutCollectionV2(OTP, phoneNumber, Array(nft));
+    const response = await checkoutCollectionV2(Array(nft));
 
     console.log("handleButton", { response });
 

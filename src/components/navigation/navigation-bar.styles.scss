@@ -8,19 +8,22 @@
   position: sticky;
   bottom: 0;
   background-color: $blackOpacity05;
+  
 
   &__actions {
     @include flex-center();
     width: 33.3333333vw;
     justify-content: space-around;
     background-color: $whiteOpacity09;
-    padding: 0.5em;
+    padding: 0.4em;
     border-radius: 1em;
+    font-size: 1.4rem !important;
+   
   }
   &__link {
     color: black;
   }
-
+}
 
   // @include flex-center();
   // width: 100%;
@@ -41,4 +44,3 @@
   // &__link {
   //   color: black;
   // }
-}

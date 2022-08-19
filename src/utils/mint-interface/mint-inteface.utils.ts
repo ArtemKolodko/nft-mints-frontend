@@ -41,28 +41,27 @@ export const sendSMSCode = async (
  * @returns API Response redirection to Stripe checkout
  */
 export const checkoutCollectionV2 = async (
-  otp: string,
-  phoneNumber: string,
   collections: CollectionType[],
 
 ): Promise<AxiosResponse | null> => {
+
+  //success/:tokenUuid/:tokenImage
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-  const REDIRECT_URL_SUCCESS = `${BASE_URL}/success/:userUuid/:tokenUuid`;
-  const REDIRECT_URL_FAILURE = `${BASE_URL}/cancel/:userUuid`;
+  const REDIRECT_URL_SUCCESS = `${BASE_URL}/nfts/success/:userUuid/:tokenUuid`;
+  const REDIRECT_URL_FAILURE = `${BASE_URL}/nfts/cancel/:userUuid`;
   console.log("checkout collectionv2");
   try {
     const body = JSON.stringify({
       nfts: collections.map((collection) => {
         return { collectionUuid: collection.uuid, quantity: 1 };
       }),
-      mobileNumber: phoneNumber,
-      smsCode: otp,
       successUrl: REDIRECT_URL_SUCCESS,
       cancelUrl: REDIRECT_URL_FAILURE,
     });
-    console.log(body);
+    console.log({body});
     console.log(JSON.stringify(body));
-    const response = await axios.post(`${GATEWAY}/v0/payment/checkoutv2`, body, {
+    const response = await axios.post(`${GATEWAY}/v1/payment/checkoutv2`, body, {
+      withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },
@@ -74,6 +73,17 @@ export const checkoutCollectionV2 = async (
     return null;
   }
 };
+
+export const getUuidFromVanityTag = async (tag: string): Promise<string | null> => {
+  try {
+    const url = `${GATEWAY}/v0/users/vanity/${tag}`;
+    const response = await axios.get(url);
+    return response.data.uuid;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
 
 /**
  * Retrieves the Collection of a given Collection uid

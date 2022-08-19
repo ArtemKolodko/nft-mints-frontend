@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {useNavigate, useParams, useSearchParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import NftCard from "../../components/nft-card/nft-card.component";
 import {ApiTokenResponseType, CollectionType, TokenTypeEnum} from "../../types";
 import {
@@ -8,7 +8,7 @@ import {
   getTokensByOwner,
   getUserByUuid
 } from "../../utils/mint-interface/mint-inteface.utils";
-import {UserProfile} from "./profile.component";
+import {MyProfile} from "./profile.component";
 import "./gallery.styles.scss";
 import {UserAccessPass} from "./access.pass.component";
 import {useSelector} from "react-redux";
@@ -100,8 +100,16 @@ const Gallery = () => {
       return; // don't get until we have checked our login
     }
 
-    setLoaded(e=>{return true})
+    setLoaded(e => { return true })
 
+    if (ownerUuid !== currentUser?.uuid && ownerUuid && ownerUuid !== '') {
+      // empty means current user
+      console.log("get user by uuid and setting display user")
+      getUserByUuid(ownerUuid).then(user => setDisplayUser(user!))
+    }
+    else {
+      setDisplayUser(currentUser)
+    }
     // options 1) not logged in
     // show creator gallery
     if (!currentUser) {
@@ -111,7 +119,7 @@ const Gallery = () => {
 
     // options 2) logged in
     // a) gallery list is same as the current user
-    if (currentUser.uuid === ownerUuid) {
+    if (currentUser?.uuid === ownerUuid) {
       getCollections()
       // get all my tokens
     }
@@ -124,7 +132,8 @@ const Gallery = () => {
         // filter tokens by the owner and creator uuid
         try {
           setIsLoading(true)
-          const data = await getMyTokensByCreator(currentUser.uuid, ownerUuid!);
+          const data = await getMyTokensByCreator(currentUser?.uuid, ownerUuid!);
+          console.log(data)
           setTokens(data)
         } catch (e) {
           console.log('Cannot load filtered tokens:', e)
@@ -135,14 +144,6 @@ const Gallery = () => {
     }
 
     getTokens();
-
-    if (ownerUuid !== currentUser.uuid && ownerUuid && ownerUuid !== '') {
-      // empty means current user
-      getUserByUuid(ownerUuid).then(user => setDisplayUser(user!))
-    }
-    else {
-      setDisplayUser(currentUser)
-    }
 
   }, [ownerUuid, checkLogin.checkedLogin]);
 
@@ -163,9 +164,9 @@ const Gallery = () => {
   const onClickCollectible = (uuid: string) => navigate(`/nfts/collectible/${uuid}`)
 
   return (
-    <div>
-      <UserProfile displayUser={displayUser} canEdit={currentUser.uuid === displayUser?.uuid}/>
-      <div className="gallery-container">
+    <div className="gallery-container" >
+      <MyProfile displayUser={displayUser} canEdit={currentUser?.uuid === displayUser?.uuid} />
+      <div className="gallery-grid">
         <div className={'gallery-header'}>
           <GalleryTab activeTabIndex={activeTabIndex} handleChangeTab={handleChangeTab} />
         </div>
@@ -180,11 +181,11 @@ const Gallery = () => {
           </div>
           <div className={'gallery'} style={{ display: activeTabIndex === 1 ? 'grid' : 'none' }}>
             {accessPasses.map(pass =>
-                <UserAccessPass
-                    key={pass.uuid}
-                    data={pass}
-                    onClick={() => onClickAccessPass(pass.uuid)}
-                />)}
+              <UserAccessPass
+                key={pass.uuid}
+                data={pass}
+                onClick={() => onClickAccessPass(pass.uuid)}
+              />)}
           </div>
         </div>
       </div>

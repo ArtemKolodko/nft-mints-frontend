@@ -2,7 +2,7 @@
 @import "../../assets/scss/mixins";
 
 .landing-container {
-  height: 100vh;
+  height: calc(100vh - 6vh - 80px);
   text-align: center;
 
   h1,
@@ -66,9 +66,9 @@
 
     position: absolute;
     width: 306px;
-    height: 68px;
+    height: 54px;
     left: calc(50% - 306px/2 + 1px);
-    bottom: 204px;
+    margin-top: 30px;
 
     /* Colors/Blue/Blue Button */
     font-size: 1.0rem;

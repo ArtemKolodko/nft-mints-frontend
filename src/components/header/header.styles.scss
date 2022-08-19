@@ -6,7 +6,8 @@
   height: 6vh;
   width: 100vw;
   position: sticky;
-  bottom: 0;
+  top: 0;
+  z-index: 100;
 
   &__logo {
     @include flex-column();

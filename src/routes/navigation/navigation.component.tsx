@@ -27,9 +27,9 @@ const Navigation = () => {
     setChecked(true)
   }, [checked])
 
-  if (!currentUser) {
-    return <Navigate to='/' />
-  }
+  // if (!currentUser) {
+  //   return <Navigate to='/' />
+  // }
 
   if (!check.checkedLogin) {
     return <div>Checking Login</div> // style this
@@ -37,9 +37,9 @@ const Navigation = () => {
 
   return (
     <Fragment>
-      <Header />
-      <Outlet /> 
-      <NavigationBar uuid={currentUser.uuid}/>
+    <Header />
+    <Outlet />
+    <NavigationBar uuid={currentUser?.uuid}/>
   </Fragment>
   );
 };
