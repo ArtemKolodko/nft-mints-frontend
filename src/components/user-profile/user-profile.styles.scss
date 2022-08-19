@@ -13,16 +13,16 @@
     background-color: black;
 
     &--left {
-      width: 20vw; //19.75vw;
-      background-image: url("../../assets/imgs/dj3n_logo-user.svg");
+      width: 20vw;
+      background-image: url("../../assets/imgs/dj3n-partial-emblem.svg");
       background-repeat: no-repeat;
-      background-size: 11em;
-      background-position: -3.95em 1.5em;
-      overflow: hidden;
+      background-size: 5.25em;
+      background-position: -3.5em 1.5em;
+     box-sizing: border-box;
     }
 
     &--right {
-      width: 81vw; //81.25vw;
+      width: 80vw; 
       background-repeat: no-repeat;
       background-position: center;
       overflow:hidden;

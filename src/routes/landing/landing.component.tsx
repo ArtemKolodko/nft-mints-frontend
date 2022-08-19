@@ -49,8 +49,8 @@ const Landing = () => {
       <div className='landing-container'>
         <UserProfile name={mockUser.name}
           publicLink={mockUser.publicLink}
-          profileImage={MascotAvatar}
-          profileImageBg={MascotBanner}
+          profileImage={undefined}
+          profileImageBg={undefined}
           editable={false}
           description={mockUser.profileDescription} />
         <GalleryTab activeTabIndex={activeTabIndex} handleChangeTab={handleChangeTab} />
