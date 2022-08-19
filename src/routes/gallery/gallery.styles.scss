@@ -1,8 +1,8 @@
 .gallery-container {
   min-height: 86vh;
-
+ 
   .gallery-grid {
-  
+    overflow: hidden;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 5em auto;
@@ -52,24 +52,28 @@
 
 @media (max-width: 900px) {
   .gallery-container {
-    .gallery {
-      display: table;
-      content: "";
-      clear: both;
-      margin-left: auto;
-      margin-right: auto;
+    .gallery-grid {
+      .gallery {
+        display: table;
+        content: "";
+        clear: both;
+        margin-left: auto;
+        margin-right: auto;
+      }
     }
   }
 }
 
 @media (max-width: 650px) {
   .gallery-container {
-    .gallery {
-      display: table;
-      content: "";
-      clear: both;
-      margin-left: auto;
-      margin-right: auto;
+    .gallery-grid {
+      .gallery {
+        display: table;
+        content: "";
+        clear: both;
+        margin-left: auto;
+        margin-right: auto;
+      }
     }
   }
 }

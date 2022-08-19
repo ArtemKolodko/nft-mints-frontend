@@ -12,7 +12,6 @@ import ImageUploading, { ImageListType } from "react-images-uploading";
 import DatePicker from "react-datepicker";
 
 //{  AccessPassProps }
-import AccessPass from "../../components/acess-pass/access-pass.component";
 import { BasicInput } from "../../components/input/basic-input.component";
 import { BasicAreaInput } from "../../components/input/basic-area-input.component";
 import { addFilesToStorage } from "../../utils/firebase/firebase.utils";
@@ -30,6 +29,8 @@ import uploadArrow from "../../assets/imgs/upload_arrow.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import "./create-access-pass.styles.scss";
 import { useParams } from "react-router-dom";
+import AccessPassFront from "../../components/acess-pass/access-pass-front.component";
+import AccessPassBack from "../../components/acess-pass/access-pass-back.component";
 
 enum LOCAL_STORAGE {
   FILES = "filesURL",
@@ -487,14 +488,31 @@ const CreateAccessPass = () => {
                     />
                   </div>
                 </div>
-                <AccessPass
-                  creator={userData ? userData.publicLink : undefined}
+                <div>
+                <AccessPassFront  creator={userData ? userData.publicLink : undefined}
                   refFront={refFront}
                   refBack={refBack}
                   textColor={ticketTextColor}
                   date={startDate}
                   {...accessPassData}
                 />
+                <AccessPassBack 
+                 creator={userData ? userData.publicLink : undefined}
+                 refFront={refFront}
+                 refBack={refBack}
+                 textColor={ticketTextColor}
+                 date={startDate}
+                 {...accessPassData}
+               />
+                </div>
+                {/* <AccessPass
+                  creator={userData ? userData.publicLink : undefined}
+                  refFront={refFront}
+                  refBack={refBack}
+                  textColor={ticketTextColor}
+                  date={startDate}
+                  {...accessPassData}
+                /> */}
                 <h3>Quantity</h3>
                 <div className="quantity">
                   <div

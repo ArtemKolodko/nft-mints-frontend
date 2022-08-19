@@ -128,6 +128,7 @@ const Gallery = () => {
     if (currentUser.uuid !== ownerUuid) {
       getCollections()
 
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       getTokens = async () => {
         // filter tokens by the owner and creator uuid
         try {
@@ -179,7 +180,7 @@ const Gallery = () => {
               <NftCard key={token.token.sequence} {...token} />
             ))}
           </div>
-          <div className={'gallery'} style={{ display: activeTabIndex === 1 ? 'grid' : 'none' }}>
+          <div className={'gallery'} style={{ display: activeTabIndex === 1 ? 'table' : 'none' }}>
             {accessPasses.map(pass =>
               <UserAccessPass
                 key={pass.uuid}

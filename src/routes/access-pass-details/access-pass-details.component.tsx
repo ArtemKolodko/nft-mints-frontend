@@ -13,7 +13,7 @@ import {getCollection} from "../../utils/mint-interface/mint-inteface.utils";
 const AccessPassDetailsCard = (props: { data: CollectionType }) => {
     const { data: {
         title, rate, description, additionalDetails,
-        collectionImage, collectionImages,
+        collectionImage, //collectionImages,
         link,
         properties = {} as any,
     }} = props
