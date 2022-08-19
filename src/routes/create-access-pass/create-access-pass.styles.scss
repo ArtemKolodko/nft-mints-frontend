@@ -115,6 +115,7 @@
 
       &--info {
         @include flex-column();
+        min-height: 21.875em;
         margin: 0.5em;
         border: 1px;
         border-style: solid;
@@ -182,6 +183,7 @@
           background-color: $medium-gray;
           padding: 1em 0 1em 0;
           border-radius: 0 0 .5em .5em;
+          margin-top:auto;
 
           img {
             background-color: $black;
