@@ -18,17 +18,20 @@
       background-repeat: no-repeat;
       background-size: 11em;
       background-position: -3.95em 1.5em;
+      overflow: hidden;
     }
 
     &--right {
       width: 81vw; //81.25vw;
       background-repeat: no-repeat;
       background-position: center;
+      overflow:hidden;
 
       &-default {
         background-color: $light-grey;
         background-image: url("../../assets/imgs/upload-image.svg");
         background-size: 9em;
+        overflow: hidden;
       }
 
       &-custom {
@@ -48,6 +51,7 @@
       background-size: contain;
       border: 2px solid white;
       z-index: 1;
+      overflow: hidden;
 
       &-default {
         background-image: url("../../assets/imgs/upload-image.svg");

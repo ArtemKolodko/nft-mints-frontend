@@ -142,8 +142,6 @@ export const UserProfile = (props: UserProfileProps) => {
             style={{
               opacity: 0,
               fontSize: "70px",
-              marginRight: "90%",
-              width: "5px",
             }}
             disabled={!editable}
             onChange={(e) => props.editor?.updateImage(e.target.files)}
