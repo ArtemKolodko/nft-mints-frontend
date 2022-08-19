@@ -65,8 +65,8 @@
   }
 
   .access-pass-content {
-    padding: 0 8px 8px;
     background-color: $stripe;
+    width: inherit;
 
     .access-pass-info {
       width: 100%;
@@ -111,11 +111,17 @@
       }
 
       .access-pass-details {
-        padding: 4px 8px;
+        width: inherit;
         border-top: 2px solid #999999;
 
         &-description {
-          font-size: 16px;
+          text-align: center;
+          font-size: 14px;
+        }
+
+        &-additional {
+          padding: 4px 8px;
+          font-size: 12px;
         }
       }
 

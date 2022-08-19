@@ -72,7 +72,7 @@ const App = () => {
             <Route path="create-access-pass/:redirect" element={<CreateAccessPass />} />
             <Route path="create-access-pass/" element={<CreateAccessPass />} />
             <Route path="gallery/:ownerUuid" element={<Gallery />} />
-            {/* <Route path="access-pass/:uuid/" element={<AccessPassDetails />} /> */}
+            <Route path="access-pass/:uuid/" element={<AccessPassDetails />} />
             <Route path="collectible/:uuid/" element={<CollectibleDetails />} />
             <Route path="success/:userUuid/:tokenUuid" element={<CheckoutSuccess />} />
           </Route>

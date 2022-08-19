@@ -1,36 +1,55 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import NftCard from "../../components/nft-card/nft-card.component";
-import { ApiTokenResponseType, CollectionType } from "../../types";
-import { getTokensByOwner, getMyCollections, getCollectionsByOwner, getMyTokensByCreator, getUserByUuid } from "../../utils/mint-interface/mint-inteface.utils";
-import { MyProfile } from "./profile.component";
+import {ApiTokenResponseType, CollectionType, TokenTypeEnum} from "../../types";
+import {
+  getCollectionsByOwnerAndType,
+  getMyTokensByCreator,
+  getTokensByOwner,
+  getUserByUuid
+} from "../../utils/mint-interface/mint-inteface.utils";
+import {MyProfile} from "./profile.component";
 import "./gallery.styles.scss";
-import { UserAccessPass } from "./access.pass.component";
-import { useSelector } from "react-redux";
-import { selectCheckLogin, selectCurrentUser } from "../../store/user/user.selector";
+import {UserAccessPass} from "./access.pass.component";
+import {useSelector} from "react-redux";
+import {selectCheckLogin, selectCurrentUser} from "../../store/user/user.selector";
 import CollectionCard from "../../components/collection-card/collection-card.component";
-import { getUserAccessPasses } from "../../api/client";
 import UserType from "../../types/user.types";
 import GalleryTab from "../../components/gallery/gallery-tab.component";
 
+enum GalleryTabs {
+  collectibles = 'collectibles',
+  accessPasses = 'accessPasses'
+}
+
+const getTabIndex = (tabName: string) => tabName === GalleryTabs.accessPasses ? 1 : 0
+
 const Gallery = () => {
   const currentUser = useSelector(selectCurrentUser);
+
+  const { ownerUuid } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const currentTabName = searchParams.get('tab') || GalleryTabs.collectibles
+
   const [displayUser, setDisplayUser] = useState<UserType | undefined>(undefined)
   const checkLogin = useSelector(selectCheckLogin);
   const [loaded, setLoaded] = useState(false)
 
-  const [activeTabIndex, setActiveTabIndex] = React.useState(0);
+  const [activeTabIndex, setActiveTabIndex] = React.useState(getTabIndex(currentTabName));
   const [tokens, setTokens] = useState<Array<ApiTokenResponseType> | null>([]);
   const [collections, setCollections] = useState<Array<CollectionType> | null>([]);
   const [accessPasses, setAccessPasses] = useState<CollectionType[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  const { ownerUuid } = useParams();
-  const navigate = useNavigate();
+  useEffect(() => {
+    setActiveTabIndex(getTabIndex(currentTabName))
+  }, [currentTabName])
 
   const loadAccessPasses = async () => {
     try {
-      const data = await getUserAccessPasses(ownerUuid!)
+      const data = await getCollectionsByOwnerAndType(ownerUuid!, TokenTypeEnum.ACCESS_PASS)
+      console.log('data', data)
       setAccessPasses(data)
     } catch (e) {
       console.error('Cannot get user access passes:', e)
@@ -41,7 +60,7 @@ const Gallery = () => {
   const getCollections = async () => {
     try {
       setIsLoading(true)
-      const data = await getCollectionsByOwner(ownerUuid!)
+      const data = await getCollectionsByOwnerAndType(ownerUuid!, TokenTypeEnum.COLLECTION)
       setCollections(data)
     } catch (e) {
       console.log('Cannot load collections:', e)
@@ -55,8 +74,7 @@ const Gallery = () => {
     // get all my tokens
     try {
       setIsLoading(true)
-      const data = await getTokensByOwner(currentUser?.uuid);
-      console.log(data)
+      const data = await getTokensByOwner(currentUser.uuid);
       setTokens(data)
     } catch (e) {
       console.log('Cannot load tokens:', e)
@@ -135,7 +153,12 @@ const Gallery = () => {
     }
   }, [ownerUuid, currentUser])
 
-  const handleChangeTab = (e: React.SyntheticEvent, value: number) => setActiveTabIndex(value)
+  const handleChangeTab = (e: React.SyntheticEvent, value: number) => {
+    const tabName = value === 0 ? GalleryTabs.collectibles : GalleryTabs.accessPasses
+    setSearchParams({
+      tab: tabName
+    })
+  }
 
   const onClickAccessPass = (uuid: string) => navigate(`/nfts/access-pass/${uuid}`)
   const onClickCollectible = (uuid: string) => navigate(`/nfts/collectible/${uuid}`)
@@ -156,11 +179,11 @@ const Gallery = () => {
               <NftCard key={token.token.sequence} {...token} />
             ))}
           </div>
-          <div style={{ display: activeTabIndex === 1 ? 'grid' : 'none' }}>
+          <div className={'gallery'} style={{ display: activeTabIndex === 1 ? 'grid' : 'none' }}>
             {accessPasses.map(pass =>
               <UserAccessPass
                 key={pass.uuid}
-                {...pass}
+                data={pass}
                 onClick={() => onClickAccessPass(pass.uuid)}
               />)}
           </div>
