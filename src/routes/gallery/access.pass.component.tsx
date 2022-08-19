@@ -26,7 +26,7 @@ export const UserAccessPass = (props: UserAccessPassProps) => {
         <div>
             <Ticket data={data} />
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}>
             <div className={'user-pass-title'}>{title}</div>
             <div className={'user-pass-details'}>{description}</div>
         </div>
