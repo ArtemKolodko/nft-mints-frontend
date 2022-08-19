@@ -141,7 +141,7 @@ const AccessPassDetails = () => {
             <div>
               <AccessPassDetailsCard data={accessPass} />
               <div style={{ marginTop: "8px" }}>
-                <div className={"access-pass-owner"}>Owned by @asaprocky</div>
+                <div className={"access-pass-owner"}>Owned by {currentUser?.publicLink || currentUser?.name || 'anonymous'}</div>
                 <div className={"access-pass-price"}>${accessPass.rate}.00</div>
                 <div style={{ marginTop: "16px" }}>
                   {!enableCheckout && (

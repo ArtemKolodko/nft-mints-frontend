@@ -101,7 +101,6 @@ export const UserProfile = (props: UserProfileProps) => {
     setDescription(description);
     setLink(publicLink);
   }, [name, publicLink, description]);
-  console.log("editable", editable);
   return (
     <div className="user-container">
       <div className="user-container__profile-images">
