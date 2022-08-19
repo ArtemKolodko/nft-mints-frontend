@@ -3,6 +3,7 @@ import {CollectionType} from "../types";
 export const accessPassMock: CollectionType = {
     collectionAddress: "",
     collectionImage: "",
+    collectionImages: [""],
     link: "",
     maxMint: 100,
     priceId: "",

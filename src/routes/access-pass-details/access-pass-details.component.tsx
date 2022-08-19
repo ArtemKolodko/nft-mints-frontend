@@ -3,19 +3,22 @@ import {useNavigate, useParams} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { CollectionType } from "../../types";
-import gridImg from "../../assets/imgs/grid.svg";
-import basketImg from "../../assets/imgs/basket.svg";
 import "./access-pass-details.styles.scss";
 import { useSelector } from "react-redux";
 import { selectCheckLogin, selectCurrentUser } from "../../store/user/user.selector";
-import ticketLogoSample from "../../assets/imgs/pass-logo-sample.png";
-import ticketBack from "../../assets/imgs/ticket_background.svg";
-import {getAccessPassById} from "../../api/client";
 import QR from "../../assets/imgs/qrSample.svg";
 import {Button} from "@mui/material";
+import {getCollection} from "../../utils/mint-interface/mint-inteface.utils";
 
 const AccessPassDetailsCard = (props: { data: CollectionType }) => {
-    const { data: { title, rate, description } } = props
+    const { data: {
+        title, rate, description, additionalDetails,
+        collectionImage, collectionImages,
+        link,
+        properties = {} as any,
+    }} = props
+
+    const { age = '18', venue, city, state } = properties
 
     const [isDetailsOpened, setDetailsOpened] = useState(false)
 
@@ -24,39 +27,37 @@ const AccessPassDetailsCard = (props: { data: CollectionType }) => {
             <div style={{ padding: '8px' }}>${rate}</div>
         </div>
         <div className={'access-pass-content'}>
-            <div className={'access-pass-info'}>
-                <div className={'access-pass-logo'} style={{backgroundImage: `url(${ticketLogoSample})`}} />
-                <div className={'access-pass-title'}>
-                    {title}
+            <div style={{ padding: '0 8px 8px'}}>
+                <div className={'access-pass-info'}>
+                    <div className={'access-pass-logo'} style={{backgroundImage: `url(${collectionImage})`}} />
+                    <div className={'access-pass-title'}>
+                        {title}
+                    </div>
+                    <div className={'access-pass-location'}>
+                        <div className={'access-pass-location-line'}>
+                            <div>{venue}</div>
+                            <div>{age}+</div>
+                        </div>
+                        <div className={'access-pass-location-line'}>
+                            <div>{city}, {state}</div>
+                            <div>{'Add date here'}</div>
+                        </div>
+                    </div>
+                    <div className={'access-pass-details'}>
+                        <div className={'access-pass-details-description'}>{description}</div>
+                        <div className={'access-pass-details-additional'}>{additionalDetails}</div>
+                    </div>
+                    <div className={'access-pass-details-button'} onClick={() => setDetailsOpened(!isDetailsOpened)}>
+                        {!isDetailsOpened ? 'More Details' : 'Hide Details'}
+                    </div>
+                    {isDetailsOpened &&
+                        <div style={{ marginTop: '8px' }}>
+                            <a href={link} target='_blank' rel="noreferrer">
+                                <img src={QR} width={'200px'} height={'200px'} alt="QR Sample" />
+                            </a>
+                        </div>
+                    }
                 </div>
-                <div className={'access-pass-location'}>
-                    <div className={'access-pass-location-line'}>
-                        <div>Oracle Arena</div>
-                        <div>21+</div>
-                    </div>
-                    <div className={'access-pass-location-line'}>
-                        <div>Oakland, CA</div>
-                        <div>12/11/22</div>
-                    </div>
-                </div>
-                <div className={'access-pass-details'}>
-                    <div className={'access-pass-details-description'}>
-                        {description}
-                    </div>
-                    <div style={{ textAlign: 'left' }}>
-                        A$AP Mob Tour: This pass will get you exclusive access to meet the band and get autographs. Additionally, you will be able to claim a special merch bundle upon arrival. Present this ticket at the door when you arrive.
-                    </div>
-                </div>
-                <div className={'access-pass-details-button'} onClick={() => setDetailsOpened(!isDetailsOpened)}>
-                    {!isDetailsOpened ? 'More Details' : 'Hide Details'}
-                </div>
-                {isDetailsOpened &&
-                    <div style={{ marginTop: '8px' }}>
-                        <a href={'https://www.instagram.com/asaprocky'} target='_blank' rel="noreferrer">
-                            <img src={QR} width={'200px'} height={'200px'} alt="QR Sample" />
-                        </a>
-                    </div>
-                }
             </div>
         </div>
         <div className={'access-pass-footer'} />
@@ -79,7 +80,8 @@ const AccessPassDetails = () => {
         const loadAccessPass = async () => {
             setIsLoading(true)
             try {
-                const data = await getAccessPassById(uuid)
+                const data = await getCollection(uuid)
+                console.log('data', data)
                 setAccessPass(data)
             } catch (e) {
                 console.error('Cannot get access pass:', e)
@@ -92,7 +94,7 @@ const AccessPassDetails = () => {
 
     const onCloseClick = () => {
         if (accessPass) {
-            navigate(`/nfts/gallery/${accessPass.ownerUUID}`)
+            navigate(`/nfts/gallery/${accessPass.ownerUUID}?tab=accessPasses`)
         }
     }
 

@@ -1,9 +1,13 @@
 .user-pass-container {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-content: flex-start;
   gap: 16px;
+
+  &:not(:first-child) {
+    margin-top: 16px;
+  }
 
   .user-pass-title, .user-pass-details {
     width: 100%;
