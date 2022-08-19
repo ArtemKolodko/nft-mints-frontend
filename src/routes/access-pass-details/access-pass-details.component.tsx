@@ -67,10 +67,13 @@ const AccessPassDetails = () => {
     const currentUser = useSelector(selectCurrentUser);
     const checkLogin = useSelector(selectCheckLogin);
     const navigate = useNavigate();
+    const [ enableCheckout, setEnableCheckout ] = useState(false);
 
     const { uuid = 'test-uuid' } = useParams();
-    const [accessPass, setAccessPass] = useState<CollectionType>()
-    const [isLoading, setIsLoading] = useState(false)
+    const [ accessPass, setAccessPass] = useState<CollectionType>()
+    const [ isLoading, setIsLoading] = useState(false)
+
+    const isOwner = currentUser?.uuid === accessPass?.ownerUUID;
 
     useEffect(() => {
         const loadAccessPass = async () => {
@@ -93,6 +96,10 @@ const AccessPassDetails = () => {
         }
     }
 
+    const handleActionButton = () => {
+        !isOwner && setEnableCheckout(!enableCheckout);
+    }
+    
     return (
         <div className={'access-pass-details-container'}>
             <div className={'access-pass-details-header'}>

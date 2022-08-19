@@ -41,8 +41,6 @@ export const sendSMSCode = async (
  * @returns API Response redirection to Stripe checkout
  */
 export const checkoutCollectionV2 = async (
-  otp: string,
-  phoneNumber: string,
   collections: CollectionType[],
 
 ): Promise<AxiosResponse | null> => {
@@ -55,14 +53,13 @@ export const checkoutCollectionV2 = async (
       nfts: collections.map((collection) => {
         return { collectionUuid: collection.uuid, quantity: 1 };
       }),
-      mobileNumber: phoneNumber,
-      smsCode: otp,
       successUrl: REDIRECT_URL_SUCCESS,
       cancelUrl: REDIRECT_URL_FAILURE,
     });
-    console.log(body);
+    console.log({body});
     console.log(JSON.stringify(body));
-    const response = await axios.post(`${GATEWAY}/v0/payment/checkoutv2`, body, {
+    const response = await axios.post(`${GATEWAY}/v1/payment/checkoutv2`, body, {
+      withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },

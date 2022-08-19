@@ -1,0 +1,20 @@
+@import "../../assets/scss//mixins";
+@import "../../assets/scss/variables";
+
+.checkout-area-container {
+  @include flex-column();
+  
+  text-align: center;
+  background-color: rgb(213, 200, 200);
+  color: rgb(81, 77, 77);
+  justify-content: center;
+  align-items: center;
+
+  Button {
+    margin-top: 1em;
+    width: 80%;
+  }
+  .checkout-error {
+    color: red;
+  }
+}

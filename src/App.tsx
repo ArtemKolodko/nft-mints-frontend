@@ -84,6 +84,9 @@ const App = () => {
           </Route>
 
           {/* Public routes */}
+          <Route path="access-pass/:uuid/" element={<AccessPassDetails />} />
+          <Route path="collectible/:uuid/" element={<CollectibleDetails />} />
+
           <Route path="checkout/:collectionUuid" element={<Checkout />} />
           <Route
             path="success/:userUuid/:tokenUuid"
